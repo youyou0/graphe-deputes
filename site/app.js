@@ -14,11 +14,27 @@
     ORGEXTPARL: "Organismes extérieurs",
     API: "Assemblées internationales",
     PARPOL: "Partis politiques",
+    HV_DIR: "Fonctions dirigeantes",
+    HV_PART: "Participations financières",
+    HV_EMP: "Employeurs (5 dernières années)",
+    HV_CONS: "Activités de conseil",
+    HV_BEN: "Fonctions bénévoles",
   };
-  const DEFAULT_KINDS = new Set(["GP", "COMPER"]);
+  // Liens issus des déclarations d'intérêts HATVP.
+  const HV_ORDER = ["HV_DIR", "HV_PART", "HV_EMP", "HV_CONS", "HV_BEN"];
+  const HV_SINGULAR = {
+    HV_DIR: "Fonction dirigeante",
+    HV_PART: "Participation financière",
+    HV_EMP: "Employeur",
+    HV_CONS: "Activité de conseil",
+    HV_BEN: "Fonction bénévole",
+  };
+  const DEFAULT_KINDS = new Set(["GP", "COMPER", "HV_DIR", "HV_PART", "HV_EMP"]);
   // Organes trop larges pour signifier une proximité entre deux députés.
   const NOT_PROXIMITY = new Set(["GP", "PARPOL"]);
   const NEUTRAL = "#8a8f98";
+  const HV_COLOR = "#d9a441";
+  const isHv = (n) => n.kind === "HATVP";
 
   const $ = (s) => document.querySelector(s);
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -30,6 +46,8 @@
     groups: new Set(),
     selected: null,
     hover: null,
+    // Structures HATVP citées par un seul député : masquées par défaut (bruit).
+    singles: false,
   };
 
   let fitted = false;
@@ -55,13 +73,15 @@
       if (!d || !o) continue;
       // « Présidente du », « Membre de la » : on retire l'article final.
       const role = (l.role || "").replace(/\s+(du|de la|de l'|des|de)$/i, "");
-      const link = { source: d, target: o, role, kind: o.kind };
+      const link = { source: d, target: o, role, kind: l.kind || o.kind };
       d.orgs.push(link);
       o.members.push(link);
       allLinks.push(link);
     }
     for (const d of deputes) d.color = groupsById.get(d.groupe)?.couleur || NEUTRAL;
-    for (const o of organes) o.size = o.members.length;
+    // Nombre de députés distincts (un député peut citer une structure à deux titres).
+    for (const o of organes) o.size = new Set(o.members.map((l) => l.source)).size;
+    $("#hvCount").textContent = data.hatvp?.declarants ?? 0;
     groupsById.forEach((g) => state.groups.add(g.id));
 
     buildSidebar();
@@ -82,19 +102,36 @@
     const kindCounts = {};
     organes.forEach((o) => { kindCounts[o.kind] = (kindCounts[o.kind] || 0) + 1; });
 
-    $("#kindList").innerHTML = KIND_ORDER.filter((k) => kindCounts[k]).map((k) => `
+    // Pour la HATVP, le compteur suit ce que montre le graphe (structures partagées ou toutes).
+    HV_ORDER.forEach((k) => { kindCounts[k] = hvCount(k); });
+
+    const toggle = (k) => `
       <button class="toggle" type="button" data-kind="${k}" aria-pressed="${state.kinds.has(k)}">
         <span class="t-check">${CHECK}</span>
         <span class="t-label">${esc(KIND_PLURAL[k])}</span>
         <span class="t-count">${kindCounts[k]}</span>
-      </button>`).join("");
-    $("#kindList").addEventListener("click", (e) => {
+      </button>`;
+    $("#kindList").innerHTML = KIND_ORDER.filter((k) => kindCounts[k]).map(toggle).join("");
+    $("#hvList").innerHTML = HV_ORDER.filter((k) => kindCounts[k]).map(toggle).join("") + `
+      <button class="toggle toggle-sub" type="button" id="singlesToggle" aria-pressed="${state.singles}">
+        <span class="t-check">${CHECK}</span>
+        <span class="t-label">Structures citées une seule fois</span>
+      </button>`;
+    const onKind = (e) => {
+      if (e.target.closest("#singlesToggle")) {
+        state.singles = !state.singles;
+        syncHvCounts();
+        refresh();
+        return;
+      }
       const b = e.target.closest("[data-kind]");
       if (!b) return;
       toggleSet(state.kinds, b.dataset.kind);
       b.setAttribute("aria-pressed", state.kinds.has(b.dataset.kind));
       refresh();
-    });
+    };
+    $("#kindList").addEventListener("click", onKind);
+    $("#hvList").addEventListener("click", onKind);
 
     const groups = [...groupsById.values()]
       .map((g) => ({ g, n: deputes.filter((d) => d.groupe === g.id).length }))
@@ -122,6 +159,19 @@
     });
   }
 
+  function hvCount(kind) {
+    const targets = new Set(allLinks.filter((l) => l.kind === kind).map((l) => l.target));
+    return [...targets].filter((o) => state.singles || o.size > 1).length;
+  }
+
+  function syncHvCounts() {
+    $("#singlesToggle").setAttribute("aria-pressed", state.singles);
+    HV_ORDER.forEach((k) => {
+      const c = document.querySelector(`[data-kind="${k}"] .t-count`);
+      if (c) c.textContent = hvCount(k);
+    });
+  }
+
   function syncGroupButtons() {
     document.querySelectorAll("[data-group]").forEach((b) => b.setAttribute("aria-pressed", state.groups.has(b.dataset.group)));
   }
@@ -133,7 +183,8 @@
   function visibleData() {
     const deps = deputes.filter((d) => state.groups.has(d.groupe) || (!d.groupe && state.groups.size === groupsById.size));
     const depSet = new Set(deps);
-    const links = allLinks.filter((l) => state.kinds.has(l.kind) && depSet.has(l.source));
+    const links = allLinks.filter((l) =>
+      state.kinds.has(l.kind) && depSet.has(l.source) && (state.singles || !isHv(l.target) || l.target.size > 1));
     const orgSet = new Set(links.map((l) => l.target));
     return { nodes: [...deps, ...orgSet], links };
   }
@@ -196,8 +247,11 @@
 
   function updateStats(data) {
     const nd = data.nodes.filter((n) => n.type === "dep").length;
-    const no = data.nodes.length - nd;
-    $("#stats").innerHTML = `<span><b>${nd}</b> députés</span><span><b>${no}</b> organes</span><span><b>${data.links.length.toLocaleString("fr-FR")}</b> liens</span>`;
+    const nh = data.nodes.filter((n) => n.type === "org" && isHv(n)).length;
+    const no = data.nodes.length - nd - nh;
+    $("#stats").innerHTML = `<span><b>${nd}</b> députés</span><span><b>${no}</b> organes</span>`
+      + (nh ? `<span><b>${nh}</b> structures déclarées</span>` : "")
+      + `<span><b>${data.links.length.toLocaleString("fr-FR")}</b> liens</span>`;
   }
 
   function focusNode() { return state.hover || state.selected; }
@@ -209,7 +263,7 @@
 
   function linkColor(l) {
     const f = focusNode();
-    if (!f) return "rgba(255,255,255,0.055)";
+    if (!f) return isHv(l.target) ? "rgba(217,164,65,0.13)" : "rgba(255,255,255,0.055)";
     return isFocusLink(l) ? "rgba(140,150,235,0.65)" : "rgba(255,255,255,0.02)";
   }
 
@@ -234,8 +288,9 @@
       }
     } else {
       const r = orgRadius(n);
-      const color = n.kind === "GP" ? n.couleur || NEUTRAL : NEUTRAL;
-      roundRect(ctx, n.x - r, n.y - r, r * 2, r * 2, Math.min(r * 0.35, 4));
+      const color = n.kind === "GP" ? n.couleur || NEUTRAL : isHv(n) ? HV_COLOR : NEUTRAL;
+      if (isHv(n)) diamond(ctx, n.x, n.y, r * 1.2);
+      else roundRect(ctx, n.x - r, n.y - r, r * 2, r * 2, Math.min(r * 0.35, 4));
       ctx.fillStyle = "#0f1011";
       ctx.fill();
       ctx.lineWidth = (focus ? 2.4 : 1.5);
@@ -257,6 +312,15 @@
     ctx.strokeText(text, x, y);
     ctx.fillStyle = color;
     ctx.fillText(text, x, y);
+  }
+
+  function diamond(ctx, x, y, r) {
+    ctx.beginPath();
+    ctx.moveTo(x, y - r);
+    ctx.lineTo(x + r, y);
+    ctx.lineTo(x, y + r);
+    ctx.lineTo(x - r, y);
+    ctx.closePath();
   }
 
   function roundRect(ctx, x, y, w, h, r) {
@@ -294,7 +358,9 @@
     if (!n) { tooltip.hidden = true; return; }
     const sub = n.type === "dep"
       ? `${groupsById.get(n.groupe)?.abrev || "Sans groupe"}, ${n.dep || ""}${n.circo ? ` (${n.circo}e circ.)` : ""}`
-      : `${KIND_PLURAL[n.kind].replace(/s$/, "").replace(/s /, " ")}, ${plural(n.size, "membre", "membres")}`;
+      : isHv(n)
+        ? `Déclarations HATVP, ${plural(n.size, "député", "députés")}`
+        : `${KIND_PLURAL[n.kind].replace(/s$/, "").replace(/s /, " ")}, ${plural(n.size, "membre", "membres")}`;
     tooltip.innerHTML = `<div>${esc(n.type === "dep" ? `${n.prenom} ${n.nom}` : n.libelle)}</div><div class="tt-sub">${esc(sub)}</div>`;
     tooltip.hidden = false;
   }
@@ -338,7 +404,22 @@
 
   function ensureVisible(n) {
     let changed = false;
-    if (n.type === "org" && !state.kinds.has(n.kind)) {
+    if (n.type === "org" && isHv(n)) {
+      // Une structure HATVP est visible si au moins un de ses types de lien l'est.
+      const kinds = new Set(n.members.map((l) => l.kind));
+      if (![...kinds].some((k) => state.kinds.has(k))) {
+        kinds.forEach((k) => {
+          state.kinds.add(k);
+          document.querySelector(`[data-kind="${k}"]`)?.setAttribute("aria-pressed", "true");
+        });
+        changed = true;
+      }
+      if (n.size < 2 && !state.singles) {
+        state.singles = true;
+        syncHvCounts();
+        changed = true;
+      }
+    } else if (n.type === "org" && !state.kinds.has(n.kind)) {
       state.kinds.add(n.kind);
       document.querySelector(`[data-kind="${n.kind}"]`)?.setAttribute("aria-pressed", "true");
       changed = true;
@@ -389,7 +470,7 @@
       byKind.get(l.kind).push(l);
     });
 
-    const roles = d.orgs.filter((l) => !isMemberRole(l.role));
+    const roles = d.orgs.filter((l) => !isHv(l.target) && !isMemberRole(l.role));
     // Un seul organe en commun ne dit rien de particulier : on n'affiche que 2 et plus.
     const close = closest(d, 8).filter(({ c }) => c >= 2);
 
@@ -435,11 +516,89 @@
       html += section(KIND_PLURAL[k], ls.length, list(ls.map((l) => orgRow(l.target, isMemberRole(l.role) ? null : l.role)), 6));
     }
 
+    html += hatvpSection(d);
+
     html += `<div class="p-section"><a class="ext-link" href="https://www.assemblee-nationale.fr/dyn/deputes/${d.id}" target="_blank" rel="noopener">Fiche officielle sur assemblee-nationale.fr ${EXT}</a></div>`;
     return html;
   }
 
+  const MASKED_LABEL = {
+    HV_DIR: ["fonction dirigeante non nommée", "fonctions dirigeantes non nommées"],
+    HV_PART: ["participation non nommée", "participations non nommées"],
+    HV_EMP: ["employeur non nommé", "employeurs non nommés"],
+    HV_CONS: ["activité de conseil non nommée", "activités de conseil non nommées"],
+    HV_BEN: ["fonction bénévole non nommée", "fonctions bénévoles non nommées"],
+  };
+
+  function hatvpSection(d) {
+    const title = "Déclaration d'intérêts (HATVP)";
+    if (!d.hatvp) {
+      return section(title, null, `<p class="p-note">Aucune déclaration de député publiée n'a été rattachée à cette fiche.</p>`);
+    }
+    const links = d.orgs.filter((l) => isHv(l.target));
+    let body = `<p class="p-note">Déposée le ${esc(d.hatvp.depot)}. Structures et fonctions telles que déclarées.</p>`;
+    if (!links.length) body += `<p class="p-note">Aucune structure nommée dans les rubriques retenues.</p>`;
+    for (const k of HV_ORDER) {
+      const ls = links.filter((l) => l.kind === k);
+      const masked = d.hatvp.masquees?.[k] || 0;
+      if (!ls.length && !masked) continue;
+      body += `<h4 class="p-sub">${esc(KIND_PLURAL[k])}<span>${ls.length + masked}</span></h4>`;
+      if (ls.length) {
+        body += list(ls.map((l) => `
+          <li><button class="row" type="button" data-go="${l.target.id}">
+            <span class="r-main"><span class="r-name">${esc(l.target.libelle)}</span>
+            ${l.role ? `<span class="r-sub">${esc(l.role)}</span>` : ""}</span>
+            ${l.target.size > 1 ? `<span class="r-meta">${plural(l.target.size, "député", "députés")}</span>` : ""}
+          </button></li>`), 5);
+      }
+      if (masked) body += `<p class="p-note p-masked">+ ${masked} ${MASKED_LABEL[k][masked > 1 ? 1 : 0]} (nom non publié par la HATVP)</p>`;
+    }
+    if (d.hatvp.page) {
+      body += `<a class="ext-link" href="${esc(d.hatvp.page)}" target="_blank" rel="noopener">Déclaration complète sur hatvp.fr ${EXT}</a>`;
+    }
+    return section(title, null, body);
+  }
+
+  function hvPanel(o) {
+    // Un député peut citer la même structure à plusieurs titres : on regroupe.
+    const byDep = new Map();
+    o.members.forEach((l) => {
+      if (!byDep.has(l.source)) byDep.set(l.source, []);
+      byDep.get(l.source).push(l);
+    });
+    const deps = [...byDep.entries()].sort((a, b) => a[0].nom.localeCompare(b[0].nom, "fr"));
+    const comp = new Map();
+    deps.forEach(([d]) => comp.set(d.groupe, (comp.get(d.groupe) || 0) + 1));
+    const compSorted = [...comp.entries()].sort((a, b) => b[1] - a[1]);
+
+    let html = `
+      <div class="p-head">
+        <div class="p-id">
+          <div class="org-mark hv-mark">
+            <svg viewBox="0 0 16 16"><path d="M8 2.5 13.5 8 8 13.5 2.5 8Z"/></svg>
+          </div>
+          <div>
+            <h2 class="p-title">${esc(o.libelle)}</h2>
+            <p class="p-kind">Citée dans ${plural(deps.length, "déclaration", "déclarations")} d'intérêts</p>
+          </div>
+        </div>
+        <p class="p-note p-disclaimer">Lien déclaré par le député à la HATVP. Il n'indique ni conflit d'intérêts ni prise de position.</p>
+      </div>`;
+    if (deps.length > 1) {
+      html += section("Groupes politiques", null, `<div class="composition">${compSorted.map(([gid, n]) =>
+        `<i style="flex:${n};background:${groupsById.get(gid)?.couleur || NEUTRAL}" title="${esc(groupsById.get(gid)?.abrev || "Sans groupe")} : ${n}"></i>`).join("")}</div>`);
+    }
+    html += section("Députés", deps.length, list(deps.map(([d, ls]) => `
+      <li><button class="row" type="button" data-go="${d.id}">
+        <span class="r-dot" style="background:${d.color}"></span>
+        <span class="r-main"><span class="r-name">${esc(d.prenom)} ${esc(d.nom)}</span>
+        <span class="r-sub">${esc(ls.map((l) => HV_SINGULAR[l.kind] + (l.role ? ` : ${l.role}` : "")).join(" ; "))}</span></span>
+      </button></li>`), 25));
+    return html;
+  }
+
   function orgPanel(o) {
+    if (isHv(o)) return hvPanel(o);
     const members = [...o.members].sort((a, b) =>
       (isMemberRole(a.role) - isMemberRole(b.role)) || a.source.nom.localeCompare(b.source.nom, "fr"));
     const comp = new Map();
@@ -503,7 +662,8 @@
   function closest(d, k) {
     const counts = new Map();
     for (const l of d.orgs) {
-      if (NOT_PROXIMITY.has(l.kind)) continue;
+      // La proximité reste celle de l'Assemblée : les liens HATVP ont leur propre section.
+      if (NOT_PROXIMITY.has(l.kind) || isHv(l.target)) continue;
       for (const m of l.target.members) {
         if (m.source !== d) counts.set(m.source, (counts.get(m.source) || 0) + 1);
       }
@@ -542,9 +702,9 @@
       if (deps.length) html += `<li class="pr-group">Députés</li>` + deps.map((d) => `
         <li role="option" data-i="${i++}"><span class="pr-dot" style="background:${d.color}"></span>
         <span class="pr-name">${esc(d.prenom)} ${esc(d.nom)}</span><span class="pr-sub">${esc(groupsById.get(d.groupe)?.abrev || "")}, ${esc(d.dep || "")}</span></li>`).join("");
-      if (orgs.length) html += `<li class="pr-group">Organes</li>` + orgs.map((o) => `
-        <li role="option" data-i="${i++}"><span class="pr-sq"></span>
-        <span class="pr-name">${esc(o.libelle)}</span><span class="pr-sub">${plural(o.size, "membre", "membres")}</span></li>`).join("");
+      if (orgs.length) html += `<li class="pr-group">Organes et structures</li>` + orgs.map((o) => `
+        <li role="option" data-i="${i++}"><span class="${isHv(o) ? "pr-dia" : "pr-sq"}"></span>
+        <span class="pr-name">${esc(o.libelle)}</span><span class="pr-sub">${isHv(o) ? `HATVP, ${plural(o.size, "député", "députés")}` : plural(o.size, "membre", "membres")}</span></li>`).join("");
       ul.innerHTML = html;
       mark();
     }

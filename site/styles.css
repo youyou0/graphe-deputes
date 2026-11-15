@@ -11,6 +11,7 @@
   --faint: #62666d;
   --accent: #5e6ad2;
   --accent-soft: rgba(94, 106, 210, 0.16);
+  --hv: #d9a441;
   --radius-s: 6px;
   --radius-m: 8px;
   --radius-l: 12px;
@@ -110,7 +111,12 @@ kbd {
 .side-foot p { margin: 0 0 6px; }
 
 /* Stage */
-.stage { position: relative; min-width: 0; overflow: hidden; background: var(--bg); }
+.stage { position: relative; min-width: 0; overflow: hidden; background: var(--bg); container-type: inline-size; }
+.stats span { white-space: nowrap; }
+@container (max-width: 640px) {
+  .legend { display: none; }
+  .stats { gap: 10px; overflow: hidden; }
+}
 .graph { position: absolute; inset: 0; }
 .stage-bar {
   position: absolute; top: 0; left: 0; right: 0; z-index: 2;
@@ -144,6 +150,20 @@ kbd {
 .legend span { display: flex; align-items: center; gap: 6px; }
 .lg-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--text-2); }
 .lg-org { width: 10px; height: 10px; border-radius: 3px; border: 1.5px solid var(--text-2); }
+.lg-hv { width: 8px; height: 8px; border: 1.5px solid var(--hv); transform: rotate(45deg); margin: 0 1px; }
+
+.side-note { margin: -2px 0 6px; padding: 0 6px; color: var(--faint); font-size: 12px; }
+.toggle-sub { margin-top: 4px; }
+.toggle-sub .t-label { font-size: 12px; }
+
+.p-sub { font-size: 12px; font-weight: 500; color: var(--text-2); margin: 14px 0 4px; display: flex; justify-content: space-between; }
+.p-sub:first-of-type { margin-top: 4px; }
+.p-sub span { color: var(--faint); font-weight: 400; }
+.p-masked { margin: 4px 0 0; }
+.p-disclaimer { margin: 12px 0 0; }
+.p-section .ext-link { margin-top: 12px; }
+.hv-mark { border-color: var(--hv); color: var(--hv); }
+.palette-results .pr-dia { width: 8px; height: 8px; border: 1.5px solid var(--hv); transform: rotate(45deg); flex: none; margin: 0 1px; }
 
 .loading {
   position: absolute; inset: 0; display: grid; place-items: center;

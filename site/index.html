@@ -31,8 +31,14 @@
       </button>
 
       <section class="side-section">
-        <h2>Liens affichés</h2>
+        <h2>Assemblée nationale</h2>
         <div id="kindList" class="toggle-list"></div>
+      </section>
+
+      <section class="side-section">
+        <h2>Déclarations d'intérêts</h2>
+        <p class="side-note"><span id="hvCount"></span> déclarations HATVP rattachées</p>
+        <div id="hvList" class="toggle-list"></div>
       </section>
 
       <section class="side-section">
@@ -44,8 +50,8 @@
       </section>
 
       <footer class="side-foot">
-        <p>Source : <a href="https://data.assemblee-nationale.fr/acteurs/deputes-en-exercice" target="_blank" rel="noopener">open data de l'Assemblée nationale</a>, extrait du <span id="genDate"></span>.</p>
-        <p>Uniquement des mandats et fonctions publics. Aucune interprétation.</p>
+        <p>Sources : <a href="https://data.assemblee-nationale.fr/acteurs/deputes-en-exercice" target="_blank" rel="noopener">open data de l'Assemblée nationale</a> et <a href="https://www.hatvp.fr/open-data/" target="_blank" rel="noopener">déclarations publiées par la HATVP</a>, extraits du <span id="genDate"></span>.</p>
+        <p>Uniquement des informations publiques, telles que déclarées. Un lien n'indique ni conflit d'intérêts ni prise de position.</p>
       </footer>
     </aside>
 
@@ -62,7 +68,9 @@
       <div class="tooltip" id="tooltip" hidden></div>
       <div class="legend" aria-hidden="true">
         <span><i class="lg-dot"></i>Député</span>
-        <span><i class="lg-org"></i>Organe, taille selon le nombre de membres</span>
+        <span><i class="lg-org"></i>Organe de l'Assemblée</span>
+        <span><i class="lg-hv"></i>Structure déclarée à la HATVP</span>
+        <span>Taille selon le nombre de députés</span>
       </div>
       <div class="loading" id="loading">Chargement des données…</div>
     </main>
