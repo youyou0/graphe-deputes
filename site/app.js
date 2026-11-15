@@ -394,7 +394,15 @@
   }
 
   function fromHash() {
-    const id = decodeURIComponent(location.hash.slice(1));
+    const hash = decodeURIComponent(location.hash.slice(1));
+    const fiche = hash.match(/^fiche\/(PA\d+)$/);
+    if (fiche) {
+      const d = nodesById.get(fiche[1]);
+      if (d) openFiche(d);
+      return;
+    }
+    closeFiche();
+    const id = hash;
     const n = id && nodesById.get(id);
     if (!n) return;
     ensureVisible(n);
@@ -486,6 +494,8 @@
           </div>
         </div>
         ${g ? `<button class="chip" type="button" data-go="${g.id}"><i style="background:${g.couleur}"></i>${esc(g.libelle)}</button>` : `<span class="chip">Sans groupe</span>`}
+        <a class="btn-primary" href="#fiche/${d.id}">Ouvrir la fiche complète</a>
+        ${d.votes?.scrutins ? `<p class="p-note p-votes">${pct(d.votes.exprimes / d.votes.scrutins)} de participation aux scrutins publics${d.votes.loyaute != null ? `, ${pct(d.votes.loyaute)} de votes alignés sur son groupe` : ""}.</p>` : ""}
         <dl class="facts">
           ${d.profession ? `<dt>Profession</dt><dd>${esc(d.profession)}</dd>` : ""}
           ${a ? `<dt>Âge</dt><dd>${a} ans</dd>` : ""}
@@ -682,6 +692,289 @@
       .slice(0, k);
   }
 
+  /* ---------- Fiche complète d'un député ---------- */
+
+  const pct = (x) => `${Math.round(x * 100)} %`;
+  const POS_LABEL = { p: "Pour", c: "Contre", a: "Abstention", n: "Non-votant" };
+  const VOTE_KINDS = { SPS: "Vote solennel", MOC: "Motion de censure", SPO: "Scrutin ordinaire" };
+  let scrutinsPromise = null;
+  const fiche = { dep: null, votes: null, filter: "all", query: "", shown: 40 };
+
+  function loadScrutins() {
+    scrutinsPromise ??= fetch("scrutins.json").then((r) => r.json());
+    return scrutinsPromise;
+  }
+
+  function median(xs) {
+    const s = xs.filter((x) => x != null && !Number.isNaN(x)).sort((a, b) => a - b);
+    return s.length ? s[Math.floor(s.length / 2)] : null;
+  }
+
+  function closeFiche() {
+    const el = $("#fiche");
+    if (el.hidden) return;
+    el.hidden = true;
+    document.body.classList.remove("fiche-open");
+    fiche.dep = null;
+  }
+
+  async function openFiche(d) {
+    const el = $("#fiche");
+    const first = el.hidden;
+    fiche.dep = d;
+    fiche.filter = "all";
+    fiche.query = "";
+    fiche.shown = 40;
+    fiche.votes = null;
+    el.innerHTML = ficheHtml(d);
+    el.hidden = false;
+    document.body.classList.add("fiche-open");
+    el.scrollTop = 0;
+    if (first) $("#ficheBack").focus({ preventScroll: true });
+    const [scrutins, votes] = await Promise.all([
+      loadScrutins(),
+      fetch(`votes/${d.id}.json`).then((r) => (r.ok ? r.json() : null)).catch(() => null),
+    ]);
+    if (fiche.dep !== d) return; // une autre fiche a été ouverte entretemps
+    fiche.votes = votes && { ...votes, scrutins };
+    renderVoteList();
+  }
+
+  function ficheHtml(d) {
+    const g = groupsById.get(d.groupe);
+    const v = d.votes || {};
+    const a = age(d.naissance);
+    const num = d.id.replace(/^PA/, "");
+    const hv = d.orgs.filter((l) => isHv(l.target));
+    const hvCount = new Set(hv.map((l) => l.target)).size + Object.values(d.hatvp?.masquees || {}).reduce((s, x) => s + x, 0);
+    const medPart = median(deputes.map((x) => x.votes?.scrutins ? x.votes.exprimes / x.votes.scrutins : null));
+    const medLoy = median(deputes.map((x) => x.votes?.loyaute));
+    const roles = d.orgs.filter((l) => !isHv(l.target) && !isMemberRole(l.role));
+    const byKind = new Map();
+    d.orgs.filter((l) => !isHv(l.target) && l.kind !== "GP").forEach((l) => {
+      if (!byKind.has(l.kind)) byKind.set(l.kind, []);
+      byKind.get(l.kind).push(l);
+    });
+    const total = v.exprimes || 0;
+
+    const kpi = (label, value, note) => `
+      <div class="kpi"><div class="kpi-value">${value}</div><div class="kpi-label">${esc(label)}</div>${note ? `<div class="kpi-note">${esc(note)}</div>` : ""}</div>`;
+
+    return `
+      <header class="f-bar">
+        <button class="f-back" id="ficheBack" type="button">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5"/></svg>Graphe
+        </button>
+        <span class="f-crumb">Députés <span>/</span> ${esc(d.prenom)} ${esc(d.nom)}</span>
+      </header>
+      <div class="f-wrap">
+        <section class="f-hero">
+          <div class="avatar avatar-lg" style="border-color:${d.color}">
+            <img src="https://www.assemblee-nationale.fr/dyn/static/tribun/17/photos/carre/${num}.jpg" alt="" onerror="this.replaceWith(document.createTextNode('${esc(initials(d))}'))">
+          </div>
+          <div class="f-id">
+            <h1>${esc(d.prenom)} ${esc(d.nom)}</h1>
+            <p class="f-sub">Député${d.civ === "Mme" ? "e" : ""} ${d.dep ? `de ${esc(d.dep)}` : ""}${d.circo ? `, ${d.circo}e circonscription` : ""}${d.region ? ` (${esc(d.region)})` : ""}</p>
+            <div class="f-meta">
+              ${g ? `<button class="chip" type="button" data-go="${g.id}"><i style="background:${g.couleur}"></i>${esc(g.libelle)}</button>` : `<span class="chip">Sans groupe</span>`}
+              ${d.profession ? `<span class="f-fact">${esc(d.profession)}</span>` : ""}
+              ${a ? `<span class="f-fact">${a} ans</span>` : ""}
+              <span class="f-fact">En fonction depuis le ${fmtDate(d.debut)}</span>
+            </div>
+            <div class="f-links">
+              <a class="ext-link" href="https://www.assemblee-nationale.fr/dyn/deputes/${d.id}" target="_blank" rel="noopener">Assemblée nationale ${EXT}</a>
+              ${d.hatvp?.page ? `<a class="ext-link" href="${esc(d.hatvp.page)}" target="_blank" rel="noopener">Déclaration HATVP ${EXT}</a>` : ""}
+            </div>
+          </div>
+        </section>
+
+        <section class="kpis" aria-label="Chiffres clés">
+          ${kpi("Participation aux scrutins publics", v.scrutins ? pct(total / v.scrutins) : "—",
+            v.scrutins ? `${total.toLocaleString("fr-FR")} votes sur ${v.scrutins.toLocaleString("fr-FR")} scrutins. Médiane : ${pct(medPart)}` : "")}
+          ${kpi("Votes alignés sur son groupe", v.loyaute != null ? pct(v.loyaute) : "—", v.loyaute != null ? `Médiane : ${pct(medLoy)}` : "")}
+          ${kpi("Votes contre la majorité de son groupe", v.dissidences != null ? v.dissidences.toLocaleString("fr-FR") : "—", "")}
+          ${kpi("Structures dans sa déclaration d'intérêts", d.hatvp ? hvCount : "—", d.hatvp ? `Déposée le ${d.hatvp.depot}` : "Aucune déclaration rattachée")}
+        </section>
+
+        <div class="f-grid">
+          <main class="f-main">
+            <section class="card">
+              <h2>Comment il${d.civ === "Mme" ? "le" : ""} vote</h2>
+              ${total ? `
+                <div class="split" role="img" aria-label="Pour ${v.pour}, contre ${v.contre}, abstention ${v.abst}">
+                  <i class="s-p" style="flex:${v.pour}"></i><i class="s-c" style="flex:${v.contre}"></i><i class="s-a" style="flex:${v.abst}"></i>
+                </div>
+                <div class="split-legend">
+                  <span><i class="s-p"></i>Pour ${pct(v.pour / total)}</span>
+                  <span><i class="s-c"></i>Contre ${pct(v.contre / total)}</span>
+                  <span><i class="s-a"></i>Abstention ${pct(v.abst / total)}</span>
+                </div>` : `<p class="p-note">Aucun vote en scrutin public.</p>`}
+              <p class="p-note f-caveat">Seuls les scrutins publics sont nominatifs. Les votes à main levée, majoritaires sur les amendements, ne sont pas comptés. Une absence n'est pas un vote contre.</p>
+            </section>
+
+            ${v.proches?.length ? `
+            <section class="card">
+              <h2>Proximité de vote</h2>
+              <p class="p-note">Part des scrutins où les deux ont voté la même chose, parmi ceux où les deux ont voté (au moins 150 en commun).</p>
+              <div class="prox-cols">
+                <div>
+                  <h3>Votent le plus comme ${d.civ === "Mme" ? "elle" : "lui"}</h3>
+                  ${proxList(v.proches)}
+                </div>
+                <div>
+                  <h3>Hors de son groupe</h3>
+                  ${proxList(v.prochesHorsGroupe)}
+                </div>
+                <div>
+                  <h3>Votent le plus différemment</h3>
+                  ${proxList(v.eloignes)}
+                </div>
+              </div>
+            </section>` : ""}
+
+            <section class="card" id="voteCard">
+              <div class="card-head">
+                <h2>Ses votes</h2>
+                <span class="card-count" id="voteCount"></span>
+              </div>
+              <div class="vote-tools">
+                <div class="seg" role="tablist" aria-label="Filtrer les votes">
+                  <button type="button" role="tab" data-filter="all" aria-selected="true">Tous</button>
+                  <button type="button" role="tab" data-filter="dissent" aria-selected="false">Contre son groupe</button>
+                  <button type="button" role="tab" data-filter="SPS" aria-selected="false">Votes solennels</button>
+                  <button type="button" role="tab" data-filter="MOC" aria-selected="false">Motions de censure</button>
+                </div>
+                <label class="vote-search">
+                  <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5"/><path d="m10.5 10.5 3 3"/></svg>
+                  <input type="search" id="voteQuery" placeholder="Rechercher un texte, un amendement…" autocomplete="off">
+                </label>
+              </div>
+              <ol class="vote-list" id="voteList"><li class="vote-empty">Chargement des votes…</li></ol>
+              <button class="link-btn more-btn" type="button" id="voteMore" hidden>Afficher plus</button>
+            </section>
+          </main>
+
+          <aside class="f-side">
+            ${roles.length ? `<section class="card">${sectionInner("Fonctions", roles.length, `<ul class="rows">${roles.map((l) => orgRow(l.target, l.role)).join("")}</ul>`)}</section>` : ""}
+            <section class="card">${hatvpSection(d)}</section>
+            <section class="card">
+              ${KIND_ORDER.filter((k) => byKind.has(k)).map((k) => sectionInner(KIND_PLURAL[k], byKind.get(k).length,
+                list(byKind.get(k).map((l) => orgRow(l.target, isMemberRole(l.role) ? null : l.role)), 5))).join("")}
+            </section>
+          </aside>
+        </div>
+      </div>`;
+  }
+
+  function sectionInner(title, count, body) {
+    return `<div class="p-section"><h3>${esc(title)}${count != null ? `<span>${count}</span>` : ""}</h3>${body}</div>`;
+  }
+
+  function proxList(items) {
+    if (!items?.length) return `<p class="p-note">Pas assez de scrutins en commun.</p>`;
+    return `<ul class="rows">${items.map(([id, rate, n]) => {
+      const o = nodesById.get(id);
+      if (!o) return "";
+      return `<li><button class="row" type="button" data-fiche="${o.id}" title="${n} scrutins en commun">
+        <span class="r-dot" style="background:${o.color}"></span>
+        <span class="r-main"><span class="r-name">${esc(o.prenom)} ${esc(o.nom)}</span>
+        <span class="r-sub">${esc(groupsById.get(o.groupe)?.abrev || "Sans groupe")}</span></span>
+        <span class="r-meta">${pct(rate)}</span>
+      </button></li>`;
+    }).join("")}</ul>`;
+  }
+
+  function filteredVotes() {
+    const { p, g, scrutins } = fiche.votes;
+    const q = norm(fiche.query.trim());
+    const terms = q.split(/\s+/).filter(Boolean);
+    const out = [];
+    for (let i = scrutins.length - 1; i >= 0; i--) {
+      const pos = p[i];
+      if (pos === "-") continue;
+      const s = scrutins[i];
+      if (fiche.filter === "dissent" && !(pos !== "n" && "pca".includes(g[i]) && g[i] !== pos)) continue;
+      if ((fiche.filter === "SPS" || fiche.filter === "MOC") && s.k !== fiche.filter) continue;
+      if (terms.length) {
+        s._k ??= norm(s.t);
+        if (!terms.every((t) => s._k.includes(t))) continue;
+      }
+      out.push(i);
+    }
+    return out;
+  }
+
+  function renderVoteList() {
+    const ul = $("#voteList");
+    if (!ul) return;
+    if (!fiche.votes) { ul.innerHTML = `<li class="vote-empty">Votes indisponibles pour ce député.</li>`; return; }
+    const { p, g, scrutins } = fiche.votes;
+    const idx = filteredVotes();
+    $("#voteCount").textContent = plural(idx.length, "vote", "votes");
+    if (!idx.length) {
+      ul.innerHTML = `<li class="vote-empty">${fiche.query ? `Aucun vote ne correspond à « ${esc(fiche.query)} ».` : "Aucun vote dans cette catégorie."}</li>`;
+      $("#voteMore").hidden = true;
+      return;
+    }
+    const dateFmt = { day: "numeric", month: "short", year: "numeric" };
+    ul.innerHTML = idx.slice(0, fiche.shown).map((i) => {
+      const s = scrutins[i], pos = p[i], gp = g[i];
+      const dissent = pos !== "n" && "pca".includes(gp) && gp !== pos;
+      return `<li class="vote">
+        <div class="v-date">${new Date(s.d).toLocaleDateString("fr-FR", dateFmt)}</div>
+        <div class="v-main">
+          <a class="v-title" href="https://www.assemblee-nationale.fr/dyn/17/scrutins/${s.n}" target="_blank" rel="noopener">${esc(s.t)}</a>
+          <div class="v-meta">
+            ${s.k !== "SPO" ? `<span class="v-kind">${VOTE_KINDS[s.k]}</span>` : ""}
+            <span>${s.r === "a" ? "Adopté" : "Rejeté"}, ${s.v[0]} pour, ${s.v[1]} contre</span>
+            ${dissent ? `<span class="v-dissent">Son groupe : ${POS_LABEL[gp].toLowerCase()}</span>` : ""}
+          </div>
+        </div>
+        <span class="v-pos v-${pos}">${POS_LABEL[pos]}</span>
+      </li>`;
+    }).join("");
+    const more = $("#voteMore");
+    more.hidden = idx.length <= fiche.shown;
+    more.textContent = `Afficher plus (${(idx.length - fiche.shown).toLocaleString("fr-FR")} restants)`;
+  }
+
+  $("#fiche").addEventListener("click", (e) => {
+    if (e.target.closest("#ficheBack")) {
+      const d = fiche.dep;
+      location.hash = d ? d.id : "";
+      return;
+    }
+    const f = e.target.closest("[data-fiche]");
+    if (f) { location.hash = `fiche/${f.dataset.fiche}`; return; }
+    const go = e.target.closest("[data-go]");
+    if (go) {
+      const n = nodesById.get(go.dataset.go);
+      if (n.type === "dep") { location.hash = `fiche/${n.id}`; return; }
+      location.hash = n.id; // ferme la fiche et montre l'organe dans le graphe
+      return;
+    }
+    const tab = e.target.closest("[data-filter]");
+    if (tab) {
+      fiche.filter = tab.dataset.filter;
+      fiche.shown = 40;
+      document.querySelectorAll("#fiche [data-filter]").forEach((b) => b.setAttribute("aria-selected", b === tab));
+      renderVoteList();
+      return;
+    }
+    if (e.target.closest("#voteMore")) { fiche.shown += 60; renderVoteList(); return; }
+    const more = e.target.closest("[data-more]");
+    if (more) {
+      more.previousElementSibling.querySelectorAll("[hidden]").forEach((li) => (li.hidden = false));
+      more.remove();
+    }
+  });
+  $("#fiche").addEventListener("input", (e) => {
+    if (e.target.id !== "voteQuery") return;
+    fiche.query = e.target.value;
+    fiche.shown = 40;
+    renderVoteList();
+  });
+
   /* ---------- Recherche (Ctrl K) ---------- */
 
   function bindPalette() {
@@ -724,8 +1017,10 @@
       const n = results[i];
       if (!n) return;
       close();
-      ensureVisible(n);
-      select(n);
+      // Depuis une fiche, un député ouvre sa fiche ; sinon on revient au graphe.
+      const target = fiche.dep && n.type === "dep" ? `fiche/${n.id}` : n.id;
+      if (location.hash.slice(1) === target) fromHash();
+      else location.hash = target;
     }
 
     $("#searchTrigger").addEventListener("click", open);
@@ -742,6 +1037,7 @@
     document.addEventListener("keydown", (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") { e.preventDefault(); back.hidden ? open() : close(); }
       else if (e.key === "/" && back.hidden && document.activeElement === document.body) { e.preventDefault(); open(); }
+      else if (e.key === "Escape" && back.hidden && fiche.dep) location.hash = fiche.dep.id;
       else if (e.key === "Escape" && back.hidden && state.selected) select(null);
     });
   }

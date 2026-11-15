@@ -151,6 +151,7 @@ def main():
         "links": links,
     }
     add_hatvp(data)
+    add_votes(data)
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     print(f"{len(deputes)} députés, {len(orgs)} organes, {len(links)} liens -> {OUT}")
@@ -586,6 +587,122 @@ def add_hatvp(data):
     with_siren = sum(1 for m in merged.values() if m["siren"])
     print(f"HATVP : {len(latest)} déclarations rattachées, {len(merged)} structures "
           f"({shared} citées par plusieurs députés, {with_siren} avec SIREN), {len(final)} liens")
+
+
+# ---------------------------------------------------------------------------
+# Votes : scrutins publics de la 17e législature
+# https://data.assemblee-nationale.fr/travaux-parlementaires/votes
+# ---------------------------------------------------------------------------
+
+SCRUTINS_URL = (
+    "https://data.assemblee-nationale.fr/static/openData/repository/17/loi/"
+    "scrutins/Scrutins.json.zip"
+)
+SCRUTINS_ZIP = ROOT / "raw" / "scrutins.zip"
+VOTES_DIR = ROOT / "site" / "votes"
+# Position d'un député sur un scrutin, un caractère par scrutin :
+# p = pour, c = contre, a = abstention, n = non-votant (président de séance,
+# membre du gouvernement…), - = n'a pas participé ou n'était pas député.
+POSITIONS = {"pours": "p", "contres": "c", "abstentions": "a", "nonVotants": "n", "nonVotantsVolontaires": "n"}
+MIN_COMMON = 150  # scrutins communs minimum pour comparer deux députés
+
+
+def short_title(t):
+    t = re.sub(r"\s+", " ", t or "").strip()
+    return t[0].upper() + t[1:] if t else t
+
+
+def add_votes(data):
+    fetch(SCRUTINS_URL, SCRUTINS_ZIP)
+    z = zipfile.ZipFile(SCRUTINS_ZIP)
+    raw = [json.loads(z.read(n))["scrutin"] for n in z.namelist() if n.endswith(".json")]
+    raw.sort(key=lambda s: (s["dateScrutin"], int(s["numero"])))
+
+    dep_ids = {d["id"] for d in data["deputes"]}
+    n_scr = len(raw)
+    pos = {d: ["-"] * n_scr for d in dep_ids}      # position du député
+    grp = {d: ["-"] * n_scr for d in dep_ids}      # position majoritaire de son groupe
+    scrutins = []
+    for i, s in enumerate(raw):
+        dec = s["syntheseVote"]["decompte"]
+        scrutins.append({
+            "n": int(s["numero"]),
+            "d": s["dateScrutin"],
+            "t": short_title(s["titre"]),
+            "r": "a" if s["sort"]["code"].startswith("adopt") else "r",
+            "k": s["typeVote"]["codeTypeVote"],  # SPO ordinaire, SPS solennel, MOC motion de censure
+            "v": [int(dec.get("pour") or 0), int(dec.get("contre") or 0), int(dec.get("abstentions") or 0)],
+        })
+        for g in as_list(s["ventilationVotes"]["organe"]["groupes"]["groupe"]):
+            maj = {"pour": "p", "contre": "c", "abstention": "a"}.get(g["vote"].get("positionMajoritaire"), "-")
+            nom = g["vote"].get("decompteNominatif") or {}
+            for field, code in POSITIONS.items():
+                bloc = nom.get(field) or {}
+                for v in as_list(bloc.get("votant")):
+                    a = v["acteurRef"]
+                    if a in pos:
+                        pos[a][i] = code
+                        grp[a][i] = maj
+
+    # Masques binaires (un bit par scrutin) pour comparer vite toutes les paires.
+    masks = {}
+    for d, p in pos.items():
+        m = {c: 0 for c in "pca"}
+        for i, c in enumerate(p):
+            if c in m:
+                m[c] |= 1 << i
+        m["e"] = m["p"] | m["c"] | m["a"]
+        masks[d] = m
+
+    by_id = {d["id"]: d for d in data["deputes"]}
+    ids = sorted(dep_ids)
+    agree = {d: [] for d in ids}
+    for x in range(len(ids)):
+        a, ma = ids[x], masks[ids[x]]
+        if not ma["e"]:
+            continue
+        for y in range(x + 1, len(ids)):
+            b, mb = ids[y], masks[ids[y]]
+            common = (ma["e"] & mb["e"]).bit_count()
+            if common < MIN_COMMON:
+                continue
+            same = sum((ma[c] & mb[c]).bit_count() for c in "pca")
+            rate = round(same / common, 3)
+            agree[a].append((rate, common, b))
+            agree[b].append((rate, common, a))
+
+    VOTES_DIR.mkdir(parents=True, exist_ok=True)
+    for old in VOTES_DIR.glob("*.json"):
+        old.unlink()
+    for d in data["deputes"]:
+        p, g = pos[d["id"]], grp[d["id"]]
+        # Scrutins tenus depuis l'entrée en fonction du député.
+        since = [i for i, s in enumerate(scrutins) if s["d"] >= (d["debut"] or "")]
+        expr = [i for i in since if p[i] in "pca"]
+        with_grp = [i for i in expr if g[i] in "pca"]
+        loyal = sum(1 for i in with_grp if p[i] == g[i])
+        ranked = sorted(agree[d["id"]], key=lambda t: (-t[0], -t[1]))
+        outside = [t for t in ranked if by_id[t[2]]["groupe"] != d["groupe"]]
+        d["votes"] = {
+            "scrutins": len(since),
+            "exprimes": len(expr),
+            "pour": sum(1 for i in expr if p[i] == "p"),
+            "contre": sum(1 for i in expr if p[i] == "c"),
+            "abst": sum(1 for i in expr if p[i] == "a"),
+            "loyaute": round(loyal / len(with_grp), 3) if with_grp else None,
+            "dissidences": len(with_grp) - loyal,
+            "proches": [[b, r, n] for r, n, b in ranked[:6]],
+            "prochesHorsGroupe": [[b, r, n] for r, n, b in outside[:6]],
+            "eloignes": [[b, r, n] for r, n, b in ranked[::-1][:6]],
+        }
+        (VOTES_DIR / f"{d['id']}.json").write_text(
+            json.dumps({"p": "".join(p), "g": "".join(g)}, separators=(",", ":")), encoding="utf-8")
+
+    (ROOT / "site" / "scrutins.json").write_text(
+        json.dumps(scrutins, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    data["scrutins"] = {"total": n_scr, "source": SCRUTINS_URL, "dernier": scrutins[-1]["d"] if scrutins else None}
+    voters = sum(1 for d in data["deputes"] if d["votes"]["exprimes"])
+    print(f"Votes : {n_scr} scrutins, {voters} députés ayant voté")
 
 
 if __name__ == "__main__":

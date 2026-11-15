@@ -24,8 +24,14 @@ Puis ouvrir http://localhost:5173.
 - Filtres par type de lien et par groupe politique. Un premier clic sur un groupe l'isole.
 - Fiche député : fonctions, organes, « députés les plus proches » (nombre d'organes partagés, hors groupe et parti).
 - Fiche organe : composition par groupe, membres et fonctions.
-- Recherche `Ctrl K` ou `/` (nom, département, organe).
-- Liens partageables : `#PA1008` ouvre directement une fiche.
+- Recherche `Ctrl K` ou `/` (nom, département, organe, entreprise, SIREN).
+- **Fiche complète par député** (`#fiche/PA1008`) :
+  - identité, fonctions, organes et déclaration d'intérêts ;
+  - participation aux scrutins publics et votes alignés sur son groupe, comparés à la médiane de l'Assemblée ;
+  - répartition pour / contre / abstention ;
+  - proximité de vote : les députés qui votent le plus comme lui, dans et hors de son groupe, et le plus différemment ;
+  - tous ses votes, avec recherche et filtres (contre son groupe, votes solennels, motions de censure) et lien vers chaque scrutin.
+- Liens partageables : `#PA1008` ouvre l'aperçu dans le graphe, `#fiche/PA1008` la fiche complète.
 
 ## Données
 
@@ -51,6 +57,17 @@ Sources :
   - les structures qui partagent un SIREN sont fusionnées en un seul nœud ;
   - les réponses de l'API sont mises en cache dans `raw/siren_cache.json`. `--no-siren` désactive l'étape.
 - Par défaut, le graphe ne montre que les structures citées par au moins deux députés. Une option affiche les autres.
+
+### Votes
+
+Source : [scrutins publics de la 17e législature](https://data.assemblee-nationale.fr/travaux-parlementaires/votes) (`Scrutins.json.zip`).
+
+- `site/scrutins.json` liste les scrutins (date, titre, résultat, type). `site/votes/PAxxxx.json` contient, pour chaque député, sa position sur chaque scrutin et la position majoritaire de son groupe. Ces fichiers ne sont chargés qu'à l'ouverture d'une fiche.
+- **Participation** : scrutins où le député a voté pour, contre ou abstention, rapportés aux scrutins tenus depuis son entrée en fonction. Un vote par délégation compte comme un vote.
+- **Vote aligné** : même position que la position majoritaire de son groupe sur ce scrutin.
+- **Proximité de vote** : part des scrutins où deux députés ont voté la même chose, parmi ceux où les deux ont voté. Il faut au moins 150 scrutins en commun.
+- Les « mises au point » (« je voulais voter autrement ») ne sont pas prises en compte : seul le vote officiel compte.
+- Seuls les scrutins publics sont nominatifs. Les votes à main levée, majoritaires sur les amendements, ne sont pas connus individuellement, et une absence n'est pas un vote contre.
 
 Limites :
 - Seuls les mandats en cours sont pris en compte.
