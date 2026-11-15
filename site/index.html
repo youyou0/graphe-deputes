@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Graphe des députés</title>
+  <meta name="description" content="Les liens entre les 577 députés de la 17e législature : groupes, commissions, groupes d'études et d'amitié, organismes extérieurs. Données publiques de l'Assemblée nationale.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" aria-label="Filtres">
+      <header class="brand">
+        <svg class="brand-mark" viewBox="0 0 20 20" aria-hidden="true">
+          <circle cx="5" cy="6" r="2.4"/><circle cx="15" cy="5" r="2.4"/><circle cx="10" cy="15" r="2.4"/>
+          <path d="M5 6 15 5M5 6l5 9M15 5l-5 10"/>
+        </svg>
+        <div>
+          <h1>Graphe des députés</h1>
+          <p class="brand-sub">17e législature</p>
+        </div>
+      </header>
+
+      <button class="search-trigger" id="searchTrigger" type="button">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5"/><path d="m10.5 10.5 3 3"/></svg>
+        <span>Rechercher un député, un organe</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      <section class="side-section">
+        <h2>Liens affichés</h2>
+        <div id="kindList" class="toggle-list"></div>
+      </section>
+
+      <section class="side-section">
+        <div class="side-head">
+          <h2>Groupes politiques</h2>
+          <button class="link-btn" id="groupsAll" type="button">Tout afficher</button>
+        </div>
+        <div id="groupList" class="toggle-list"></div>
+      </section>
+
+      <footer class="side-foot">
+        <p>Source : <a href="https://data.assemblee-nationale.fr/acteurs/deputes-en-exercice" target="_blank" rel="noopener">open data de l'Assemblée nationale</a>, extrait du <span id="genDate"></span>.</p>
+        <p>Uniquement des mandats et fonctions publics. Aucune interprétation.</p>
+      </footer>
+    </aside>
+
+    <main class="stage">
+      <div class="stage-bar">
+        <div class="stats" id="stats"></div>
+        <div class="stage-actions">
+          <button class="icon-btn" id="zoomFit" type="button" title="Recentrer le graphe" aria-label="Recentrer le graphe">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 6V2h4M14 6V2h-4M2 10v4h4M14 10v4h-4"/></svg>
+          </button>
+        </div>
+      </div>
+      <div id="graph" class="graph" role="img" aria-label="Graphe des liens entre députés et organes"></div>
+      <div class="tooltip" id="tooltip" hidden></div>
+      <div class="legend" aria-hidden="true">
+        <span><i class="lg-dot"></i>Député</span>
+        <span><i class="lg-org"></i>Organe, taille selon le nombre de membres</span>
+      </div>
+      <div class="loading" id="loading">Chargement des données…</div>
+    </main>
+
+    <aside class="panel" id="panel" aria-live="polite" hidden>
+      <button class="icon-btn panel-close" id="panelClose" type="button" aria-label="Fermer la fiche">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 4 8 8M12 4l-8 8"/></svg>
+      </button>
+      <div id="panelBody"></div>
+    </aside>
+  </div>
+
+  <div class="palette-backdrop" id="palette" hidden>
+    <div class="palette" role="dialog" aria-modal="true" aria-label="Recherche">
+      <div class="palette-input">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5"/><path d="m10.5 10.5 3 3"/></svg>
+        <input id="paletteInput" type="text" placeholder="Nom, département, commission…" autocomplete="off" spellcheck="false">
+        <kbd>Échap</kbd>
+      </div>
+      <ul class="palette-results" id="paletteResults" role="listbox"></ul>
+    </div>
+  </div>
+
+  <script src="vendor/force-graph.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
