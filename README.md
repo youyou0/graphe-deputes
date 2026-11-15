@@ -7,6 +7,17 @@ Carte interactive des liens entre les députés de la 17e législature :
 
 Uniquement des données publiques, telles que déclarées, sans interprétation. Un lien n'indique ni conflit d'intérêts ni prise de position.
 
+## Mise à jour automatique
+
+Le workflow [`.github/workflows/update.yml`](.github/workflows/update.yml) s'exécute **tous les jours vers 5 h**, à chaque push sur `main`, et à la demande (onglet *Actions* puis *Run workflow*). Il :
+
+1. télécharge les dernières données de l'Assemblée nationale (députés, organes, scrutins, comptes rendus) et de la HATVP ;
+2. reconstruit tout avec `scripts/build_data.py`. Les caches SIREN et vidéo sont conservés d'une exécution à l'autre : seules les nouveautés sont demandées ;
+3. vérifie le résultat (plus de 500 députés, sinon la publication est annulée et l'ancien site reste en ligne) ;
+4. publie le dossier `site/` sur GitHub Pages.
+
+Les données générées (`site/data.json`, `site/scrutins.json`, `site/videos.json`, `site/votes/`, `site/interventions/`) ne sont **pas** versionnées : elles sont reconstruites à chaque exécution, pour que le dépôt ne grossisse pas.
+
 ## Lancer en local
 
 ```bash
@@ -16,7 +27,10 @@ python -m http.server 5173 --directory site
 
 Puis ouvrir http://localhost:5173.
 
-`build_data.py` télécharge l'export officiel et produit `site/data.json`. Avec `--offline`, il réutilise `raw/amo.zip` déjà téléchargé.
+`build_data.py` télécharge toutes les sources dans `raw/` et génère les données du site. Options :
+- `--offline` réutilise les fichiers déjà téléchargés dans `raw/` ;
+- `--no-siren` saute le rattachement SIREN ;
+- `--no-videos` saute la lecture des liens vidéo.
 
 ## Fonctionnalités
 
@@ -79,6 +93,7 @@ Source : [comptes rendus intégraux des séances publiques](https://data.assembl
 - Les **interjections**, lancées depuis les bancs sans avoir la parole, sont marquées à part et masquées par défaut. Les fragments de moins de 40 caractères (« Très bien ! ») sont ignorés.
 - Le texte intégral est conservé dans `site/interventions/PAxxxx.json.gz`, un fichier compressé par député, décompressé par le navigateur à l'ouverture de l'onglet. Il servira à comparer les propos et les votes.
 - Les comptes rendus couvrent la séance publique, pas les commissions.
+- **Vidéo** : le lien vers la vidéo officielle de chaque séance est lu sur la page publique de son compte rendu, car il n'est pas dans les données ouvertes. L'horodatage de chaque intervention (`stime`, en secondes depuis le début de l'enregistrement) permet d'ouvrir la vidéo au bon moment, 3 secondes avant la prise de parole. Lecture avec [hls.js](https://github.com/video-dev/hls.js) 1.5.13, chargé seulement au premier clic.
 
 Limites :
 - Seuls les mandats en cours sont pris en compte.
@@ -87,7 +102,7 @@ Limites :
 
 ## Stack
 
-HTML, CSS et JS sans framework. [force-graph](https://github.com/vasturiano/force-graph) 1.43.5 est inclus dans `site/vendor/`. Le script de données est en Python, sans dépendance.
+HTML, CSS et JS sans framework. [force-graph](https://github.com/vasturiano/force-graph) 1.43.5 et hls.js 1.5.13 sont inclus dans `site/vendor/`. Le script de données est en Python, sans dépendance.
 
 ## Pistes
 

@@ -703,6 +703,84 @@
     inter: null, interLoading: null, interQuery: "", interTexte: "", interShown: 20, expanded: new Set(),
   };
   const EXCERPT = 420;
+  const LEAD_IN = 3; // secondes de marge avant la prise de parole
+  let videosPromise = null;
+  let hlsPromise = null;
+  const player = { hls: null, el: null, index: null };
+
+  function loadVideos() {
+    videosPromise ??= fetch("videos.json").then((r) => (r.ok ? r.json() : {})).catch(() => ({}));
+    return videosPromise;
+  }
+
+  function loadHls() {
+    hlsPromise ??= new Promise((resolve, reject) => {
+      const s = document.createElement("script");
+      s.src = "vendor/hls.min.js";
+      s.onload = () => resolve(window.Hls);
+      s.onerror = reject;
+      document.head.appendChild(s);
+    });
+    return hlsPromise;
+  }
+
+  function stopVideo() {
+    player.hls?.destroy();
+    player.el?.remove();
+    Object.assign(player, { hls: null, el: null, index: null });
+  }
+
+  function fmtClock(sec) {
+    const s = Math.max(0, Math.round(sec));
+    const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), r = s % 60;
+    return `${h ? `${h} h ` : ""}${String(m).padStart(h ? 2 : 1, "0")} min ${String(r).padStart(2, "0")} s`;
+  }
+
+  async function playIntervention(i, li) {
+    if (player.index === i) { stopVideo(); renderVideoButtons(); return; }
+    stopVideo();
+    const it = fiche.inter[i];
+    const src = (await loadVideos())[it.s];
+    if (!src) return;
+    const box = document.createElement("div");
+    box.className = "i-video";
+    box.innerHTML = `<video controls playsinline preload="metadata"></video>
+      <p class="p-note">Vidéo officielle de la séance, à ${fmtClock(it.st)} du début de l'enregistrement.</p>`;
+    li.querySelector(".i-actions").before(box);
+    const video = box.querySelector("video");
+    Object.assign(player, { el: box, index: i });
+    renderVideoButtons();
+    const start = Math.max(0, it.st - LEAD_IN);
+    const begin = () => { video.currentTime = start; video.play().catch(() => {}); };
+    if (video.canPlayType("application/vnd.apple.mpegurl")) {
+      video.src = `${src}#t=${start}`; // Safari lit le HLS nativement
+      video.addEventListener("loadedmetadata", begin, { once: true });
+      return;
+    }
+    try {
+      const Hls = await loadHls();
+      if (player.index !== i) return;
+      const hls = new Hls({ startPosition: start });
+      player.hls = hls;
+      hls.loadSource(src);
+      hls.attachMedia(video);
+      hls.on(Hls.Events.MANIFEST_PARSED, () => video.play().catch(() => {}));
+      hls.on(Hls.Events.ERROR, (_, err) => {
+        if (err.fatal) box.querySelector(".p-note").textContent = "La vidéo n'a pas pu être chargée depuis le site de l'Assemblée.";
+      });
+    } catch {
+      box.querySelector(".p-note").textContent = "Le lecteur vidéo n'a pas pu être chargé.";
+    }
+  }
+
+  function renderVideoButtons() {
+    document.querySelectorAll("#interList [data-video]").forEach((b) => {
+      const on = +b.dataset.video === player.index;
+      b.innerHTML = `${PLAY}${on ? "Fermer la vidéo" : "Voir la vidéo"}`;
+      b.setAttribute("aria-pressed", on);
+    });
+  }
+  const PLAY = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.5v9l7.5-4.5z"/></svg>';
 
   async function fetchJsonMaybeGz(url) {
     const r = await fetch(url);
@@ -718,9 +796,10 @@
 
   function loadInterventions(d) {
     if (fiche.inter || fiche.interLoading || !d.interventions?.n) return;
-    fiche.interLoading = fetchJsonMaybeGz(`interventions/${d.id}.json.gz`)
-      .then((items) => {
+    fiche.interLoading = Promise.all([fetchJsonMaybeGz(`interventions/${d.id}.json.gz`), loadVideos()])
+      .then(([items, videos]) => {
         if (fiche.dep !== d) return;
+        fiche.videos = videos;
         items.forEach((it) => { it._k = norm(`${it.t} ${it.c} ${it.x}`); });
         fiche.inter = items;
         const counts = new Map();
@@ -755,6 +834,7 @@
       if (terms.length && !terms.every((t) => it._k.includes(t))) continue;
       idx.push(i);
     }
+    stopVideo(); // la liste est redessinée : le lecteur en cours disparaît
     $("#interCount").textContent = plural(idx.length, "intervention", "interventions");
     if (!idx.length) {
       ul.innerHTML = `<li class="vote-empty">${raw ? `Aucune intervention ne contient « ${esc(raw)} ».` : "Aucune intervention pour ce texte."}</li>`;
@@ -781,6 +861,7 @@
         </div>
         <div class="i-text">${paras}</div>
         <div class="i-actions">
+          ${it.st != null && fiche.videos?.[it.s] ? `<button class="i-play" type="button" data-video="${i}" aria-pressed="false">${PLAY}Voir la vidéo</button>` : ""}
           ${it.x.length > EXCERPT + 80 ? `<button class="link-btn" type="button" data-expand="${i}">${fiche.expanded.has(i) ? "Réduire" : "Lire l'intervention complète"}</button>` : ""}
           <a class="ext-link" href="https://www.assemblee-nationale.fr/dyn/17/comptes-rendus/seance/${esc(it.s)}#${esc(it.a)}" target="_blank" rel="noopener">Compte rendu officiel ${EXT}</a>
         </div>
@@ -804,6 +885,7 @@
   function closeFiche() {
     const el = $("#fiche");
     if (el.hidden) return;
+    stopVideo();
     el.hidden = true;
     document.body.classList.remove("fiche-open");
     fiche.dep = null;
@@ -817,7 +899,8 @@
     fiche.query = "";
     fiche.shown = 40;
     fiche.votes = null;
-    Object.assign(fiche, { inter: null, interLoading: null, interQuery: "", interTexte: "", interInterj: false, interShown: 20, expanded: new Set() });
+    stopVideo();
+    Object.assign(fiche, { videos: null, inter: null, interLoading: null, interQuery: "", interTexte: "", interInterj: false, interShown: 20, expanded: new Set() });
     el.innerHTML = ficheHtml(d);
     el.hidden = false;
     document.body.classList.add("fiche-open");
@@ -1091,6 +1174,8 @@
       if (t === "inter") loadInterventions(fiche.dep);
       return;
     }
+    const vid = e.target.closest("[data-video]");
+    if (vid) { playIntervention(+vid.dataset.video, vid.closest(".inter")); return; }
     const exp = e.target.closest("[data-expand]");
     if (exp) {
       const i = +exp.dataset.expand;

@@ -1,0 +1,76 @@
+# Met à jour les données (Assemblée nationale, HATVP, SIREN, vidéos) et republie
+# le site sur GitHub Pages. Les données générées ne sont jamais commitées :
+# elles sont reconstruites à chaque exécution et publiées directement.
+name: Mise à jour des données
+
+on:
+  schedule:
+    - cron: "17 4 * * *" # tous les jours vers 5 h (heure de Paris en hiver)
+  workflow_dispatch: # bouton « Run workflow » dans l'onglet Actions
+  push:
+    branches: [main]
+    paths: ["site/**", "scripts/**", ".github/workflows/**"]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # Caches des appels externes (SIREN, liens vidéo) : on ne redemande
+      # que ce qui est nouveau. La clé change à chaque exécution pour
+      # sauvegarder le cache enrichi ; restore-keys reprend le plus récent.
+      - name: Restaurer les caches
+        uses: actions/cache@v4
+        with:
+          path: |
+            raw/siren_cache.json
+            raw/videos_cache.json
+          key: caches-${{ github.run_id }}
+          restore-keys: caches-
+
+      - name: Construire les données
+        env:
+          PYTHONIOENCODING: utf-8
+          PYTHONUNBUFFERED: "1"
+        run: python -I scripts/build_data.py
+
+      - name: Vérifier le résultat
+        run: |
+          python -I - <<'EOF'
+          import json, pathlib
+          d = json.loads(pathlib.Path("site/data.json").read_text(encoding="utf-8"))
+          n = len(d["deputes"])
+          assert n > 500, f"seulement {n} députés : données incomplètes, publication annulée"
+          print(f"{n} députés, {d['scrutins']['total']} scrutins, dernier le {d['scrutins']['dernier']}")
+          EOF
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,2 +1,8 @@
 raw/
 __pycache__/
+# Données générées par scripts/build_data.py (reconstruites par GitHub Actions)
+site/data.json
+site/scrutins.json
+site/videos.json
+site/votes/
+site/interventions/

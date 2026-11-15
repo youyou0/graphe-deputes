@@ -744,6 +744,44 @@ def cr_text(el):
     return re.sub(r"\s*\n\s*", "\n", text).strip()
 
 
+VIDEO_CACHE = ROOT / "raw" / "videos_cache.json"
+CR_PAGE = "https://www.assemblee-nationale.fr/dyn/17/comptes-rendus/seance/{}"
+VIDEO_RE = re.compile(r'https://videos-diffusion\.assemblee-nationale\.fr/[^"\']+?\.m3u8')
+
+
+def fetch_videos(seances):
+    """Lien HLS de la vidéo de chaque séance, lu sur la page du compte rendu.
+
+    Les données ouvertes ne le contiennent pas ; la page publique, si. Une page
+    par séance, mise en cache : on ne la redemande jamais une fois trouvée.
+    """
+    cache = json.loads(VIDEO_CACHE.read_text(encoding="utf-8")) if VIDEO_CACHE.exists() else {}
+    todo = [s for s in seances if s not in cache]
+    if todo:
+        print(f"  Vidéos : {len(todo)} pages de compte rendu à lire")
+
+    def one(uid):
+        _throttle(per_second=3)
+        req = urllib.request.Request(CR_PAGE.format(uid), headers={"User-Agent": "graphe-deputes (open data)"})
+        try:
+            with urllib.request.urlopen(req, timeout=30) as r:
+                html = r.read().decode("utf-8", "ignore")
+        except (urllib.error.URLError, TimeoutError):
+            return uid, None  # non mis en cache : retenté au prochain lancement
+        m = VIDEO_RE.search(html)
+        return uid, m.group(0) if m else ""
+
+    with ThreadPoolExecutor(max_workers=3) as pool:
+        for i, (uid, url) in enumerate(pool.map(one, todo), 1):
+            if url is not None:
+                cache[uid] = url
+            if i % 100 == 0:
+                print(f"  Vidéos : {i}/{len(todo)}")
+                VIDEO_CACHE.write_text(json.dumps(cache), encoding="utf-8")
+    VIDEO_CACHE.write_text(json.dumps(cache), encoding="utf-8")
+    return {uid: url for uid, url in cache.items() if url and uid in set(seances)}
+
+
 def add_interventions(data):
     fetch(DEBATS_URL, DEBATS_ZIP)
     z = zipfile.ZipFile(DEBATS_ZIP)
@@ -843,7 +881,10 @@ def add_interventions(data):
             payload = json.dumps(items, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
             # mtime=0 : même contenu, même fichier (pas de faux changements dans git)
             (INTER_DIR / f"{d['id']}.json.gz").write_bytes(gzip.compress(payload, mtime=0))
-    data["debats"] = {"source": DEBATS_URL, "seances": sum(1 for n in z.namelist() if n.endswith(".xml"))}
+    seances = sorted({n.rsplit("/", 1)[-1][:-4] for n in z.namelist() if n.endswith(".xml")})
+    videos = {} if "--no-videos" in sys.argv else fetch_videos(seances)
+    (ROOT / "site" / "videos.json").write_text(json.dumps(videos, separators=(",", ":")), encoding="utf-8")
+    data["debats"] = {"source": DEBATS_URL, "seances": len(seances), "videos": len(videos)}
     print(f"Interventions : {total} interventions de {sum(1 for v in per_dep.values() if v)} députés")
 
 
