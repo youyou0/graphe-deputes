@@ -698,7 +698,98 @@
   const POS_LABEL = { p: "Pour", c: "Contre", a: "Abstention", n: "Non-votant" };
   const VOTE_KINDS = { SPS: "Vote solennel", MOC: "Motion de censure", SPO: "Scrutin ordinaire" };
   let scrutinsPromise = null;
-  const fiche = { dep: null, votes: null, filter: "all", query: "", shown: 40 };
+  const fiche = {
+    dep: null, votes: null, filter: "all", query: "", shown: 40,
+    inter: null, interLoading: null, interQuery: "", interTexte: "", interShown: 20, expanded: new Set(),
+  };
+  const EXCERPT = 420;
+
+  async function fetchJsonMaybeGz(url) {
+    const r = await fetch(url);
+    if (!r.ok) throw new Error(r.status);
+    const buf = new Uint8Array(await r.arrayBuffer());
+    // Le serveur peut déjà avoir décompressé (Content-Encoding) : on vérifie la signature gzip.
+    if (buf[0] === 0x1f && buf[1] === 0x8b) {
+      const stream = new Blob([buf]).stream().pipeThrough(new DecompressionStream("gzip"));
+      return JSON.parse(await new Response(stream).text());
+    }
+    return JSON.parse(new TextDecoder().decode(buf));
+  }
+
+  function loadInterventions(d) {
+    if (fiche.inter || fiche.interLoading || !d.interventions?.n) return;
+    fiche.interLoading = fetchJsonMaybeGz(`interventions/${d.id}.json.gz`)
+      .then((items) => {
+        if (fiche.dep !== d) return;
+        items.forEach((it) => { it._k = norm(`${it.t} ${it.c} ${it.x}`); });
+        fiche.inter = items;
+        const counts = new Map();
+        items.forEach((it) => it.t && !it.i && counts.set(it.t, (counts.get(it.t) || 0) + 1));
+        $("#interTexte").innerHTML = `<option value="">Tous les textes (${counts.size})</option>` +
+          [...counts.entries()].sort((a, b) => b[1] - a[1])
+            .map(([t, n]) => `<option value="${esc(t)}">${esc(t.length > 70 ? t.slice(0, 68) + "…" : t)} (${n})</option>`).join("");
+        renderInterList();
+      })
+      .catch(() => {
+        if (fiche.dep === d) $("#interList").innerHTML = `<li class="vote-empty">Impossible de charger les interventions.</li>`;
+      });
+  }
+
+  function highlight(html, terms) {
+    if (!terms.length) return html;
+    const re = new RegExp(`(${terms.map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})`, "gi");
+    return html.replace(re, "<mark>$1</mark>");
+  }
+
+  function renderInterList() {
+    const ul = $("#interList");
+    if (!ul || !fiche.inter) return;
+    const raw = fiche.interQuery.trim();
+    const terms = norm(raw).split(/\s+/).filter(Boolean);
+    const shownTerms = raw.toLowerCase().split(/\s+/).filter((t) => t.length > 1);
+    const idx = [];
+    for (let i = fiche.inter.length - 1; i >= 0; i--) {
+      const it = fiche.inter[i];
+      if (it.i && !fiche.interInterj) continue;
+      if (fiche.interTexte && it.t !== fiche.interTexte) continue;
+      if (terms.length && !terms.every((t) => it._k.includes(t))) continue;
+      idx.push(i);
+    }
+    $("#interCount").textContent = plural(idx.length, "intervention", "interventions");
+    if (!idx.length) {
+      ul.innerHTML = `<li class="vote-empty">${raw ? `Aucune intervention ne contient « ${esc(raw)} ».` : "Aucune intervention pour ce texte."}</li>`;
+      $("#interMore").hidden = true;
+      return;
+    }
+    const dateFmt = { day: "numeric", month: "short", year: "numeric" };
+    ul.innerHTML = idx.slice(0, fiche.interShown).map((i) => {
+      const it = fiche.inter[i];
+      const full = fiche.expanded.has(i) || it.x.length <= EXCERPT + 80;
+      let text = it.x;
+      if (!full) {
+        // Extrait centré sur le premier mot recherché, si possible.
+        const hit = shownTerms.length ? it.x.toLowerCase().indexOf(shownTerms[0]) : -1;
+        const start = hit > EXCERPT / 2 ? it.x.lastIndexOf(" ", hit - 120) + 1 : 0;
+        text = (start ? "…" : "") + it.x.slice(start, start + EXCERPT).replace(/\s+\S*$/, "") + "…";
+      }
+      const paras = esc(text).split("\n").map((p) => `<p>${highlight(p, shownTerms)}</p>`).join("");
+      return `<li class="inter${it.i ? " is-interj" : ""}">
+        <div class="i-head">
+          <span class="v-date">${new Date(it.d).toLocaleDateString("fr-FR", dateFmt)}</span>
+          <span class="i-title">${esc(it.t || "Séance publique")}${it.c ? `<span class="i-ctx">${esc(it.c)}</span>` : ""}</span>
+          ${it.i ? `<span class="i-tag" title="Lancée depuis les bancs, sans avoir la parole">Interjection</span>` : ""}
+        </div>
+        <div class="i-text">${paras}</div>
+        <div class="i-actions">
+          ${it.x.length > EXCERPT + 80 ? `<button class="link-btn" type="button" data-expand="${i}">${fiche.expanded.has(i) ? "Réduire" : "Lire l'intervention complète"}</button>` : ""}
+          <a class="ext-link" href="https://www.assemblee-nationale.fr/dyn/17/comptes-rendus/seance/${esc(it.s)}#${esc(it.a)}" target="_blank" rel="noopener">Compte rendu officiel ${EXT}</a>
+        </div>
+      </li>`;
+    }).join("");
+    const more = $("#interMore");
+    more.hidden = idx.length <= fiche.interShown;
+    more.textContent = `Afficher plus (${(idx.length - fiche.interShown).toLocaleString("fr-FR")} restantes)`;
+  }
 
   function loadScrutins() {
     scrutinsPromise ??= fetch("scrutins.json").then((r) => r.json());
@@ -726,6 +817,7 @@
     fiche.query = "";
     fiche.shown = 40;
     fiche.votes = null;
+    Object.assign(fiche, { inter: null, interLoading: null, interQuery: "", interTexte: "", interInterj: false, interShown: 20, expanded: new Set() });
     el.innerHTML = ficheHtml(d);
     el.hidden = false;
     document.body.classList.add("fiche-open");
@@ -793,11 +885,38 @@
             v.scrutins ? `${total.toLocaleString("fr-FR")} votes sur ${v.scrutins.toLocaleString("fr-FR")} scrutins. Médiane : ${pct(medPart)}` : "")}
           ${kpi("Votes alignés sur son groupe", v.loyaute != null ? pct(v.loyaute) : "—", v.loyaute != null ? `Médiane : ${pct(medLoy)}` : "")}
           ${kpi("Votes contre la majorité de son groupe", v.dissidences != null ? v.dissidences.toLocaleString("fr-FR") : "—", "")}
+          ${kpi("Interventions en séance", (d.interventions?.n || 0).toLocaleString("fr-FR"), `Médiane : ${median(deputes.map((x) => x.interventions?.n || 0))}`)}
           ${kpi("Structures dans sa déclaration d'intérêts", d.hatvp ? hvCount : "—", d.hatvp ? `Déposée le ${d.hatvp.depot}` : "Aucune déclaration rattachée")}
         </section>
 
         <div class="f-grid">
           <main class="f-main">
+            <div class="f-tabs" role="tablist" aria-label="Activité">
+              <button type="button" role="tab" data-tab="votes" aria-selected="true">Votes<span>${total.toLocaleString("fr-FR")}</span></button>
+              <button type="button" role="tab" data-tab="inter" aria-selected="false">Interventions en séance<span>${(d.interventions?.n || 0).toLocaleString("fr-FR")}</span></button>
+            </div>
+
+            <div class="f-panel" id="tabInter" hidden>
+              <section class="card">
+                <div class="card-head">
+                  <h2>Ses interventions en séance</h2>
+                  <span class="card-count" id="interCount"></span>
+                </div>
+                ${d.interventions?.n ? `<p class="p-note">${d.interventions.n.toLocaleString("fr-FR")} prises de parole lors de ${plural(d.interventions.seances, "séance", "séances")}, soit ${d.interventions.mots.toLocaleString("fr-FR")} mots. Texte intégral issu du compte rendu officiel.</p>` : ""}
+                <div class="vote-tools">
+                  <label class="vote-search">
+                    <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5"/><path d="m10.5 10.5 3 3"/></svg>
+                    <input type="search" id="interQuery" placeholder="Rechercher dans ses propos…" autocomplete="off">
+                  </label>
+                  <select class="f-select" id="interTexte" aria-label="Filtrer par texte"><option value="">Tous les textes</option></select>
+                  ${d.interventions?.interjections ? `<label class="f-check"><input type="checkbox" id="interInterj"> Interjections (${d.interventions.interjections.toLocaleString("fr-FR")})</label>` : ""}
+                </div>
+                <ol class="inter-list" id="interList"><li class="vote-empty">${d.interventions?.n ? "Chargement des interventions…" : "Aucune intervention en séance publique."}</li></ol>
+                <button class="link-btn more-btn" type="button" id="interMore" hidden>Afficher plus</button>
+              </section>
+            </div>
+
+            <div class="f-panel" id="tabVotes">
             <section class="card">
               <h2>Comment il${d.civ === "Mme" ? "le" : ""} vote</h2>
               ${total ? `
@@ -852,6 +971,7 @@
               <ol class="vote-list" id="voteList"><li class="vote-empty">Chargement des votes…</li></ol>
               <button class="link-btn more-btn" type="button" id="voteMore" hidden>Afficher plus</button>
             </section>
+            </div>
           </main>
 
           <aside class="f-side">
@@ -962,6 +1082,23 @@
       return;
     }
     if (e.target.closest("#voteMore")) { fiche.shown += 60; renderVoteList(); return; }
+    const tabBtn = e.target.closest("[data-tab]");
+    if (tabBtn) {
+      const t = tabBtn.dataset.tab;
+      document.querySelectorAll("#fiche [data-tab]").forEach((b) => b.setAttribute("aria-selected", b === tabBtn));
+      $("#tabVotes").hidden = t !== "votes";
+      $("#tabInter").hidden = t !== "inter";
+      if (t === "inter") loadInterventions(fiche.dep);
+      return;
+    }
+    const exp = e.target.closest("[data-expand]");
+    if (exp) {
+      const i = +exp.dataset.expand;
+      fiche.expanded.has(i) ? fiche.expanded.delete(i) : fiche.expanded.add(i);
+      renderInterList();
+      return;
+    }
+    if (e.target.closest("#interMore")) { fiche.interShown += 30; renderInterList(); return; }
     const more = e.target.closest("[data-more]");
     if (more) {
       more.previousElementSibling.querySelectorAll("[hidden]").forEach((li) => (li.hidden = false));
@@ -969,6 +1106,15 @@
     }
   });
   $("#fiche").addEventListener("input", (e) => {
+    if (["interQuery", "interTexte", "interInterj"].includes(e.target.id)) {
+      fiche.interQuery = $("#interQuery").value;
+      fiche.interTexte = $("#interTexte").value;
+      fiche.interInterj = !!$("#interInterj")?.checked;
+      fiche.interShown = 20;
+      fiche.expanded.clear();
+      renderInterList();
+      return;
+    }
     if (e.target.id !== "voteQuery") return;
     fiche.query = e.target.value;
     fiche.shown = 40;

@@ -8,6 +8,7 @@ Usage :
     python scripts/build_data.py --offline  # réutilise raw/amo.zip
 """
 import csv
+import gzip
 import io
 import json
 import re
@@ -152,6 +153,7 @@ def main():
     }
     add_hatvp(data)
     add_votes(data)
+    add_interventions(data)
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     print(f"{len(deputes)} députés, {len(orgs)} organes, {len(links)} liens -> {OUT}")
@@ -703,6 +705,146 @@ def add_votes(data):
     data["scrutins"] = {"total": n_scr, "source": SCRUTINS_URL, "dernier": scrutins[-1]["d"] if scrutins else None}
     voters = sum(1 for d in data["deputes"] if d["votes"]["exprimes"])
     print(f"Votes : {n_scr} scrutins, {voters} députés ayant voté")
+
+
+# ---------------------------------------------------------------------------
+# Interventions en séance : comptes rendus intégraux (format Syceron)
+# https://data.assemblee-nationale.fr/travaux-parlementaires/debats
+# ---------------------------------------------------------------------------
+
+DEBATS_URL = (
+    "https://data.assemblee-nationale.fr/static/openData/repository/17/vp/"
+    "syceronbrut/syseron.xml.zip"
+)
+DEBATS_ZIP = ROOT / "raw" / "debats.zip"
+INTER_DIR = ROOT / "site" / "interventions"
+CR_NS = "{http://schemas.assemblee-nationale.fr/referentiel}"
+MIN_CHARS = 40  # en dessous : « Très bien ! », « C'est faux ! »… (interjections)
+
+
+def cr_text(el):
+    """Texte d'un paragraphe, sans les didascalies en italique (« Applaudissements… »)."""
+    out = []
+
+    def walk(e, skip=False):
+        tag = e.tag.replace(CR_NS, "")
+        skip = skip or tag == "italique"
+        if e.text and not skip:
+            out.append(e.text)
+        for ch in e:
+            if ch.tag.replace(CR_NS, "") == "br":
+                out.append("\n")
+            else:
+                walk(ch, skip)
+            if ch.tail:
+                out.append(ch.tail)
+
+    walk(el)
+    text = re.sub(r"[ \t  ]+", " ", "".join(out))
+    return re.sub(r"\s*\n\s*", "\n", text).strip()
+
+
+def add_interventions(data):
+    fetch(DEBATS_URL, DEBATS_ZIP)
+    z = zipfile.ZipFile(DEBATS_ZIP)
+    dep_ids = {d["id"] for d in data["deputes"]}
+    per_dep = {d: [] for d in dep_ids}
+
+    for name in sorted(z.namelist()):
+        if not name.endswith(".xml"):
+            continue
+        root = ET.fromstring(z.read(name))
+        uid = root.findtext(f"{CR_NS}uid")
+        raw_date = root.findtext(f"{CR_NS}metadonnees/{CR_NS}dateSeance") or ""
+        day = f"{raw_date[:4]}-{raw_date[4:6]}-{raw_date[6:8]}"
+        contenu = root.find(f"{CR_NS}contenu")
+        if contenu is None:
+            continue
+        last = None  # intervention en cours (même orateur, même point)
+        # Les points sont souvent frères et non imbriqués : le niveau (nivpoint)
+        # dit où ils se placent. On garde donc une pile de titres pour toute la séance.
+        stack = []
+
+        def visit(node):
+            nonlocal last, stack
+            for ch in node:
+                tag = ch.tag.replace(CR_NS, "")
+                if tag == "point":
+                    te = ch.find(f"{CR_NS}texte")
+                    title = cr_text(te) if te is not None else ""
+                    level = int(ch.get("nivpoint") or 1)
+                    if title:
+                        stack = stack[: level - 1] + [""] * max(0, level - 1 - len(stack)) + [title]
+                    last = None
+                    visit(ch)
+                elif tag == "paragraphe":
+                    actor = ch.get("id_acteur")
+                    te = ch.find(f"{CR_NS}texte")
+                    if actor not in dep_ids or ch.get("roledebat") == "president" or te is None:
+                        last = None if actor else last  # une didascalie ne coupe pas l'orateur
+                        continue
+                    text = cr_text(te)
+                    if len(text) < MIN_CHARS:
+                        continue
+                    # Interjection lancée depuis les bancs, sans avoir la parole.
+                    interj = (ch.get("code_grammaire") or "").startswith("INTERRUPTION")
+                    if interj:
+                        per_dep[actor].append({
+                            "_actor": actor, "d": day, "s": uid, "a": ch.get("id_syceron"),
+                            "t": next((t for t in stack if t), ""),
+                            "c": [t for t in stack if t][-1] if len([t for t in stack if t]) > 1 else "",
+                            "st": float(te.get("stime")) if te.get("stime") else None,
+                            "x": text, "i": 1,
+                        })
+                        continue  # ne coupe pas l'intervention en cours de l'orateur
+                    if last is not None and last["_actor"] == actor:
+                        last["x"] += "\n" + text
+                        continue
+                    titles_clean = [t for t in stack if t]
+                    last = {
+                        "_actor": actor,
+                        "d": day,
+                        "s": uid,
+                        "a": ch.get("id_syceron"),
+                        "t": titles_clean[0] if titles_clean else "",
+                        "c": titles_clean[-1] if len(titles_clean) > 1 else "",
+                        "st": float(te.get("stime")) if te.get("stime") else None,
+                        "x": text,
+                    }
+                    per_dep[actor].append(last)
+                else:
+                    visit(ch)
+
+        visit(contenu)
+
+    INTER_DIR.mkdir(parents=True, exist_ok=True)
+    for old in INTER_DIR.glob("*"):
+        old.unlink()
+    total = 0
+    for d in data["deputes"]:
+        items = sorted(per_dep[d["id"]], key=lambda i: (i["d"], i["s"], int(i["a"] or 0)))
+        for i in items:
+            del i["_actor"]
+        speeches = [i for i in items if not i.get("i")]
+        total += len(speeches)
+        words = sum(len(i["x"].split()) for i in speeches)
+        textes = {}
+        for i in speeches:
+            if i["t"]:
+                textes[i["t"]] = textes.get(i["t"], 0) + 1
+        d["interventions"] = {
+            "n": len(speeches),
+            "interjections": len(items) - len(speeches),
+            "mots": words,
+            "seances": len({i["s"] for i in speeches}),
+            "textes": sorted(textes.items(), key=lambda kv: -kv[1])[:5],
+        }
+        if items:
+            payload = json.dumps(items, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+            # mtime=0 : même contenu, même fichier (pas de faux changements dans git)
+            (INTER_DIR / f"{d['id']}.json.gz").write_bytes(gzip.compress(payload, mtime=0))
+    data["debats"] = {"source": DEBATS_URL, "seances": sum(1 for n in z.namelist() if n.endswith(".xml"))}
+    print(f"Interventions : {total} interventions de {sum(1 for v in per_dep.values() if v)} députés")
 
 
 if __name__ == "__main__":

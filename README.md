@@ -30,7 +30,8 @@ Puis ouvrir http://localhost:5173.
   - participation aux scrutins publics et votes alignés sur son groupe, comparés à la médiane de l'Assemblée ;
   - répartition pour / contre / abstention ;
   - proximité de vote : les députés qui votent le plus comme lui, dans et hors de son groupe, et le plus différemment ;
-  - tous ses votes, avec recherche et filtres (contre son groupe, votes solennels, motions de censure) et lien vers chaque scrutin.
+  - tous ses votes, avec recherche et filtres (contre son groupe, votes solennels, motions de censure) et lien vers chaque scrutin ;
+  - toutes ses interventions en séance publique, en texte intégral, avec recherche dans ses propos, filtre par texte de loi et lien vers le passage exact du compte rendu officiel.
 - Liens partageables : `#PA1008` ouvre l'aperçu dans le graphe, `#fiche/PA1008` la fiche complète.
 
 ## Données
@@ -68,6 +69,16 @@ Source : [scrutins publics de la 17e législature](https://data.assemblee-nation
 - **Proximité de vote** : part des scrutins où deux députés ont voté la même chose, parmi ceux où les deux ont voté. Il faut au moins 150 scrutins en commun.
 - Les « mises au point » (« je voulais voter autrement ») ne sont pas prises en compte : seul le vote officiel compte.
 - Seuls les scrutins publics sont nominatifs. Les votes à main levée, majoritaires sur les amendements, ne sont pas connus individuellement, et une absence n'est pas un vote contre.
+
+### Interventions en séance
+
+Source : [comptes rendus intégraux des séances publiques](https://data.assemblee-nationale.fr/travaux-parlementaires/debats) (format Syceron, `syseron.xml.zip`).
+
+- Une intervention regroupe les paragraphes consécutifs d'un même député, sous un même point de l'ordre du jour. Chaque intervention est rattachée au texte débattu et à son contexte (article, « après l'article 8 »…), avec un lien vers son ancre dans le compte rendu officiel.
+- La présidence de séance est exclue. Les didascalies (« Applaudissements sur les bancs… ») sont retirées du texte.
+- Les **interjections**, lancées depuis les bancs sans avoir la parole, sont marquées à part et masquées par défaut. Les fragments de moins de 40 caractères (« Très bien ! ») sont ignorés.
+- Le texte intégral est conservé dans `site/interventions/PAxxxx.json.gz`, un fichier compressé par député, décompressé par le navigateur à l'ouverture de l'onglet. Il servira à comparer les propos et les votes.
+- Les comptes rendus couvrent la séance publique, pas les commissions.
 
 Limites :
 - Seuls les mandats en cours sont pris en compte.
