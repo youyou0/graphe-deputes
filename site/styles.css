@@ -163,6 +163,9 @@ kbd {
 .p-disclaimer { margin: 12px 0 0; }
 .p-section .ext-link { margin-top: 12px; }
 .hv-mark { border-color: var(--hv); color: var(--hv); }
+.mono-num { font-variant-numeric: tabular-nums; letter-spacing: 0.02em; }
+.p-ext { margin-top: 12px; }
+.p-ext + .p-disclaimer { margin-top: 14px; }
 .palette-results .pr-dia { width: 8px; height: 8px; border: 1.5px solid var(--hv); transform: rotate(45deg); flex: none; margin: 0 1px; }
 
 .loading {

@@ -42,6 +42,14 @@ Sources :
 - Les variantes connues d'un même nom sont fusionnées (« TotalEnergies » et « TOTAL ENERGIES »).
 - Les instances locales au nom ambigu (« SDIS », « CCAS », « Commission départementale… ») ne sont jamais fusionnées entre députés.
 - Les structures non nommées (SCI privées, par exemple) sont comptées dans la fiche, mais pas reliées.
+- **Rattachement au SIREN** via l'[API Recherche d'entreprises](https://recherche-entreprises.api.gouv.fr), avec une règle volontairement stricte :
+  - pour une quarantaine de grands groupes cotés, dont la raison sociale officielle diffère du nom d'usage (« L'Air Liquide société anonyme pour l'étude… »), une table de SIREN vérifiés est utilisée ;
+  - sinon, le SIREN n'est retenu que si **une seule** entreprise active porte exactement le nom déclaré (après normalisation). Les homonymes et les correspondances approximatives restent sans SIREN ;
+  - un nom d'un seul mot n'est jamais rattaché automatiquement : « Gouvernement », « Hôpital » ou « MAIF » renvoyaient à des SCI homonymes. Les vrais groupes d'un seul mot (Airbus, Enedis, Framatome…) sont dans la table vérifiée ;
+  - une « SCI X », une EARL ou un GAEC n'est jamais retenu pour un « X » déclaré sans cette forme juridique ;
+  - les banques mutualistes (Crédit Agricole, Caisse d'épargne, Crédit Mutuel) ne sont pas rattachées : leurs « parts » désignent souvent une caisse locale ;
+  - les structures qui partagent un SIREN sont fusionnées en un seul nœud ;
+  - les réponses de l'API sont mises en cache dans `raw/siren_cache.json`. `--no-siren` désactive l'étape.
 - Par défaut, le graphe ne montre que les structures citées par au moins deux députés. Une option affiche les autres.
 
 Limites :
@@ -55,6 +63,6 @@ HTML, CSS et JS sans framework. [force-graph](https://github.com/vasturiano/forc
 
 ## Pistes
 
-- Relier les structures HATVP à leur SIREN (RNE) pour fiabiliser les fusions.
+- Rattacher davantage de structures au SIREN (correspondance approximative relue à la main).
 - Ajouter les votes (scrutins publics) pour mesurer la proximité de vote.
 - Ajouter un historique des législatures précédentes.

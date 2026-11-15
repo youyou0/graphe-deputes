@@ -12,7 +12,12 @@ import io
 import json
 import re
 import sys
+import threading
+import time
 import unicodedata
+from concurrent.futures import ThreadPoolExecutor
+import urllib.error
+import urllib.parse
 import xml.etree.ElementTree as ET
 import urllib.request
 import zipfile
@@ -202,6 +207,7 @@ AMBIGUOUS = {
     "CENTRE HOSPITALIER", "EHPAD", "ASSOCIATION", "LYCEE", "COLLEGE", "ECOLE",
     "SYNDICAT DES EAUX", "SYNDICAT INTERCOMMUNAL", "MISSION LOCALE", "CAF", "CPAM",
     "CHAMBRE D AGRICULTURE", "CCI", "CHAMBRE DES METIERS", "PARC NATUREL REGIONAL", "PNR",
+    "SOCIETE IMMOBILIERE", "SOCIETE CIVILE IMMOBILIERE",
 }
 # « Commission départementale de… », « Conseil communal de… » : instances locales
 # dont le nom ne dit pas le territoire.
@@ -295,6 +301,160 @@ def describe(kind, it):
     return ", ".join(x for x in (short(text, 70), period(it)) if x) or None
 
 
+# ---------------------------------------------------------------------------
+# SIREN : rapprochement avec l'API publique Recherche d'entreprises
+# https://recherche-entreprises.api.gouv.fr (sans clé, 7 requêtes/s max)
+# ---------------------------------------------------------------------------
+
+SIREN_API = "https://recherche-entreprises.api.gouv.fr/search"
+SIREN_CACHE = ROOT / "raw" / "siren_cache.json"
+
+# Grands groupes dont la raison sociale officielle diffère du nom d'usage
+# (« L'AIR LIQUIDE SOCIETE ANONYME POUR L'ETUDE… »). SIREN vérifiés via l'API.
+# Banques mutualistes exclues : leurs « parts » désignent souvent une caisse locale.
+KNOWN_SIREN = {
+    "AIRLIQUIDE": "552096281", "TOTALENERGIES": "542051180", "LOREAL": "632012100",
+    "LVMH": "775670417", "LVMHMOETHENNESSYLOUISVUITTON": "775670417", "BNPPARIBAS": "662042449",
+    "ORANGE": "380129866", "AXA": "572093920", "ENGIE": "542107651", "SAFRAN": "562082909",
+    "MICHELIN": "855200887", "SCHNEIDERELECTRIC": "542048574", "RENAULT": "441639465",
+    "SOCIETEGENERALE": "552120222", "THALES": "552059024", "SAINTGOBAIN": "542039532",
+    "DANONE": "552032534", "BOUYGUES": "572015246", "VEOLIA": "403210032",
+    "VEOLIAENVIRONNEMENT": "403210032", "PERNODRICARD": "582041943", "ALSTOM": "389058447",
+    "AIRFRANCE": "420495178", "ADP": "552016628", "AEROPORTSDEPARIS": "552016628",
+    "SANOFI": "395030844", "VINCI": "552037806", "CAPGEMINI": "330703844", "KERING": "552075020",
+    "HERMES": "572076396", "HERMESINTERNATIONAL": "572076396", "ESSILORLUXOTTICA": "712049618",
+    "CARREFOUR": "652014051", "DASSAULTSYSTEMES": "322306440", "PUBLICIS": "542080601",
+    "PUBLICISGROUPE": "542080601", "LEGRAND": "421259615", "ACCOR": "602036444",
+    "EIFFAGE": "709802094", "EDF": "552081317", "ELECTRICITEDEFRANCE": "552081317",
+    "SNCF": "552049447", "LAPOSTE": "356000000",
+    # Noms d'un seul mot confirmés à la main (activité et siège cohérents).
+    "AIRBUS": "383474814", "ATLANPOLE": "254401839", "CARBIOS": "531530228",
+    "DEEZER": "898969852", "ENEDIS": "444608442", "ENERCOOP": "484223094",
+    "EUROAPI": "890974413", "FRAMATOME": "379041395", "IPAG": "784280802",
+    "KALRAY": "507620557", "LIDL": "343262622", "MACIF": "781452511",
+    "MANUTAN": "334668852", "NICOX": "403942642", "RECONQUETE": "900676032",
+    "SOITEC": "384711909", "VALLOUREC": "552142200", "VANTIVA": "333773174",
+    "VIRIDIEN": "969202241",
+}
+# Formes juridiques qui signalent une petite structure patrimoniale ou agricole :
+# « SCI ARDENNES DEVELOPPEMENT » n'est pas l'agence « Ardennes Développement ».
+SMALL_FORMS = {"SCI", "EARL", "GAEC", "SCEA", "GFA", "SC"}
+# « AIR LIQUIDE PRIME DE FIDELITE », « SANOFI ACTIONS » : même groupe.
+KNOWN_SUFFIXES = ("PRIMEDEFIDELITE", "PRIMEFIDELITE", "PRIME", "ACTIONS", "ACTION", "GROUPE", "GROUP")
+
+
+def company_tokens(s):
+    s = re.sub(r"\([^)]*\)", " ", s or "")
+    return re.sub(r"[^A-Z0-9 ]", " ", strip_accents(s).upper().replace(".", "")).split()
+
+
+def company_words(s):
+    return [w for w in company_tokens(s) if w not in LEGAL_FORMS]
+
+
+def norm_company(s):
+    """Nom comparable : sans accents, parenthèses, ponctuation ni forme juridique."""
+    s = re.sub(r"\([^)]*\)", " ", s or "")
+    s = re.sub(r"[^A-Z0-9 ]", " ", strip_accents(s).upper())
+    return "".join(w for w in s.split() if w not in LEGAL_FORMS)
+
+
+_rate_lock = threading.Lock()
+_last_call = [0.0]
+
+
+def _throttle(per_second=6):
+    """Espace les appels à l'API, même depuis plusieurs threads."""
+    with _rate_lock:
+        wait = _last_call[0] + 1 / per_second - time.monotonic()
+        if wait > 0:
+            time.sleep(wait)
+        _last_call[0] = time.monotonic()
+
+
+def prefetch_sirens(labels, cache, workers=6):
+    """Remplit le cache en parallèle (la latence réseau domine, pas le débit)."""
+    todo = sorted({strip_accents(l) for l in labels} - set(cache))
+    if not todo:
+        return
+    print(f"  SIREN : {len(todo)} recherches à faire")
+    done = 0
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        for _ in pool.map(lambda q: search_siren(q, cache), todo):
+            done += 1
+            if done % 200 == 0:
+                print(f"  SIREN : {done}/{len(todo)}")
+                SIREN_CACHE.write_text(json.dumps(dict(cache), ensure_ascii=False), encoding="utf-8")
+
+
+def search_siren(label, cache):
+    q = strip_accents(label)
+    if q in cache:
+        return cache[q]
+    _throttle()
+    url = SIREN_API + "?" + urllib.parse.urlencode({"q": q, "per_page": 10})
+    for attempt in range(5):
+        try:
+            with urllib.request.urlopen(url, timeout=20) as r:
+                res = json.loads(r.read().decode("utf-8")).get("results", [])
+            break
+        except urllib.error.HTTPError as e:
+            if e.code == 429:
+                time.sleep(2 + attempt * 2)
+                _throttle()
+                continue
+            res = []
+            break
+        except (urllib.error.URLError, TimeoutError):
+            time.sleep(2)
+    else:
+        return None  # échec réseau : non mis en cache, retenté au prochain lancement
+    cache[q] = [
+        {
+            "siren": x["siren"],
+            "nom": x.get("nom_raison_sociale") or x.get("nom_complet"),
+            "complet": x.get("nom_complet"),
+            "actif": x.get("etat_administratif") == "A",
+            "naf": x.get("activite_principale"),
+            "commune": (x.get("siege") or {}).get("libelle_commune"),
+        }
+        for x in res
+    ]
+    return cache[q]
+
+
+def resolve_siren(key, label, cache):
+    """SIREN si la correspondance est sûre, sinon None.
+
+    Règle : table des grands groupes, sinon une seule entreprise active dont la
+    raison sociale normalisée est exactement le nom déclaré. Plusieurs homonymes
+    actifs = ambigu = pas de rattachement.
+    """
+    if key in KNOWN_SIREN:
+        return KNOWN_SIREN[key], None
+    for k, siren in KNOWN_SIREN.items():
+        rest = key[len(k):]
+        if key.startswith(k) and rest in KNOWN_SUFFIXES:
+            return siren, None
+    if "#" in key or len(key) < 3:
+        return None, None
+    # Un nom d'un seul mot (« Gouvernement », « Hôpital », « MAIF ») a presque
+    # toujours un homonyme sans rapport : seule la table ci-dessus fait foi.
+    if len(company_words(label)) < 2:
+        return None, None
+    declared_forms = set(company_tokens(label)) & SMALL_FORMS
+    cands = search_siren(label, cache) or []
+    exact = {
+        c["siren"]: c for c in cands
+        if c["actif"] and norm_company(c["nom"]) == key
+        and (set(company_tokens(c["nom"])) & SMALL_FORMS) <= declared_forms
+    }
+    if len(exact) == 1:
+        c = next(iter(exact.values()))
+        return c["siren"], c
+    return None, None
+
+
 def fetch(url, path):
     if "--offline" in sys.argv and path.exists():
         return
@@ -371,17 +531,61 @@ def add_hatvp(data):
         dep = next(d for d in data["deputes"] if d["id"] == dep_id)
         dep["hatvp"]["masquees"] = counts
 
-    for key, e in entities.items():
+    # Rattachement au SIREN, puis fusion des structures qui partagent le même.
+    cache = json.loads(SIREN_CACHE.read_text(encoding="utf-8")) if SIREN_CACHE.exists() else {}
+    target_of, merged = {}, {}  # clé -> id du nœud ; id -> structure fusionnée
+    use_api = "--no-siren" not in sys.argv
+    if use_api:
+        prefetch_sirens(
+            [max(e["labels"], key=e["labels"].get) for k, e in entities.items()
+             if "#" not in k and len(k) >= 3 and k not in KNOWN_SIREN],
+            cache,
+        )
+    for i, (key, e) in enumerate(sorted(entities.items())):
         label = max(e["labels"].items(), key=lambda kv: (kv[1], -len(kv[0])))[0]
-        data["organes"].append({"id": "HV:" + key, "kind": "HATVP", "libelle": label, "abrev": None, "couleur": None})
+        siren, cand = resolve_siren(key, label, cache) if use_api else (None, None)
+        node_id = f"HV:S{siren}" if siren else f"HV:{key}"
+        target_of[key] = node_id
+        m = merged.setdefault(node_id, {"labels": {}, "siren": siren, "cand": cand})
+        for lab, n in e["labels"].items():
+            m["labels"][lab] = m["labels"].get(lab, 0) + n
+        if use_api and i % 100 == 0:
+            print(f"  SIREN : {i}/{len(entities)}")
+            SIREN_CACHE.write_text(json.dumps(cache, ensure_ascii=False), encoding="utf-8")
 
-    data["links"].extend(links)
+    for node_id, m in merged.items():
+        if m["siren"] and not m["cand"]:
+            # Groupe de la table KNOWN_SIREN : on récupère sa fiche officielle.
+            m["cand"] = next((c for c in (search_siren(m["siren"], cache) or []) if c["siren"] == m["siren"]), None)
+        label = max(m["labels"].items(), key=lambda kv: (kv[1], -len(kv[0])))[0]
+        org = {"id": node_id, "kind": "HATVP", "libelle": label, "abrev": None, "couleur": None}
+        if m["siren"]:
+            c = m["cand"] or {}
+            org.update({"siren": m["siren"], "nomOfficiel": c.get("complet"), "naf": c.get("naf"), "commune": c.get("commune")})
+        data["organes"].append(org)
+    if use_api:
+        SIREN_CACHE.write_text(json.dumps(cache, ensure_ascii=False), encoding="utf-8")
+
+    # Après fusion, un député peut citer deux fois la même structure au même titre.
+    final, seen_links = [], set()
+    for l in links:
+        l["target"] = target_of[l["target"][3:]]
+        k = (l["source"], l["target"], l["kind"])
+        if k not in seen_links:
+            seen_links.add(k)
+            final.append(l)
+
+    data["links"].extend(final)
     data["kinds"].update(HV_KINDS)
     data["kinds"]["HATVP"] = "Structure déclarée (HATVP)"
     data["hatvp"] = {"source": HATVP_XML_URL, "declarants": len(latest)}
-    shared = sum(1 for e in entities.values() if len(e["deps"]) > 1)
-    print(f"HATVP : {len(latest)} déclarations rattachées, {len(entities)} structures "
-          f"({shared} citées par plusieurs députés), {len(links)} liens")
+    deps_of = {}
+    for l in final:
+        deps_of.setdefault(l["target"], set()).add(l["source"])
+    shared = sum(1 for s in deps_of.values() if len(s) > 1)
+    with_siren = sum(1 for m in merged.values() if m["siren"])
+    print(f"HATVP : {len(latest)} déclarations rattachées, {len(merged)} structures "
+          f"({shared} citées par plusieurs députés, {with_siren} avec SIREN), {len(final)} liens")
 
 
 if __name__ == "__main__":

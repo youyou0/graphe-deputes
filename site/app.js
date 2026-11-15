@@ -582,6 +582,14 @@
             <p class="p-kind">Citée dans ${plural(deps.length, "déclaration", "déclarations")} d'intérêts</p>
           </div>
         </div>
+        ${o.siren ? `<dl class="facts">
+          <dt>SIREN</dt><dd class="mono-num">${esc(o.siren.replace(/(\d{3})(?=\d)/g, "$1 "))}</dd>
+          ${o.nomOfficiel && norm(o.nomOfficiel) !== norm(o.libelle) ? `<dt>Raison sociale</dt><dd>${esc(o.nomOfficiel)}</dd>` : ""}
+          ${o.naf ? `<dt>Code NAF</dt><dd>${esc(o.naf)}</dd>` : ""}
+          ${o.commune ? `<dt>Siège</dt><dd>${esc(o.commune)}</dd>` : ""}
+        </dl>
+        <a class="ext-link p-ext" href="https://annuaire-entreprises.data.gouv.fr/entreprise/${esc(o.siren)}" target="_blank" rel="noopener">Fiche sur l'Annuaire des entreprises ${EXT}</a>`
+        : `<p class="p-note p-disclaimer">Pas de SIREN rattaché : aucun nom officiel ne correspond exactement à ce libellé.</p>`}
         <p class="p-note p-disclaimer">Lien déclaré par le député à la HATVP. Il n'indique ni conflit d'intérêts ni prise de position.</p>
       </div>`;
     if (deps.length > 1) {
@@ -682,7 +690,7 @@
 
     const index = [
       ...deputes.map((d) => ({ n: d, key: norm(`${d.prenom} ${d.nom} ${d.dep || ""} ${d.numDep || ""}`) })),
-      ...organes.map((o) => ({ n: o, key: norm(`${o.libelle} ${o.abrev || ""}`) })),
+      ...organes.map((o) => ({ n: o, key: norm(`${o.libelle} ${o.abrev || ""} ${o.nomOfficiel || ""} ${o.siren || ""}`) })),
     ];
 
     const open = () => { back.hidden = false; input.value = ""; render(); input.focus(); };
@@ -726,7 +734,7 @@
       if (e.key === "ArrowDown") { idx = Math.min(idx + 1, results.length - 1); mark(); e.preventDefault(); }
       else if (e.key === "ArrowUp") { idx = Math.max(idx - 1, 0); mark(); e.preventDefault(); }
       else if (e.key === "Enter") choose(idx);
-      else if (e.key === "Escape") close();
+      else if (e.key === "Escape") { e.stopPropagation(); close(); } // ne ferme pas aussi la fiche
     });
     ul.addEventListener("click", (e) => { const li = e.target.closest("[data-i]"); if (li) choose(+li.dataset.i); });
     ul.addEventListener("mousemove", (e) => { const li = e.target.closest("[data-i]"); if (li && +li.dataset.i !== idx) { idx = +li.dataset.i; mark(); } });
