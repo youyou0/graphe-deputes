@@ -89,6 +89,10 @@ jobs:
           print(f"{n} députés, {d['scrutins']['total']} scrutins, dernier le {d['scrutins']['dernier']}")
           EOF
 
+      # Version des fichiers : un navigateur ne garde jamais un ancien app.js avec un nouvel index.html.
+      - name: Numéroter les fichiers
+        run: sed -i "s/?v=dev/?v=${GITHUB_SHA::8}-${GITHUB_RUN_NUMBER}/g" site/index.html
+
       - uses: actions/configure-pages@v5
 
       - uses: actions/upload-pages-artifact@v3

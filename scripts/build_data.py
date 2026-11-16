@@ -9,6 +9,7 @@ Usage :
 """
 import csv
 import gzip
+import http.client
 import io
 import json
 import re
@@ -26,6 +27,9 @@ from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+# Coupures réseau à rattraper : une connexion fermée (RemoteDisconnected), une réponse
+# tronquée ou un JSON illisible ne doivent pas faire échouer toute la mise à jour.
+NET_ERRORS = (OSError, http.client.HTTPException, ValueError)
 RAW = ROOT / "raw" / "amo.zip"
 OUT = ROOT / "site" / "data.json"
 URL = (
@@ -59,8 +63,7 @@ def load_zip():
     if "--offline" not in sys.argv:
         RAW.parent.mkdir(parents=True, exist_ok=True)
         print("Téléchargement…", URL)
-        with urllib.request.urlopen(URL) as r:
-            RAW.write_bytes(r.read())
+        download(URL, RAW)
     return zipfile.ZipFile(io.BytesIO(RAW.read_bytes()))
 
 
@@ -410,7 +413,7 @@ def search_siren(label, cache):
                 continue
             res = []
             break
-        except (urllib.error.URLError, TimeoutError):
+        except NET_ERRORS:
             time.sleep(2)
     else:
         return None  # échec réseau : non mis en cache, retenté au prochain lancement
@@ -460,12 +463,31 @@ def resolve_siren(key, label, cache):
     return None, None
 
 
+def download(url, path, tries=4):
+    """Télécharge avec nouveaux essais espacés. Si la source reste injoignable mais qu'une
+    copie précédente existe, on la garde (le site est publié avec des données de la veille)."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    for attempt in range(tries):
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": "graphe-deputes (open data)"})
+            with urllib.request.urlopen(req, timeout=120) as r:
+                body = r.read()
+            path.write_bytes(body)
+            return
+        except NET_ERRORS as e:
+            print(f"  Échec ({e.__class__.__name__}), essai {attempt + 1}/{tries} : {url}")
+            time.sleep(5 * (attempt + 1))
+    if path.exists():
+        print(f"  Source injoignable, copie précédente réutilisée : {path.name}")
+        return
+    raise RuntimeError(f"Téléchargement impossible : {url}")
+
+
 def fetch(url, path):
     if "--offline" in sys.argv and path.exists():
         return
     print("Téléchargement…", url)
-    with urllib.request.urlopen(url) as r:
-        path.write_bytes(r.read())
+    download(url, path)
 
 
 def add_hatvp(data):
@@ -768,7 +790,7 @@ def add_photos(data):
         try:
             with urllib.request.urlopen(req, timeout=30) as r:
                 body = r.read()
-        except (urllib.error.URLError, TimeoutError):
+        except NET_ERRORS:
             return  # retenté au prochain lancement
         if body[:3] == b"\xff\xd8\xff":  # vrai JPEG, pas une page d'erreur
             (PHOTO_CACHE / f"{pid}.jpg").write_bytes(body)
@@ -807,7 +829,7 @@ def fetch_videos(seances):
         try:
             with urllib.request.urlopen(req, timeout=30) as r:
                 html = r.read().decode("utf-8", "ignore")
-        except (urllib.error.URLError, TimeoutError):
+        except NET_ERRORS:
             return uid, None  # non mis en cache : retenté au prochain lancement
         m = VIDEO_RE.search(html)
         return uid, m.group(0) if m else ""

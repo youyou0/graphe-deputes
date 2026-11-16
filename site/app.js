@@ -130,7 +130,7 @@
   };
 
   function bindChrome() {
-    $("#zoomFit").addEventListener("click", () => graph.zoomToFit(600, 60));
+    $("#zoomFit").addEventListener("click", () => fitDeputies(600));
     $("#zoomIn").addEventListener("click", () => graph.zoom(graph.zoom() * 1.5, 300));
     $("#zoomOut").addEventListener("click", () => graph.zoom(graph.zoom() / 1.5, 300));
     $("#filtersBtn").addEventListener("click", () => toggleFilters());
@@ -275,11 +275,12 @@
         fitted = true;
         // Si un nœud est sélectionné (lien partagé, recherche), on reste centré dessus.
         if (state.selected) focusOn(state.selected);
-        else graph.zoomToFit(500, 60);
+        else fitDeputies(500);
       });
 
-    graph.d3Force("charge").strength((n) => (n.type === "org" ? -60 - n.size * 1.5 : -14)).distanceMax(400);
-    graph.d3Force("link").distance((l) => (l.kind === "GP" ? 26 : 60)).strength((l) => (l.kind === "GP" ? 0.5 : 0.04));
+    // Disposition compacte : à l'ouverture, les députés sont assez grands pour montrer leur visage.
+    graph.d3Force("charge").strength((n) => (n.type === "org" ? -40 - n.size * 0.8 : -16)).distanceMax(260);
+    graph.d3Force("link").distance((l) => (l.kind === "GP" ? 18 : 34)).strength((l) => (l.kind === "GP" ? 0.5 : 0.04));
 
     window.__graph = graph; // pratique pour déboguer dans la console
     const ro = new ResizeObserver(() => graph.width(el.clientWidth).height(el.clientHeight));
@@ -306,6 +307,9 @@
       + `<span><b>${data.links.length.toLocaleString("fr-FR")}</b> liens</span>`;
   }
 
+  // Cadrage sur les députés (pas sur les structures isolées autour) : vue plus serrée, visages visibles.
+  function fitDeputies(ms) { graph.zoomToFit(ms, 40, (n) => n.type === "dep"); }
+
   function focusNode() { return state.hover || state.selected; }
   function isFocusLink(l) { const f = focusNode(); return f && (l.source === f || l.target === f); }
   function isDimmed(n) {
@@ -326,8 +330,8 @@
 
     if (n.type === "dep") {
       // Visage dès qu'il fait au moins ~12 px à l'écran ; un point coloré sinon (vue d'ensemble lisible).
-      const faceR = focus ? 5.5 : 4.2;
-      const img = state.faces && !dim && faceR * scale >= 6 ? photo(n) : null;
+      const faceR = focus ? 6 : 4.6;
+      const img = state.faces && !dim && faceR * scale >= 3.2 ? photo(n) : null;
       const r = img ? faceR : focus ? 5 : 3.2;
       ctx.beginPath();
       ctx.arc(n.x, n.y, r, 0, 2 * Math.PI);
