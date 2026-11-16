@@ -6,3 +6,8 @@ site/scrutins.json
 site/videos.json
 site/votes/
 site/interventions/
+
+# Prototype local de la carte des sujets (remplacé par scripts/sujets/)
+labs/
+site/sujets.json.gz
+site/photos/

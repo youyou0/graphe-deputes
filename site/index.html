@@ -4,83 +4,143 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Graphe des députés</title>
-  <meta name="description" content="Les liens entre les 577 députés de la 17e législature : groupes, commissions, groupes d'études et d'amitié, organismes extérieurs. Données publiques de l'Assemblée nationale.">
+  <meta name="description" content="Les députés de la 17e législature : leurs liens (groupes, commissions, intérêts déclarés), leurs votes, leurs interventions, et la carte des sujets débattus en séance. Données publiques de l'Assemblée nationale et de la HATVP.">
+  <meta name="theme-color" content="#0f1011">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="app">
-    <aside class="sidebar" aria-label="Filtres">
+  <a class="skip" href="#content">Aller au contenu</a>
+  <div class="app" data-view="graphe">
+    <aside class="sidebar" aria-label="Navigation et filtres">
       <header class="brand">
         <svg class="brand-mark" viewBox="0 0 20 20" aria-hidden="true">
           <circle cx="5" cy="6" r="2.4"/><circle cx="15" cy="5" r="2.4"/><circle cx="10" cy="15" r="2.4"/>
           <path d="M5 6 15 5M5 6l5 9M15 5l-5 10"/>
         </svg>
         <div>
-          <h1>Graphe des députés</h1>
+          <p class="brand-name">Graphe des députés</p>
           <p class="brand-sub">17e législature</p>
         </div>
+        <button class="icon-btn filters-btn" id="filtersBtn" type="button" aria-expanded="false" aria-controls="sideViews" title="Filtres">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 4h11M4.5 8h7M6.5 12h3"/></svg>
+        </button>
       </header>
 
       <button class="search-trigger" id="searchTrigger" type="button">
         <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5"/><path d="m10.5 10.5 3 3"/></svg>
-        <span>Rechercher un député, un organe</span>
+        <span>Rechercher</span>
         <kbd>Ctrl K</kbd>
       </button>
 
-      <section class="side-section">
-        <h2>Assemblée nationale</h2>
-        <div id="kindList" class="toggle-list"></div>
-      </section>
+      <nav class="nav" aria-label="Sections">
+        <a class="nav-item" href="#" data-nav="graphe">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="4" cy="5" r="1.8"/><circle cx="12" cy="4" r="1.8"/><circle cx="8" cy="12" r="1.8"/><path d="M5.7 4.8 10.2 4.2M5 6.5l2.2 3.9M11.2 5.7 8.8 10.3"/></svg>
+          <span>Liens entre députés</span>
+        </a>
+        <a class="nav-item" href="#sujets" data-nav="sujets">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="5.5" cy="6" r="3"/><circle cx="11.5" cy="9.5" r="2.2"/><circle cx="6.5" cy="12.5" r="1.4"/></svg>
+          <span>Sujets débattus</span>
+          <span class="nav-new">nouveau</span>
+        </a>
+      </nav>
 
-      <section class="side-section">
-        <h2>Déclarations d'intérêts</h2>
-        <p class="side-note"><span id="hvCount"></span> déclarations HATVP rattachées</p>
-        <div id="hvList" class="toggle-list"></div>
-      </section>
+      <div class="side-views" id="sideViews">
+        <div class="side-view" data-side="graphe">
+          <section class="side-section">
+            <h2>Assemblée nationale</h2>
+            <div id="kindList" class="toggle-list"></div>
+          </section>
 
-      <section class="side-section">
-        <div class="side-head">
-          <h2>Groupes politiques</h2>
-          <button class="link-btn" id="groupsAll" type="button">Tout afficher</button>
+          <section class="side-section">
+            <h2>Déclarations d'intérêts</h2>
+            <p class="side-note"><span id="hvCount"></span> déclarations HATVP rattachées</p>
+            <div id="hvList" class="toggle-list"></div>
+          </section>
+
+          <section class="side-section">
+            <div class="side-head">
+              <h2>Groupes politiques</h2>
+              <button class="link-btn" id="groupsAll" type="button">Tout afficher</button>
+            </div>
+            <div id="groupList" class="toggle-list"></div>
+          </section>
+
+          <section class="side-section">
+            <h2>Affichage</h2>
+            <div class="toggle-list">
+              <button class="toggle" type="button" id="facesToggle" aria-pressed="true">
+                <span class="t-check"><svg viewBox="0 0 12 12"><path d="m2.5 6.2 2.3 2.3 4.7-5"/></svg></span>
+                <span class="t-label">Visages des députés (en zoomant)</span>
+              </button>
+            </div>
+          </section>
         </div>
-        <div id="groupList" class="toggle-list"></div>
-      </section>
+
+        <div class="side-view" data-side="sujets" hidden>
+          <section class="side-section side-text">
+            <h2>Comment lire la carte</h2>
+            <p>Chaque bulle est un <b>sujet</b> : un ensemble de questions au gouvernement, de questions orales ou de débats budgétaires qui parlent de la même chose.</p>
+            <p>Deux bulles proches parlent de choses proches. La taille suit le nombre de mots prononcés sur la période choisie.</p>
+            <p>Les cercles en pointillés sont des <b>sujets émergents</b> : des débats récents qu'aucun sujet existant n'accueille vraiment.</p>
+          </section>
+          <section class="side-section side-text">
+            <h2>Méthode</h2>
+            <p>Les sujets ont été appris sur les débats d'octobre 2025 à février 2026, relus, puis figés : chaque nouveau débat est rattaché au plus proche, ou signalé comme nouveau. Les autres textes de loi gardent leur intitulé officiel.</p>
+            <p>Les noms des sujets sont proposés automatiquement : certains restent à relire.</p>
+          </section>
+        </div>
+      </div>
 
       <footer class="side-foot">
-        <p>Sources : <a href="https://data.assemblee-nationale.fr/acteurs/deputes-en-exercice" target="_blank" rel="noopener">open data de l'Assemblée nationale</a> et <a href="https://www.hatvp.fr/open-data/" target="_blank" rel="noopener">déclarations publiées par la HATVP</a>, extraits du <span id="genDate"></span>.</p>
+        <p>Sources : <a href="https://data.assemblee-nationale.fr/" target="_blank" rel="noopener">open data de l'Assemblée nationale</a> et <a href="https://www.hatvp.fr/open-data/" target="_blank" rel="noopener">HATVP</a>, mises à jour le <span id="genDate"></span>. Photos © Assemblée nationale.</p>
         <p>Uniquement des informations publiques, telles que déclarées. Un lien n'indique ni conflit d'intérêts ni prise de position.</p>
       </footer>
     </aside>
 
-    <main class="stage">
+    <main class="stage view" id="content" data-view-pane="graphe" tabindex="-1">
+      <h1 class="sr-only">Liens entre les députés</h1>
       <div class="stage-bar">
-        <div class="stats" id="stats"></div>
+        <div class="stats" id="stats" aria-live="polite"></div>
         <div class="stage-actions">
+          <button class="icon-btn" id="zoomIn" type="button" title="Zoomer" aria-label="Zoomer">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3.5v9M3.5 8h9"/></svg>
+          </button>
+          <button class="icon-btn" id="zoomOut" type="button" title="Dézoomer" aria-label="Dézoomer">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8h9"/></svg>
+          </button>
           <button class="icon-btn" id="zoomFit" type="button" title="Recentrer le graphe" aria-label="Recentrer le graphe">
             <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 6V2h4M14 6V2h-4M2 10v4h4M14 10v4h-4"/></svg>
           </button>
         </div>
       </div>
-      <div id="graph" class="graph" role="img" aria-label="Graphe des liens entre députés et organes"></div>
+      <div id="graph" class="graph" role="img" aria-label="Graphe des liens entre députés et organes. Utilisez la recherche (Ctrl K) pour accéder à un député au clavier."></div>
       <div class="tooltip" id="tooltip" hidden></div>
+      <div class="hint" id="hint" hidden>
+        <p><b>Explorer le graphe.</b> Chaque point est un député, relié à ses groupes, commissions et aux structures de sa déclaration d'intérêts. Cliquez sur un nœud pour voir sa fiche, zoomez pour voir les visages.</p>
+        <button class="icon-btn" id="hintClose" type="button" aria-label="Fermer l'aide">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 4 8 8M12 4l-8 8"/></svg>
+        </button>
+      </div>
       <div class="legend" aria-hidden="true">
         <span><i class="lg-dot"></i>Député</span>
         <span><i class="lg-org"></i>Organe de l'Assemblée</span>
         <span><i class="lg-hv"></i>Structure déclarée à la HATVP</span>
         <span>Taille selon le nombre de députés</span>
       </div>
-      <div class="loading" id="loading">Chargement des données…</div>
+      <div class="loading" id="loading"><span class="spinner" aria-hidden="true"></span>Chargement des données…</div>
     </main>
 
-    <aside class="panel" id="panel" aria-live="polite" hidden>
-      <button class="icon-btn panel-close" id="panelClose" type="button" aria-label="Fermer la fiche">
+    <aside class="panel" id="panel" aria-label="Détail" hidden>
+      <button class="icon-btn panel-close" id="panelClose" type="button" aria-label="Fermer le détail">
         <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 4 8 8M12 4l-8 8"/></svg>
       </button>
-      <div id="panelBody"></div>
+      <div id="panelBody" aria-live="polite"></div>
     </aside>
+
+    <main class="sujets view" data-view-pane="sujets" id="sujetsView" tabindex="-1" hidden></main>
   </div>
 
   <div class="fiche" id="fiche" hidden></div>
@@ -89,14 +149,15 @@
     <div class="palette" role="dialog" aria-modal="true" aria-label="Recherche">
       <div class="palette-input">
         <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5"/><path d="m10.5 10.5 3 3"/></svg>
-        <input id="paletteInput" type="text" placeholder="Nom, département, commission, entreprise, SIREN…" autocomplete="off" spellcheck="false">
+        <input id="paletteInput" type="text" placeholder="Député, commission, entreprise, sujet…" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="true" aria-controls="paletteResults">
         <kbd>Échap</kbd>
       </div>
-      <ul class="palette-results" id="paletteResults" role="listbox"></ul>
+      <ul class="palette-results" id="paletteResults" role="listbox" aria-label="Résultats"></ul>
     </div>
   </div>
 
   <script src="vendor/force-graph.min.js"></script>
+  <script src="sujets.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

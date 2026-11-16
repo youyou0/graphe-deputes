@@ -1,0 +1,7 @@
+# Carte des sujets (scripts/sujets/run.py). Sur GitHub Actions, torch est installé en version CPU.
+torch
+sentence-transformers
+scikit-learn
+numpy
+# Seulement pour réapprendre le référentiel (--refit) :
+# umap-learn

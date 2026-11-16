@@ -1,0 +1,6850 @@
+{
+ "periode": [
+  "2025-10",
+  "2026-02"
+ ],
+ "seuil": 0.7232465744018555,
+ "sujets": [
+  {
+   "id": "S001",
+   "mots": [
+    "cdhr",
+    "débroussaillement",
+    "cehr",
+    "tranches",
+    "improductive",
+    "latentes"
+   ],
+   "titres": [
+    [
+     "Après l’article 3",
+     51
+    ],
+    [
+     "Après l’article 2",
+     40
+    ],
+    [
+     "Article 2",
+     18
+    ],
+    [
+     "Article 3",
+     14
+    ],
+    [
+     "Après l’article 7",
+     2
+    ]
+   ],
+   "familles": {
+    "PLF": 131,
+    "PLFSS": 1,
+    "QAG": 1
+   },
+   "n_ref": 133,
+   "x": 0.4445,
+   "y": 0.6117
+  },
+  {
+   "id": "S002",
+   "mots": [
+    "intéressement",
+    "ppve",
+    "patronale",
+    "compléments",
+    "conventionnelles",
+    "ruptures"
+   ],
+   "titres": [
+    [
+     "Après l’article 8",
+     28
+    ],
+    [
+     "Article 8",
+     17
+    ],
+    [
+     "Après l’article 5",
+     7
+    ],
+    [
+     "Après l’article 7",
+     7
+    ],
+    [
+     "Après l’article 3",
+     6
+    ]
+   ],
+   "familles": {
+    "PLF": 17,
+    "PLFSS": 95,
+    "QAG": 1
+   },
+   "n_ref": 113,
+   "x": 0.2751,
+   "y": 0.5738
+  },
+  {
+   "id": "S003",
+   "mots": [
+    "arrco",
+    "agirc",
+    "acoss",
+    "cnieg",
+    "motion",
+    "paritarisme"
+   ],
+   "titres": [
+    [
+     "Discussion générale",
+     17
+    ],
+    [
+     "Article 12",
+     11
+    ],
+    [
+     "Motion de rejet préalable",
+     10
+    ],
+    [
+     "Explications de vote",
+     9
+    ],
+    [
+     "Article 6",
+     8
+    ]
+   ],
+   "familles": {
+    "PLF": 1,
+    "QAG": 3,
+    "PLFSS": 97
+   },
+   "n_ref": 101,
+   "x": 0.3201,
+   "y": 0.3608
+  },
+  {
+   "id": "S004",
+   "mots": [
+    "séances",
+    "minuit",
+    "terminer",
+    "siéger",
+    "rythme",
+    "orateur"
+   ],
+   "titres": [
+    [
+     "Après l’article 12",
+     12
+    ],
+    [
+     "Après l’article 2",
+     11
+    ],
+    [
+     "Première partie",
+     10
+    ],
+    [
+     "Après l’article 3",
+     6
+    ],
+    [
+     "Article 49",
+     6
+    ]
+   ],
+   "familles": {
+    "PLF": 73,
+    "PLFSS": 25
+   },
+   "n_ref": 98,
+   "x": 0.94,
+   "y": 0.5865
+  },
+  {
+   "id": "S005",
+   "mots": [
+    "zucman",
+    "noblesse",
+    "patrimoines",
+    "millionnaires",
+    "héritages",
+    "différentielle"
+   ],
+   "titres": [
+    [
+     "Après l’article 3",
+     44
+    ],
+    [
+     "Article 3",
+     19
+    ],
+    [
+     "Article 2",
+     6
+    ],
+    [
+     "Après l’article 2",
+     6
+    ],
+    [
+     "Article 4",
+     5
+    ]
+   ],
+   "familles": {
+    "PLF": 84,
+    "QAG": 3,
+    "PLFSS": 8
+   },
+   "n_ref": 95,
+   "x": 0.5828,
+   "y": 0.5446
+  },
+  {
+   "id": "S006",
+   "mots": [
+    "annulations",
+    "plfg",
+    "liminaire",
+    "hcfp",
+    "etpt",
+    "photographie"
+   ],
+   "titres": [
+    [
+     "Discussion générale",
+     36
+    ],
+    [
+     "Article liminaire",
+     18
+    ],
+    [
+     "Motion de rejet préalable",
+     8
+    ],
+    [
+     "Présentation",
+     7
+    ],
+    [
+     "Article 5 et état B",
+     4
+    ]
+   ],
+   "familles": {
+    "QAG": 9,
+    "PLF": 74,
+    "PLFSS": 6
+   },
+   "n_ref": 89,
+   "x": 0.5595,
+   "y": 0.4073
+  },
+  {
+   "id": "S007",
+   "mots": [
+    "superprofits",
+    "implicite",
+    "quote",
+    "dividendes",
+    "patriotisme",
+    "fille"
+   ],
+   "titres": [
+    [
+     "Article 4",
+     34
+    ],
+    [
+     "Après l’article 12",
+     25
+    ],
+    [
+     "Après l’article 7",
+     8
+    ],
+    [
+     "Après l’article 4",
+     5
+    ],
+    [
+     "Après l’article 8",
+     4
+    ]
+   ],
+   "familles": {
+    "PLF": 67,
+    "QAG": 1,
+    "PLFSS": 16
+   },
+   "n_ref": 84,
+   "x": 0.6194,
+   "y": 0.5579
+  },
+  {
+   "id": "S008",
+   "mots": [
+    "motion",
+    "emeis",
+    "liminaire",
+    "zucman",
+    "plfg",
+    "intransigeance"
+   ],
+   "titres": [
+    [
+     "Motion de rejet préalable",
+     13
+    ],
+    [
+     "Explications de vote",
+     12
+    ],
+    [
+     "Discussion générale",
+     10
+    ],
+    [
+     "Après l’article 3",
+     10
+    ],
+    [
+     "Article liminaire",
+     8
+    ]
+   ],
+   "familles": {
+    "QAG": 3,
+    "PLF": 55,
+    "PLFSS": 19
+   },
+   "n_ref": 77,
+   "x": 0.6476,
+   "y": 0.3984
+  },
+  {
+   "id": "S009",
+   "mots": [
+    "lmnp",
+    "locatives",
+    "amortissement",
+    "bailleurs",
+    "bailleur",
+    "locative"
+   ],
+   "titres": [
+    [
+     "Après l’article 12",
+     28
+    ],
+    [
+     "Article 27",
+     9
+    ],
+    [
+     "Après l’article 27",
+     8
+    ],
+    [
+     "Après l’article 25",
+     7
+    ],
+    [
+     "Après l’article 3",
+     6
+    ]
+   ],
+   "familles": {
+    "PLF": 73,
+    "PLFSS": 3
+   },
+   "n_ref": 76,
+   "x": 0.2731,
+   "y": 0.883
+  },
+  {
+   "id": "S010",
+   "mots": [
+    "chèques",
+    "cisap",
+    "décile",
+    "journalistes",
+    "vacances",
+    "gratuites"
+   ],
+   "titres": [
+    [
+     "Après l’article 8",
+     18
+    ],
+    [
+     "Après l’article 12",
+     15
+    ],
+    [
+     "Après l’article 2",
+     14
+    ],
+    [
+     "Article 8",
+     7
+    ],
+    [
+     "Article 5",
+     5
+    ]
+   ],
+   "familles": {
+    "PLF": 34,
+    "QAG": 2,
+    "PLFSS": 36,
+    "QOSD": 1
+   },
+   "n_ref": 73,
+   "x": 0.3673,
+   "y": 0.5839
+  },
+  {
+   "id": "S011",
+   "mots": [
+    "index",
+    "trimestres",
+    "smics",
+    "smic",
+    "patronales",
+    "patronale"
+   ],
+   "titres": [
+    [
+     "Après l’article 8",
+     30
+    ],
+    [
+     "Après l’article 7",
+     9
+    ],
+    [
+     "Article 8",
+     6
+    ],
+    [
+     "Article 11",
+     6
+    ],
+    [
+     "Après l’article 2",
+     4
+    ]
+   ],
+   "familles": {
+    "PLF": 8,
+    "PLFSS": 61
+   },
+   "n_ref": 69,
+   "x": 0.2255,
+   "y": 0.5347
+  },
+  {
+   "id": "S012",
+   "mots": [
+    "holding",
+    "holdings",
+    "réinvestissement",
+    "somptuaires",
+    "copé",
+    "patrimoniales"
+   ],
+   "titres": [
+    [
+     "Article 3",
+     52
+    ],
+    [
+     "Après l’article 12",
+     6
+    ],
+    [
+     "Après l’article 3",
+     3
+    ],
+    [
+     "Après l’article 10",
+     3
+    ],
+    [
+     "Article 2",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 66,
+    "PLFSS": 2
+   },
+   "n_ref": 68,
+   "x": 0.5493,
+   "y": 0.5729
+  },
+  {
+   "id": "S013",
+   "mots": [
+    "motion",
+    "minuit",
+    "solennel",
+    "rejet",
+    "séances",
+    "évité"
+   ],
+   "titres": [
+    [
+     "Motion de rejet préalable",
+     11
+    ],
+    [
+     "Explications de vote",
+     9
+    ],
+    [
+     "Discussion générale",
+     8
+    ],
+    [
+     "Article 6",
+     4
+    ],
+    [
+     "Première partie",
+     3
+    ]
+   ],
+   "familles": {
+    "PLF": 15,
+    "PLFSS": 51
+   },
+   "n_ref": 66,
+   "x": 0.4121,
+   "y": 0.3672
+  },
+  {
+   "id": "S014",
+   "mots": [
+    "répartiteurs",
+    "pharmacies",
+    "pharmaciens",
+    "officines",
+    "officine",
+    "honoraires"
+   ],
+   "titres": [
+    [
+     "Article 11",
+     8
+    ],
+    [
+     "Article 21",
+     7
+    ],
+    [
+     "Après l’article 11",
+     5
+    ],
+    [
+     "Après l’article 26",
+     5
+    ],
+    [
+     "Article 22",
+     4
+    ]
+   ],
+   "familles": {
+    "PLFSS": 60,
+    "PLF": 1
+   },
+   "n_ref": 61,
+   "x": 0.1013,
+   "y": 0.2721
+  },
+  {
+   "id": "S015",
+   "mots": [
+    "loyers",
+    "bailleur",
+    "fnap",
+    "bailleurs",
+    "locatif",
+    "locataires"
+   ],
+   "titres": [
+    [
+     "Après l’article 12",
+     29
+    ],
+    [
+     "Article 12",
+     7
+    ],
+    [
+     "Après l’article 3",
+     3
+    ],
+    [
+     "Après l’article 27",
+     3
+    ],
+    [
+     "Crise du logement",
+     2
+    ]
+   ],
+   "familles": {
+    "QAG": 5,
+    "PLF": 51,
+    "PLFSS": 1,
+    "QOSD": 1
+   },
+   "n_ref": 58,
+   "x": 0.1747,
+   "y": 0.8728
+  },
+  {
+   "id": "S016",
+   "mots": [
+    "nutriscore",
+    "nutri",
+    "score",
+    "obésité",
+    "nutritionnelle",
+    "roquefort"
+   ],
+   "titres": [
+    [
+     "Après l’article 11",
+     34
+    ],
+    [
+     "Article 11",
+     11
+    ],
+    [
+     "Après l’article 24",
+     5
+    ],
+    [
+     "Article 11 B",
+     3
+    ],
+    [
+     "Après l’article 8",
+     2
+    ]
+   ],
+   "familles": {
+    "PLFSS": 50,
+    "PLF": 5
+   },
+   "n_ref": 55,
+   "x": 0.8554,
+   "y": 0.8084
+  },
+  {
+   "id": "S017",
+   "mots": [
+    "tonnage",
+    "gafam",
+    "gafa",
+    "saadé",
+    "rodolphe",
+    "armateurs"
+   ],
+   "titres": [
+    [
+     "Après l’article 12",
+     36
+    ],
+    [
+     "Article 4",
+     7
+    ],
+    [
+     "Discussion générale",
+     2
+    ],
+    [
+     "Article 11",
+     2
+    ],
+    [
+     "Article 3",
+     2
+    ]
+   ],
+   "familles": {
+    "PLF": 52,
+    "PLFSS": 2
+   },
+   "n_ref": 54,
+   "x": 0.6853,
+   "y": 0.5985
+  },
+  {
+   "id": "S018",
+   "mots": [
+    "mutuelles",
+    "modérateur",
+    "ticket",
+    "complémentaires",
+    "prudentielles",
+    "déformation"
+   ],
+   "titres": [
+    [
+     "Article 7",
+     28
+    ],
+    [
+     "Après l’article 7",
+     6
+    ],
+    [
+     "Article 10",
+     5
+    ],
+    [
+     "Article 14",
+     4
+    ],
+    [
+     "Article 1er",
+     2
+    ]
+   ],
+   "familles": {
+    "PLFSS": 52,
+    "QAG": 1
+   },
+   "n_ref": 53,
+   "x": 0.1846,
+   "y": 0.4001
+  },
+  {
+   "id": "S019",
+   "mots": [
+    "ceps",
+    "clause",
+    "hybrides",
+    "biosimilaires",
+    "génériques",
+    "médicaments"
+   ],
+   "titres": [
+    [
+     "Article 10",
+     35
+    ],
+    [
+     "Après l’article 10",
+     7
+    ],
+    [
+     "Article 11",
+     6
+    ],
+    [
+     "Article 36",
+     2
+    ],
+    [
+     "Après l’article 7",
+     1
+    ]
+   ],
+   "familles": {
+    "PLFSS": 50,
+    "PLF": 2
+   },
+   "n_ref": 52,
+   "x": 0.1241,
+   "y": 0.3921
+  },
+  {
+   "id": "S020",
+   "mots": [
+    "ondam",
+    "hôpitaux",
+    "décimale",
+    "maudet",
+    "soignants",
+    "ehpad"
+   ],
+   "titres": [
+    [
+     "Article 49",
+     11
+    ],
+    [
+     "Après l’article 8",
+     9
+    ],
+    [
+     "Article 2",
+     8
+    ],
+    [
+     "Article 49 (précédemment réservé)",
+     8
+    ],
+    [
+     "Article liminaire",
+     3
+    ]
+   ],
+   "familles": {
+    "PLF": 8,
+    "PLFSS": 42,
+    "QAG": 1
+   },
+   "n_ref": 51,
+   "x": 0.2591,
+   "y": 0.3353
+  },
+  {
+   "id": "S021",
+   "mots": [
+    "dutreil",
+    "donataires",
+    "héritiers",
+    "pacte",
+    "transmissions",
+    "usufruit"
+   ],
+   "titres": [
+    [
+     "Après l’article 3",
+     28
+    ],
+    [
+     "Article 3",
+     22
+    ],
+    [
+     "Après l’article 12",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 51
+   },
+   "n_ref": 51,
+   "x": 0.5642,
+   "y": 0.5896
+  },
+  {
+   "id": "S022",
+   "mots": [
+    "flottes",
+    "malus",
+    "véhicules",
+    "rechargeables",
+    "utilitaires",
+    "chargeurs"
+   ],
+   "titres": [
+    [
+     "Article 13",
+     24
+    ],
+    [
+     "Après l’article 13",
+     10
+    ],
+    [
+     "Après l’article 21",
+     4
+    ],
+    [
+     "Après l’article 12",
+     3
+    ],
+    [
+     "Article 27",
+     3
+    ]
+   ],
+   "familles": {
+    "PLF": 46,
+    "PLFSS": 2
+   },
+   "n_ref": 48,
+   "x": 0.646,
+   "y": 0.9054
+  },
+  {
+   "id": "S023",
+   "mots": [
+    "schneider",
+    "chercheurs",
+    "taxonomie",
+    "mathématiques",
+    "sanofi",
+    "captent"
+   ],
+   "titres": [
+    [
+     "Après l’article 12",
+     47
+    ],
+    [
+     "Politique industrielle",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 47,
+    "QOSD": 1
+   },
+   "n_ref": 48,
+   "x": 0.5101,
+   "y": 0.5901
+  },
+  {
+   "id": "S024",
+   "mots": [
+    "vélique",
+    "propulsion",
+    "futuna",
+    "wallis",
+    "armateurs",
+    "voiles"
+   ],
+   "titres": [
+    [
+     "Après l’article 12",
+     25
+    ],
+    [
+     "Article 7",
+     9
+    ],
+    [
+     "Après l’article 21",
+     3
+    ],
+    [
+     "Après l’article 2",
+     2
+    ],
+    [
+     "Après l’article 9",
+     2
+    ]
+   ],
+   "familles": {
+    "PLF": 43,
+    "PLFSS": 3,
+    "QAG": 1
+   },
+   "n_ref": 47,
+   "x": 0.6448,
+   "y": 0.6509
+  },
+  {
+   "id": "S025",
+   "mots": [
+    "thrs",
+    "hôtes",
+    "gîtes",
+    "gîte",
+    "meublés",
+    "thlv"
+   ],
+   "titres": [
+    [
+     "Après l’article 12",
+     19
+    ],
+    [
+     "Article 27",
+     11
+    ],
+    [
+     "Après l’article 27",
+     8
+    ],
+    [
+     "Après l’article 13",
+     3
+    ],
+    [
+     "Après l’article 25",
+     2
+    ]
+   ],
+   "familles": {
+    "PLF": 46,
+    "PLFSS": 1
+   },
+   "n_ref": 47,
+   "x": 0.3122,
+   "y": 0.9201
+  },
+  {
+   "id": "S026",
+   "mots": [
+    "duperie",
+    "abrogation",
+    "blanche",
+    "retraites",
+    "retraités",
+    "pensions"
+   ],
+   "titres": [
+    [
+     "Article 44",
+     22
+    ],
+    [
+     "Article 45",
+     11
+    ],
+    [
+     "Article 45 (appelé par priorité - suite)",
+     4
+    ],
+    [
+     "Suspension de la réforme des retraites",
+     3
+    ],
+    [
+     "Article 6",
+     3
+    ]
+   ],
+   "familles": {
+    "QAG": 3,
+    "PLF": 4,
+    "PLFSS": 39
+   },
+   "n_ref": 46,
+   "x": 0.3546,
+   "y": 0.4058
+  },
+  {
+   "id": "S027",
+   "mots": [
+    "spécialités",
+    "plasma",
+    "génériques",
+    "allégements",
+    "nationalité",
+    "généraux"
+   ],
+   "titres": [
+    [
+     "Après l’article 12",
+     7
+    ],
+    [
+     "Article 10",
+     6
+    ],
+    [
+     "Après l’article 8",
+     4
+    ],
+    [
+     "Après l’article 27",
+     3
+    ],
+    [
+     "Article 2",
+     2
+    ]
+   ],
+   "familles": {
+    "PLF": 13,
+    "PLFSS": 33
+   },
+   "n_ref": 46,
+   "x": 0.174,
+   "y": 0.5619
+  },
+  {
+   "id": "S028",
+   "mots": [
+    "fngir",
+    "froid",
+    "qualificatif",
+    "rédactionnel",
+    "josso",
+    "chaleur"
+   ],
+   "titres": [
+    [
+     "Après l’article 12",
+     3
+    ],
+    [
+     "Article 24",
+     3
+    ],
+    [
+     "Article 36",
+     3
+    ],
+    [
+     "Article 34",
+     3
+    ],
+    [
+     "Après l’article 7",
+     2
+    ]
+   ],
+   "familles": {
+    "PLF": 13,
+    "PLFSS": 33
+   },
+   "n_ref": 46,
+   "x": 0.8612,
+   "y": 0.6397
+  },
+  {
+   "id": "S029",
+   "mots": [
+    "tgap",
+    "ordures",
+    "pfas",
+    "ménagères",
+    "teom",
+    "plastiques"
+   ],
+   "titres": [
+    [
+     "Après l’article 21",
+     11
+    ],
+    [
+     "Après l’article 24",
+     8
+    ],
+    [
+     "Après l’article 27",
+     8
+    ],
+    [
+     "Article 21",
+     4
+    ],
+    [
+     "Après l’article 12",
+     3
+    ]
+   ],
+   "familles": {
+    "PLF": 45,
+    "PLFSS": 1
+   },
+   "n_ref": 46,
+   "x": 0.613,
+   "y": 0.8917
+  },
+  {
+   "id": "S030",
+   "mots": [
+    "colis",
+    "textile",
+    "douane",
+    "shein",
+    "douanière",
+    "dédouanement"
+   ],
+   "titres": [
+    [
+     "Article 22",
+     37
+    ],
+    [
+     "Après l’article 12",
+     4
+    ],
+    [
+     "Après l’article 8",
+     1
+    ],
+    [
+     "Article 45 et débat sur le prélèvement européen",
+     1
+    ],
+    [
+     "Après l’article 14",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 44,
+    "PLFSS": 1
+   },
+   "n_ref": 45,
+   "x": 0.7314,
+   "y": 0.675
+  },
+  {
+   "id": "S031",
+   "mots": [
+    "psychologues",
+    "caen",
+    "psychiatrie",
+    "psychologiques",
+    "guéret",
+    "psychiatrique"
+   ],
+   "titres": [
+    [
+     "Après l’article 20",
+     5
+    ],
+    [
+     "Article 17 et annexe",
+     4
+    ],
+    [
+     "Article 20",
+     3
+    ],
+    [
+     "Discussion générale",
+     2
+    ],
+    [
+     "Accès aux soins dans la Sarthe",
+     2
+    ]
+   ],
+   "familles": {
+    "PLFSS": 16,
+    "QAG": 9,
+    "QOSD": 20
+   },
+   "n_ref": 45,
+   "x": 0.2993,
+   "y": 0.1432
+  },
+  {
+   "id": "S032",
+   "mots": [
+    "optam",
+    "nomenclature",
+    "dépassements",
+    "honoraires",
+    "radiothérapie",
+    "forfaits"
+   ],
+   "titres": [
+    [
+     "Article 24",
+     19
+    ],
+    [
+     "Article 26",
+     12
+    ],
+    [
+     "Après l’article 26",
+     5
+    ],
+    [
+     "Article 18",
+     2
+    ],
+    [
+     "Article 21",
+     2
+    ]
+   ],
+   "familles": {
+    "PLFSS": 44,
+    "QAG": 1
+   },
+   "n_ref": 45,
+   "x": 0.1145,
+   "y": 0.2891
+  },
+  {
+   "id": "S033",
+   "mots": [
+    "créances",
+    "flagrance",
+    "inaptitude",
+    "urssaf",
+    "uncam",
+    "éphémères"
+   ],
+   "titres": [
+    [
+     "Après l’article 12",
+     6
+    ],
+    [
+     "Article 12",
+     6
+    ],
+    [
+     "Article 4",
+     5
+    ],
+    [
+     "Après l’article 18",
+     4
+    ],
+    [
+     "Après l’article 28",
+     4
+    ]
+   ],
+   "familles": {
+    "PLFSS": 43,
+    "PLF": 1
+   },
+   "n_ref": 44,
+   "x": 0.0441,
+   "y": 0.5074
+  },
+  {
+   "id": "S034",
+   "mots": [
+    "retraités",
+    "cumul",
+    "retraité",
+    "retraites",
+    "abattement",
+    "décile"
+   ],
+   "titres": [
+    [
+     "Article 6",
+     20
+    ],
+    [
+     "Article 45",
+     5
+    ],
+    [
+     "Article 43",
+     4
+    ],
+    [
+     "Article 17 et annexe",
+     3
+    ],
+    [
+     "Après l’article 2",
+     2
+    ]
+   ],
+   "familles": {
+    "QAG": 1,
+    "PLF": 14,
+    "PLFSS": 28
+   },
+   "n_ref": 43,
+   "x": 0.2969,
+   "y": 0.4527
+  },
+  {
+   "id": "S035",
+   "mots": [
+    "bspce",
+    "fcpi",
+    "intermédié",
+    "madelin",
+    "esus",
+    "midy"
+   ],
+   "titres": [
+    [
+     "Après l’article 12",
+     12
+    ],
+    [
+     "Article 8",
+     12
+    ],
+    [
+     "Après l’article 3",
+     6
+    ],
+    [
+     "Article 9",
+     5
+    ],
+    [
+     "Après l’article 8",
+     4
+    ]
+   ],
+   "familles": {
+    "PLF": 37,
+    "PLFSS": 6
+   },
+   "n_ref": 43,
+   "x": 0.486,
+   "y": 0.5597
+  },
+  {
+   "id": "S036",
+   "mots": [
+    "cades",
+    "pleureuses",
+    "dentiste",
+    "franchises",
+    "dette",
+    "rouler"
+   ],
+   "titres": [
+    [
+     "Article 18",
+     11
+    ],
+    [
+     "Article 15",
+     9
+    ],
+    [
+     "Article 1er",
+     3
+    ],
+    [
+     "Article 11",
+     3
+    ],
+    [
+     "Après l’article 8",
+     2
+    ]
+   ],
+   "familles": {
+    "QAG": 4,
+    "PLFSS": 39
+   },
+   "n_ref": 43,
+   "x": 0.2039,
+   "y": 0.3176
+  },
+  {
+   "id": "S037",
+   "mots": [
+    "nicotine",
+    "sachets",
+    "vapotage",
+    "cigarettes",
+    "bières",
+    "tabac"
+   ],
+   "titres": [
+    [
+     "Après l’article 11",
+     27
+    ],
+    [
+     "Article 23",
+     7
+    ],
+    [
+     "Article 11 A",
+     4
+    ],
+    [
+     "Après l’article 23",
+     3
+    ],
+    [
+     "Article 11",
+     1
+    ]
+   ],
+   "familles": {
+    "PLFSS": 33,
+    "PLF": 10
+   },
+   "n_ref": 43,
+   "x": 0.8248,
+   "y": 0.8517
+  },
+  {
+   "id": "S038",
+   "mots": [
+    "cnracl",
+    "dilico",
+    "péréquation",
+    "indexation",
+    "locatives",
+    "dotation"
+   ],
+   "titres": [
+    [
+     "Article 31",
+     19
+    ],
+    [
+     "Après l’article 5",
+     8
+    ],
+    [
+     "Article 1er",
+     3
+    ],
+    [
+     "Après l’article 3",
+     3
+    ],
+    [
+     "Après l’article 35",
+     2
+    ]
+   ],
+   "familles": {
+    "PLF": 31,
+    "PLFSS": 9
+   },
+   "n_ref": 40,
+   "x": 0.2087,
+   "y": 0.7631
+  },
+  {
+   "id": "S039",
+   "mots": [
+    "corrida",
+    "chats",
+    "restos",
+    "dissoute",
+    "dons",
+    "intrusions"
+   ],
+   "titres": [
+    [
+     "Après l’article 9",
+     30
+    ],
+    [
+     "Article 9",
+     6
+    ],
+    [
+     "Après l’article 2",
+     3
+    ],
+    [
+     "Après l’article 12",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 38,
+    "PLFSS": 2
+   },
+   "n_ref": 40,
+   "x": 0.369,
+   "y": 0.6656
+  },
+  {
+   "id": "S040",
+   "mots": [
+    "fctva",
+    "voirie",
+    "reversement",
+    "gemapi",
+    "gratuité",
+    "intercommunalités"
+   ],
+   "titres": [
+    [
+     "Après l’article 27",
+     12
+    ],
+    [
+     "Article 32",
+     9
+    ],
+    [
+     "Après l’article 3",
+     5
+    ],
+    [
+     "Article 33",
+     4
+    ],
+    [
+     "Article 31",
+     3
+    ]
+   ],
+   "familles": {
+    "PLFSS": 1,
+    "PLF": 38
+   },
+   "n_ref": 39,
+   "x": 0.3611,
+   "y": 0.8474
+  },
+  {
+   "id": "S041",
+   "mots": [
+    "haies",
+    "cuma",
+    "mécanisation",
+    "surmécanisation",
+    "machinisme",
+    "biologique"
+   ],
+   "titres": [
+    [
+     "Après l’article 10",
+     13
+    ],
+    [
+     "Article 10",
+     10
+    ],
+    [
+     "Après l’article 12",
+     2
+    ],
+    [
+     "Article 5",
+     2
+    ],
+    [
+     "Après l’article 9",
+     2
+    ]
+   ],
+   "familles": {
+    "PLF": 32,
+    "PLFSS": 5
+   },
+   "n_ref": 37,
+   "x": 0.426,
+   "y": 0.7909
+  },
+  {
+   "id": "S042",
+   "mots": [
+    "chassaigne",
+    "partirez",
+    "carrières",
+    "conjoints",
+    "miquelon",
+    "collaborateurs"
+   ],
+   "titres": [
+    [
+     "Article 45",
+     11
+    ],
+    [
+     "Après l’article 12",
+     4
+    ],
+    [
+     "Après l’article 8",
+     3
+    ],
+    [
+     "Article 13",
+     3
+    ],
+    [
+     "Après l’article 3",
+     2
+    ]
+   ],
+   "familles": {
+    "PLF": 15,
+    "PLFSS": 21,
+    "QAG": 1
+   },
+   "n_ref": 37,
+   "x": 0.3036,
+   "y": 0.44
+  },
+  {
+   "id": "S043",
+   "mots": [
+    "légion",
+    "nobel",
+    "chancelier",
+    "gratification",
+    "journalières",
+    "indemnités"
+   ],
+   "titres": [
+    [
+     "Article 5",
+     19
+    ],
+    [
+     "Article 36",
+     3
+    ],
+    [
+     "Après l’article 3",
+     2
+    ],
+    [
+     "Article 29",
+     2
+    ],
+    [
+     "Après l’article 27",
+     2
+    ]
+   ],
+   "familles": {
+    "PLF": 28,
+    "PLFSS": 8
+   },
+   "n_ref": 36,
+   "x": 0.7521,
+   "y": 0.7528
+  },
+  {
+   "id": "S044",
+   "mots": [
+    "frontex",
+    "rabais",
+    "frexit",
+    "contributeur",
+    "pluriannuel",
+    "nextgenerationeu"
+   ],
+   "titres": [
+    [
+     "Article 45 et débat sur le prélèvement européen",
+     25
+    ],
+    [
+     "Article 45",
+     6
+    ],
+    [
+     "Article 3",
+     3
+    ],
+    [
+     "Après l’article 12",
+     1
+    ],
+    [
+     "Article 6",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 35,
+    "PLFSS": 1
+   },
+   "n_ref": 36,
+   "x": 0.6821,
+   "y": 0.4341
+  },
+  {
+   "id": "S045",
+   "mots": [
+    "monoparentales",
+    "naissances",
+    "parent",
+    "ajpp",
+    "fécondité",
+    "pères"
+   ],
+   "titres": [
+    [
+     "Après l’article 2",
+     20
+    ],
+    [
+     "Article 5",
+     3
+    ],
+    [
+     "Article 42",
+     3
+    ],
+    [
+     "Après l’article 12",
+     1
+    ],
+    [
+     "Après l’article 24",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 26,
+    "PLFSS": 4,
+    "QAG": 4,
+    "QOSD": 1
+   },
+   "n_ref": 35,
+   "x": 0.3103,
+   "y": 0.5292
+  },
+  {
+   "id": "S046",
+   "mots": [
+    "cisap",
+    "portage",
+    "pirès",
+    "beaune",
+    "dissimulé",
+    "dépendantes"
+   ],
+   "titres": [
+    [
+     "Après l’article 2",
+     22
+    ],
+    [
+     "Après l’article 3",
+     8
+    ],
+    [
+     "Article 9",
+     3
+    ],
+    [
+     "Après l’article 7",
+     1
+    ],
+    [
+     "Article 3",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 34,
+    "PLFSS": 1
+   },
+   "n_ref": 35,
+   "x": 0.2927,
+   "y": 0.5986
+  },
+  {
+   "id": "S047",
+   "mots": [
+    "orthophonie",
+    "orthophoniste",
+    "mucoviscidose",
+    "télétravail",
+    "intérim",
+    "orthophonistes"
+   ],
+   "titres": [
+    [
+     "Article 28",
+     6
+    ],
+    [
+     "Après l’article 28",
+     6
+    ],
+    [
+     "Article 29",
+     5
+    ],
+    [
+     "Article 5",
+     3
+    ],
+    [
+     "Après l’article 21",
+     3
+    ]
+   ],
+   "familles": {
+    "QAG": 1,
+    "PLF": 3,
+    "PLFSS": 28,
+    "QOSD": 3
+   },
+   "n_ref": 35,
+   "x": 0.0511,
+   "y": 0.2892
+  },
+  {
+   "id": "S048",
+   "mots": [
+    "crds",
+    "livrets",
+    "barème",
+    "livret",
+    "épargnants",
+    "fonciers"
+   ],
+   "titres": [
+    [
+     "Article 6",
+     12
+    ],
+    [
+     "Après l’article 6",
+     11
+    ],
+    [
+     "Article 6 (précédemment réservé - suite)",
+     7
+    ],
+    [
+     "Après l’article 8",
+     2
+    ],
+    [
+     "Après l’article 9",
+     2
+    ]
+   ],
+   "familles": {
+    "PLFSS": 35
+   },
+   "n_ref": 35,
+   "x": 0.2621,
+   "y": 0.493
+  },
+  {
+   "id": "S049",
+   "mots": [
+    "aéroports",
+    "jets",
+    "aériennes",
+    "aviation",
+    "aérien",
+    "sonores"
+   ],
+   "titres": [
+    [
+     "Après l’article 21",
+     15
+    ],
+    [
+     "Article 36",
+     7
+    ],
+    [
+     "Après l’article 12",
+     4
+    ],
+    [
+     "Article 15",
+     3
+    ],
+    [
+     "Après l’article 36",
+     2
+    ]
+   ],
+   "familles": {
+    "PLF": 33,
+    "PLFSS": 1
+   },
+   "n_ref": 34,
+   "x": 0.6064,
+   "y": 0.819
+  },
+  {
+   "id": "S050",
+   "mots": [
+    "artistes",
+    "dématérialisation",
+    "podcasts",
+    "casino",
+    "films",
+    "antiquité"
+   ],
+   "titres": [
+    [
+     "Après l’article 12",
+     17
+    ],
+    [
+     "Article 5",
+     5
+    ],
+    [
+     "Article 36",
+     3
+    ],
+    [
+     "Article 11",
+     2
+    ],
+    [
+     "Article 3",
+     2
+    ]
+   ],
+   "familles": {
+    "PLF": 26,
+    "PLFSS": 8
+   },
+   "n_ref": 34,
+   "x": 0.4445,
+   "y": 0.692
+  },
+  {
+   "id": "S051",
+   "mots": [
+    "tenue",
+    "fonde",
+    "pilot",
+    "allegret",
+    "disciplinaires",
+    "provocations"
+   ],
+   "titres": [
+    [
+     "Après l’article 2",
+     6
+    ],
+    [
+     "Après l’article 12",
+     5
+    ],
+    [
+     "Après l’article 3",
+     4
+    ],
+    [
+     "Article 4",
+     2
+    ],
+    [
+     "Article 3",
+     2
+    ]
+   ],
+   "familles": {
+    "PLF": 22,
+    "PLFSS": 11
+   },
+   "n_ref": 33,
+   "x": 0.9786,
+   "y": 0.6081
+  },
+  {
+   "id": "S052",
+   "mots": [
+    "biocarburants",
+    "incorporation",
+    "colza",
+    "iricc",
+    "éthanol",
+    "tiruert"
+   ],
+   "titres": [
+    [
+     "Article 5",
+     18
+    ],
+    [
+     "Après l’article 16",
+     8
+    ],
+    [
+     "Article 16",
+     3
+    ],
+    [
+     "Après l’article 21",
+     2
+    ],
+    [
+     "Taxes sur les biocarburants",
+     1
+    ]
+   ],
+   "familles": {
+    "QAG": 1,
+    "PLF": 31
+   },
+   "n_ref": 32,
+   "x": 0.682,
+   "y": 0.9079
+  },
+  {
+   "id": "S053",
+   "mots": [
+    "juniors",
+    "déserts",
+    "zonage",
+    "ptma",
+    "docteurs",
+    "zfrr"
+   ],
+   "titres": [
+    [
+     "Article 21",
+     16
+    ],
+    [
+     "Après l’article 12",
+     7
+    ],
+    [
+     "Après l’article 5",
+     3
+    ],
+    [
+     "Après l’article 2",
+     2
+    ],
+    [
+     "Après l’article 21",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 9,
+    "PLFSS": 22,
+    "QOSD": 1
+   },
+   "n_ref": 32,
+   "x": 0.1263,
+   "y": 0.2163
+  },
+  {
+   "id": "S054",
+   "mots": [
+    "écotaxe",
+    "essieu",
+    "écocontribution",
+    "croisières",
+    "transporteurs",
+    "alsace"
+   ],
+   "titres": [
+    [
+     "Article 14",
+     8
+    ],
+    [
+     "Après l’article 21",
+     7
+    ],
+    [
+     "Après l’article 14",
+     4
+    ],
+    [
+     "Après l’article 27",
+     3
+    ],
+    [
+     "Après l’article 12",
+     2
+    ]
+   ],
+   "familles": {
+    "PLF": 32
+   },
+   "n_ref": 32,
+   "x": 0.6385,
+   "y": 0.8131
+  },
+  {
+   "id": "S055",
+   "mots": [
+    "résidence",
+    "accession",
+    "primo",
+    "résidences",
+    "value",
+    "attache"
+   ],
+   "titres": [
+    [
+     "Après l’article 3",
+     12
+    ],
+    [
+     "Après l’article 27",
+     6
+    ],
+    [
+     "Article 18 A",
+     4
+    ],
+    [
+     "Après l’article 8",
+     3
+    ],
+    [
+     "Après l’article 2",
+     2
+    ]
+   ],
+   "familles": {
+    "PLF": 22,
+    "PLFSS": 8
+   },
+   "n_ref": 30,
+   "x": 0.2072,
+   "y": 0.8893
+  },
+  {
+   "id": "S056",
+   "mots": [
+    "ukrainien",
+    "russes",
+    "otan",
+    "ukrainiens",
+    "ukraine",
+    "groenland"
+   ],
+   "titres": [
+    [
+     "Intervention militaire des États-Unis au Venezuela",
+     4
+    ],
+    [
+     "Liberté de la presse",
+     2
+    ],
+    [
+     "Situation internationale",
+     2
+    ],
+    [
+     "Relations avec les États-Unis",
+     2
+    ],
+    [
+     "Soutien à l’Ukraine",
+     2
+    ]
+   ],
+   "familles": {
+    "QAG": 30
+   },
+   "n_ref": 30,
+   "x": 0.8403,
+   "y": 0.1674
+  },
+  {
+   "id": "S057",
+   "mots": [
+    "juridictionnelle",
+    "timbre",
+    "bourses",
+    "homale",
+    "prud",
+    "ignoble"
+   ],
+   "titres": [
+    [
+     "Article 30",
+     14
+    ],
+    [
+     "Article 5",
+     7
+    ],
+    [
+     "Après l’article 2",
+     2
+    ],
+    [
+     "Après l’article 24",
+     2
+    ],
+    [
+     "Après l’article 36",
+     2
+    ]
+   ],
+   "familles": {
+    "PLF": 28,
+    "PLFSS": 1
+   },
+   "n_ref": 29,
+   "x": 0.718,
+   "y": 0.7393
+  },
+  {
+   "id": "S058",
+   "mots": [
+    "cvae",
+    "cycliques",
+    "nocifs",
+    "désindustrialisation",
+    "compensée",
+    "déplairait"
+   ],
+   "titres": [
+    [
+     "Article 11",
+     24
+    ],
+    [
+     "Après l’article 7",
+     2
+    ],
+    [
+     "Après l’article 12",
+     1
+    ],
+    [
+     "Article 7",
+     1
+    ],
+    [
+     "Article 33",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 26,
+    "PLFSS": 3
+   },
+   "n_ref": 29,
+   "x": 0.6491,
+   "y": 0.578
+  },
+  {
+   "id": "S059",
+   "mots": [
+    "apprenti",
+    "apprentissage",
+    "apprentis",
+    "smic",
+    "rémunération",
+    "salariales"
+   ],
+   "titres": [
+    [
+     "Article 9",
+     26
+    ],
+    [
+     "Mesures concernant les apprentis",
+     1
+    ],
+    [
+     "Après l’article 9",
+     1
+    ],
+    [
+     "Article 36",
+     1
+    ]
+   ],
+   "familles": {
+    "QAG": 1,
+    "PLFSS": 27,
+    "PLF": 1
+   },
+   "n_ref": 29,
+   "x": 0.3924,
+   "y": 0.4864
+  },
+  {
+   "id": "S060",
+   "mots": [
+    "conseillers",
+    "roitelets",
+    "epci",
+    "exemplarité",
+    "cocus",
+    "mandats"
+   ],
+   "titres": [
+    [
+     "Après l’article 2",
+     6
+    ],
+    [
+     "Article 3",
+     4
+    ],
+    [
+     "Après l’article 3",
+     3
+    ],
+    [
+     "Après l’article 18",
+     2
+    ],
+    [
+     "Article 34",
+     2
+    ]
+   ],
+   "familles": {
+    "PLF": 26,
+    "PLFSS": 2
+   },
+   "n_ref": 28,
+   "x": 0.6075,
+   "y": 0.464
+  },
+  {
+   "id": "S061",
+   "mots": [
+    "humides",
+    "natura",
+    "tfpnb",
+    "artificialisation",
+    "bâties",
+    "friches"
+   ],
+   "titres": [
+    [
+     "Après l’article 27",
+     14
+    ],
+    [
+     "Article 5",
+     6
+    ],
+    [
+     "Après l’article 10",
+     3
+    ],
+    [
+     "Article 36",
+     1
+    ],
+    [
+     "Article 34",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 25,
+    "QOSD": 2,
+    "QAG": 1
+   },
+   "n_ref": 28,
+   "x": 0.3532,
+   "y": 0.9068
+  },
+  {
+   "id": "S062",
+   "mots": [
+    "prescrire",
+    "arrêts",
+    "multi",
+    "télétravail",
+    "carence",
+    "médecin"
+   ],
+   "titres": [
+    [
+     "Article 28",
+     16
+    ],
+    [
+     "Après l’article 28",
+     8
+    ],
+    [
+     "Article 6",
+     2
+    ],
+    [
+     "Article 28 A",
+     1
+    ],
+    [
+     "CDD multi-remplacement",
+     1
+    ]
+   ],
+   "familles": {
+    "PLFSS": 27,
+    "QOSD": 1
+   },
+   "n_ref": 28,
+   "x": 0.0497,
+   "y": 0.3654
+  },
+  {
+   "id": "S063",
+   "mots": [
+    "audits",
+    "lavage",
+    "abonnement",
+    "fioul",
+    "vaisselle",
+    "réemployables"
+   ],
+   "titres": [
+    [
+     "Après l’article 25",
+     28
+    ]
+   ],
+   "familles": {
+    "PLF": 28
+   },
+   "n_ref": 28,
+   "x": 0.5873,
+   "y": 0.8992
+  },
+  {
+   "id": "S064",
+   "mots": [
+    "réacteurs",
+    "électrification",
+    "renouvelables",
+    "éolien",
+    "intermittentes",
+    "moratoire"
+   ],
+   "titres": [
+    [
+     "Programmation pluriannuelle de l’énergie",
+     7
+    ],
+    [
+     "Prix de l’électricité",
+     2
+    ],
+    [
+     "Article 41",
+     2
+    ],
+    [
+     "Lutte contre le réchauffement climatique",
+     1
+    ],
+    [
+     "Abrogation de l’accord de 1968 avec l’Algérie",
+     1
+    ]
+   ],
+   "familles": {
+    "QAG": 19,
+    "PLFSS": 5,
+    "PLF": 3
+   },
+   "n_ref": 27,
+   "x": 0.7687,
+   "y": 0.4046
+  },
+  {
+   "id": "S065",
+   "mots": [
+    "fractionnement",
+    "congé",
+    "paternité",
+    "parentalité",
+    "simultanéité",
+    "pères"
+   ],
+   "titres": [
+    [
+     "Article 42",
+     26
+    ],
+    [
+     "Présentation",
+     1
+    ]
+   ],
+   "familles": {
+    "PLFSS": 27
+   },
+   "n_ref": 27,
+   "x": 0.2201,
+   "y": 0.4703
+  },
+  {
+   "id": "S066",
+   "mots": [
+    "fmis",
+    "serafin",
+    "hôpitaux",
+    "hôpital",
+    "efficience",
+    "blocs"
+   ],
+   "titres": [
+    [
+     "Article 27",
+     6
+    ],
+    [
+     "Article 3",
+     5
+    ],
+    [
+     "Article 22",
+     3
+    ],
+    [
+     "Article 36",
+     3
+    ],
+    [
+     "Après l’article 25",
+     2
+    ]
+   ],
+   "familles": {
+    "PLFSS": 23,
+    "PLF": 3,
+    "QAG": 1
+   },
+   "n_ref": 27,
+   "x": 0.21,
+   "y": 0.2394
+  },
+  {
+   "id": "S067",
+   "mots": [
+    "ssaa",
+    "artistes",
+    "agréée",
+    "galliard",
+    "affiliation",
+    "limousin"
+   ],
+   "titres": [
+    [
+     "Article 5",
+     27
+    ]
+   ],
+   "familles": {
+    "PLFSS": 27
+   },
+   "n_ref": 27,
+   "x": 0.0823,
+   "y": 0.5512
+  },
+  {
+   "id": "S068",
+   "mots": [
+    "métayage",
+    "franquistes",
+    "triennale",
+    "suréquipement",
+    "bail",
+    "corrections"
+   ],
+   "titres": [
+    [
+     "Après l’article 8",
+     9
+    ],
+    [
+     "Après l’article 10",
+     4
+    ],
+    [
+     "Après l’article 5",
+     3
+    ],
+    [
+     "Article 8",
+     3
+    ],
+    [
+     "Article 43",
+     3
+    ]
+   ],
+   "familles": {
+    "PLFSS": 20,
+    "PLF": 7
+   },
+   "n_ref": 27,
+   "x": 0.2904,
+   "y": 0.7201
+  },
+  {
+   "id": "S069",
+   "mots": [
+    "albi",
+    "cnsa",
+    "ségur",
+    "dmto",
+    "abondement",
+    "péréquation"
+   ],
+   "titres": [
+    [
+     "Après l’article 3",
+     10
+    ],
+    [
+     "Article 12",
+     5
+    ],
+    [
+     "Après l’article 12",
+     4
+    ],
+    [
+     "Article 33",
+     4
+    ],
+    [
+     "Article 37",
+     2
+    ]
+   ],
+   "familles": {
+    "PLFSS": 13,
+    "PLF": 14
+   },
+   "n_ref": 27,
+   "x": 0.16,
+   "y": 0.7011
+  },
+  {
+   "id": "S070",
+   "mots": [
+    "seniors",
+    "minima",
+    "colombani",
+    "smic",
+    "expérimentés",
+    "pathogènes"
+   ],
+   "titres": [
+    [
+     "Après l’article 8",
+     12
+    ],
+    [
+     "Article 5",
+     5
+    ],
+    [
+     "Article 8",
+     4
+    ],
+    [
+     "Après l’article 3",
+     1
+    ],
+    [
+     "Après l’article 5",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 1,
+    "PLFSS": 25
+   },
+   "n_ref": 26,
+   "x": 0.1674,
+   "y": 0.5151
+  },
+  {
+   "id": "S071",
+   "mots": [
+    "ifer",
+    "éolien",
+    "éoliennes",
+    "photovoltaïque",
+    "terrestre",
+    "terrestres"
+   ],
+   "titres": [
+    [
+     "Article 19",
+     10
+    ],
+    [
+     "Après l’article 19",
+     8
+    ],
+    [
+     "Après l’article 27",
+     3
+    ],
+    [
+     "Article 11",
+     3
+    ],
+    [
+     "Après l’article 12",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 26
+   },
+   "n_ref": 26,
+   "x": 0.6761,
+   "y": 0.8576
+  },
+  {
+   "id": "S072",
+   "mots": [
+    "rabais",
+    "rétroactivité",
+    "contributeurs",
+    "générateur",
+    "promulgation",
+    "dates"
+   ],
+   "titres": [
+    [
+     "Article 4",
+     3
+    ],
+    [
+     "Après l’article 12",
+     3
+    ],
+    [
+     "Article 5",
+     3
+    ],
+    [
+     "Article 45 et débat sur le prélèvement européen",
+     3
+    ],
+    [
+     "Article 6",
+     2
+    ]
+   ],
+   "familles": {
+    "PLF": 20,
+    "PLFSS": 5
+   },
+   "n_ref": 25,
+   "x": 0.8408,
+   "y": 0.6184
+  },
+  {
+   "id": "S073",
+   "mots": [
+    "sport",
+    "sportive",
+    "buffet",
+    "contenus",
+    "publicité",
+    "musique"
+   ],
+   "titres": [
+    [
+     "Article 36",
+     6
+    ],
+    [
+     "Après l’article 12",
+     5
+    ],
+    [
+     "Après l’article 36",
+     5
+    ],
+    [
+     "Article 24",
+     4
+    ],
+    [
+     "Après l’article 24",
+     3
+    ]
+   ],
+   "familles": {
+    "PLF": 25
+   },
+   "n_ref": 25,
+   "x": 0.6018,
+   "y": 0.7114
+  },
+  {
+   "id": "S074",
+   "mots": [
+    "polyhandicapées",
+    "hospitalière",
+    "boulonnais",
+    "infirmiers",
+    "hospitaliers",
+    "infirmier"
+   ],
+   "titres": [
+    [
+     "Article 23",
+     9
+    ],
+    [
+     "Présentation",
+     2
+    ],
+    [
+     "Après l’article 21",
+     2
+    ],
+    [
+     "Article 54",
+     2
+    ],
+    [
+     "Après l’article 27",
+     1
+    ]
+   ],
+   "familles": {
+    "PLFSS": 17,
+    "QAG": 3,
+    "QOSD": 4
+   },
+   "n_ref": 24,
+   "x": 0.223,
+   "y": 0.2113
+  },
+  {
+   "id": "S075",
+   "mots": [
+    "cubes",
+    "potable",
+    "redevances",
+    "redevance",
+    "récolte",
+    "aléas"
+   ],
+   "titres": [
+    [
+     "Après l’article 20",
+     9
+    ],
+    [
+     "Après l’article 10",
+     7
+    ],
+    [
+     "Article 10",
+     4
+    ],
+    [
+     "Article 20",
+     4
+    ]
+   ],
+   "familles": {
+    "PLF": 24
+   },
+   "n_ref": 24,
+   "x": 0.5535,
+   "y": 1.0
+  },
+  {
+   "id": "S076",
+   "mots": [
+    "maprimeadapt",
+    "ciic",
+    "corse",
+    "décaissés",
+    "maprimerénov",
+    "rattachement"
+   ],
+   "titres": [
+    [
+     "Après l’article 12",
+     8
+    ],
+    [
+     "Après l’article 2",
+     4
+    ],
+    [
+     "Article 5",
+     2
+    ],
+    [
+     "Article 4",
+     2
+    ],
+    [
+     "Après l’article 4",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 20,
+    "PLFSS": 3
+   },
+   "n_ref": 23,
+   "x": 0.4436,
+   "y": 0.658
+  },
+  {
+   "id": "S077",
+   "mots": [
+    "atos",
+    "capgemini",
+    "fille",
+    "sidérurgie",
+    "nationalisation",
+    "nationalisée"
+   ],
+   "titres": [
+    [
+     "Après l’article 12",
+     12
+    ],
+    [
+     "Article 45 et débat sur le prélèvement européen",
+     3
+    ],
+    [
+     "Après l’article 8",
+     2
+    ],
+    [
+     "Après l’article 7",
+     1
+    ],
+    [
+     "Article 45",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 18,
+    "PLFSS": 4,
+    "QAG": 1
+   },
+   "n_ref": 23,
+   "x": 0.7031,
+   "y": 0.5393
+  },
+  {
+   "id": "S078",
+   "mots": [
+    "fivp",
+    "menstruelles",
+    "réutilisables",
+    "périodiques",
+    "menstruelle",
+    "fipu"
+   ],
+   "titres": [
+    [
+     "Après l’article 20",
+     4
+    ],
+    [
+     "Après l’article 3",
+     4
+    ],
+    [
+     "Après l’article 27",
+     3
+    ],
+    [
+     "Article 49",
+     2
+    ],
+    [
+     "Article 20",
+     2
+    ]
+   ],
+   "familles": {
+    "PLF": 11,
+    "PLFSS": 11,
+    "QOSD": 1
+   },
+   "n_ref": 23,
+   "x": 0.1294,
+   "y": 0.2944
+  },
+  {
+   "id": "S079",
+   "mots": [
+    "programmés",
+    "haltes",
+    "psychiatrie",
+    "addictions",
+    "addiction",
+    "csapa"
+   ],
+   "titres": [
+    [
+     "Article 21",
+     8
+    ],
+    [
+     "Après l’article 20",
+     5
+    ],
+    [
+     "Article 20",
+     5
+    ],
+    [
+     "Après l’article 22",
+     2
+    ],
+    [
+     "Après l’article 27",
+     1
+    ]
+   ],
+   "familles": {
+    "PLFSS": 23
+   },
+   "n_ref": 23,
+   "x": 0.0461,
+   "y": 0.2471
+  },
+  {
+   "id": "S080",
+   "mots": [
+    "bosch",
+    "arcelormittal",
+    "stellantis",
+    "polytechnyl",
+    "lisi",
+    "yzeure"
+   ],
+   "titres": [
+    [
+     "Après l’article 12",
+     4
+    ],
+    [
+     "Politique industrielle",
+     2
+    ],
+    [
+     "Crise économique et sociale dans les territoires",
+     1
+    ],
+    [
+     "Redressement judiciaire d’ACI Group",
+     1
+    ],
+    [
+     "Plan de licenciement de Suntory",
+     1
+    ]
+   ],
+   "familles": {
+    "QAG": 14,
+    "PLF": 4,
+    "QOSD": 4
+   },
+   "n_ref": 22,
+   "x": 0.8731,
+   "y": 0.3851
+  },
+  {
+   "id": "S081",
+   "mots": [
+    "acre",
+    "autoentrepreneurs",
+    "microentreprises",
+    "autoentrepreneuriat",
+    "microentrepreneurs",
+    "microentreprise"
+   ],
+   "titres": [
+    [
+     "Article 9",
+     12
+    ],
+    [
+     "Article 25",
+     9
+    ],
+    [
+     "Article 5",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 10,
+    "PLFSS": 12
+   },
+   "n_ref": 22,
+   "x": 0.4076,
+   "y": 0.5315
+  },
+  {
+   "id": "S082",
+   "mots": [
+    "tsca",
+    "sdis",
+    "aasqa",
+    "cnaf",
+    "tgap",
+    "pompiers"
+   ],
+   "titres": [
+    [
+     "Après l’article 12",
+     8
+    ],
+    [
+     "Après l’article 27",
+     7
+    ],
+    [
+     "Après l’article 21",
+     5
+    ],
+    [
+     "Article 27",
+     2
+    ]
+   ],
+   "familles": {
+    "PLFSS": 8,
+    "PLF": 14
+   },
+   "n_ref": 22,
+   "x": 0.177,
+   "y": 0.6473
+  },
+  {
+   "id": "S083",
+   "mots": [
+    "vacciner",
+    "vaccinale",
+    "vaccination",
+    "vaccinés",
+    "rougeole",
+    "vaccin"
+   ],
+   "titres": [
+    [
+     "Article 20",
+     19
+    ],
+    [
+     "Après l’article 20",
+     3
+    ]
+   ],
+   "familles": {
+    "PLFSS": 22
+   },
+   "n_ref": 22,
+   "x": 0.0,
+   "y": 0.2926
+  },
+  {
+   "id": "S084",
+   "mots": [
+    "dmtg",
+    "donataire",
+    "donations",
+    "donation",
+    "recomposées",
+    "transmissions"
+   ],
+   "titres": [
+    [
+     "Après l’article 10",
+     10
+    ],
+    [
+     "Après l’article 3",
+     8
+    ],
+    [
+     "Après l’article 8",
+     1
+    ],
+    [
+     "Après l’article 21",
+     1
+    ],
+    [
+     "Article 10",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 20,
+    "PLFSS": 1
+   },
+   "n_ref": 21,
+   "x": 0.3647,
+   "y": 0.7856
+  },
+  {
+   "id": "S085",
+   "mots": [
+    "ehpad",
+    "transposé",
+    "calédonie",
+    "armateurs",
+    "transposition",
+    "cimer"
+   ],
+   "titres": [
+    [
+     "Après l’article 7",
+     5
+    ],
+    [
+     "Après l’article 2",
+     3
+    ],
+    [
+     "Article 36",
+     3
+    ],
+    [
+     "Article 5 et état B",
+     2
+    ],
+    [
+     "Après l’article 27",
+     2
+    ]
+   ],
+   "familles": {
+    "PLF": 15,
+    "PLFSS": 5
+   },
+   "n_ref": 20,
+   "x": 0.2616,
+   "y": 0.6231
+  },
+  {
+   "id": "S086",
+   "mots": [
+    "forestière",
+    "rases",
+    "defi",
+    "sylviculture",
+    "forêt",
+    "forêts"
+   ],
+   "titres": [
+    [
+     "Après l’article 2",
+     14
+    ],
+    [
+     "Après l’article 25",
+     2
+    ],
+    [
+     "Après l’article 27",
+     2
+    ],
+    [
+     "Article 10",
+     2
+    ]
+   ],
+   "familles": {
+    "PLF": 20
+   },
+   "n_ref": 20,
+   "x": 0.5645,
+   "y": 0.8057
+  },
+  {
+   "id": "S087",
+   "mots": [
+    "intrajournalières",
+    "euroclear",
+    "cryptoactifs",
+    "dérivés",
+    "transactions",
+    "cryptos"
+   ],
+   "titres": [
+    [
+     "Après l’article 24",
+     15
+    ],
+    [
+     "Après l’article 3",
+     4
+    ],
+    [
+     "Article 3",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 20
+   },
+   "n_ref": 20,
+   "x": 0.586,
+   "y": 0.6379
+  },
+  {
+   "id": "S088",
+   "mots": [
+    "abattage",
+    "cheptel",
+    "troupeau",
+    "éleveurs",
+    "dermatose",
+    "animaux"
+   ],
+   "titres": [
+    [
+     "Après l’article 10",
+     10
+    ],
+    [
+     "Article 10",
+     7
+    ],
+    [
+     "Après l’article 8",
+     3
+    ]
+   ],
+   "familles": {
+    "PLFSS": 3,
+    "PLF": 17
+   },
+   "n_ref": 20,
+   "x": 0.3317,
+   "y": 0.7533
+  },
+  {
+   "id": "S089",
+   "mots": [
+    "cures",
+    "thermales",
+    "thermale",
+    "mdph",
+    "thermaux",
+    "thermalisme"
+   ],
+   "titres": [
+    [
+     "Après l’article 18",
+     6
+    ],
+    [
+     "Article 19",
+     3
+    ],
+    [
+     "Article 49",
+     2
+    ],
+    [
+     "Article 30",
+     2
+    ],
+    [
+     "Maison départementale des personnes handicapées des Hauts-de-Seine",
+     1
+    ]
+   ],
+   "familles": {
+    "PLFSS": 13,
+    "PLF": 2,
+    "QOSD": 3,
+    "QAG": 2
+   },
+   "n_ref": 20,
+   "x": 0.0773,
+   "y": 0.2293
+  },
+  {
+   "id": "S090",
+   "mots": [
+    "islamisme",
+    "terroriste",
+    "entrisme",
+    "manifestation",
+    "tracfin",
+    "digue"
+   ],
+   "titres": [
+    [
+     "Attitude des forces de l’ordre lors de la manifestation à Sainte-Soline",
+     2
+    ],
+    [
+     "Lutte contre le blanchiment",
+     1
+    ],
+    [
+     "État de droit",
+     1
+    ],
+    [
+     "Vingt ans de la mort de Zyed et Bouna",
+     1
+    ],
+    [
+     "Lutte contre les actes racistes",
+     1
+    ]
+   ],
+   "familles": {
+    "QAG": 19
+   },
+   "n_ref": 19,
+   "x": 0.7245,
+   "y": 0.0516
+  },
+  {
+   "id": "S091",
+   "mots": [
+    "remises",
+    "officines",
+    "déclaratives",
+    "officinal",
+    "stationnement",
+    "urssaf"
+   ],
+   "titres": [
+    [
+     "Après l’article 11",
+     8
+    ],
+    [
+     "Article 10",
+     6
+    ],
+    [
+     "Après l’article 30",
+     2
+    ],
+    [
+     "Après l’article 12",
+     1
+    ],
+    [
+     "Article 8",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 3,
+    "PLFSS": 16
+   },
+   "n_ref": 19,
+   "x": 0.1017,
+   "y": 0.4296
+  },
+  {
+   "id": "S092",
+   "mots": [
+    "palestiniens",
+    "palestine",
+    "israël",
+    "hamas",
+    "palestinien",
+    "albanese"
+   ],
+   "titres": [
+    [
+     "Situation à Gaza",
+     3
+    ],
+    [
+     "Reconstruction de Gaza",
+     2
+    ],
+    [
+     "Après l’article 12",
+     2
+    ],
+    [
+     "Après l’article 3",
+     2
+    ],
+    [
+     "Plan de paix à Gaza",
+     1
+    ]
+   ],
+   "familles": {
+    "QAG": 12,
+    "PLF": 5,
+    "PLFSS": 1
+   },
+   "n_ref": 18,
+   "x": 0.8196,
+   "y": 0.0811
+  },
+  {
+   "id": "S093",
+   "mots": [
+    "recharge",
+    "pompes",
+    "ddadue",
+    "chaleur",
+    "bornes",
+    "maprimerénov"
+   ],
+   "titres": [
+    [
+     "Après l’article 2",
+     6
+    ],
+    [
+     "Après l’article 21",
+     5
+    ],
+    [
+     "Article 18",
+     3
+    ],
+    [
+     "Après l’article 25",
+     2
+    ],
+    [
+     "Après l’article 16",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 17,
+    "QAG": 1
+   },
+   "n_ref": 18,
+   "x": 0.6493,
+   "y": 0.8801
+  },
+  {
+   "id": "S094",
+   "mots": [
+    "dcrtp",
+    "autoconsommation",
+    "minorations",
+    "maprimerénov",
+    "epci",
+    "solaire"
+   ],
+   "titres": [
+    [
+     "Après l’article 12",
+     7
+    ],
+    [
+     "Article 31",
+     6
+    ],
+    [
+     "Article 5 et état B",
+     2
+    ],
+    [
+     "MaPrimeRénov’",
+     1
+    ],
+    [
+     "Article 35",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 17,
+    "QAG": 1
+   },
+   "n_ref": 18,
+   "x": 0.2599,
+   "y": 0.8185
+  },
+  {
+   "id": "S095",
+   "mots": [
+    "aesh",
+    "langues",
+    "microcrèches",
+    "inspe",
+    "inclusive",
+    "éducatif"
+   ],
+   "titres": [
+    [
+     "Statut des AESH",
+     2
+    ],
+    [
+     "Permis de conduire",
+     2
+    ],
+    [
+     "Enseignement des langues régionales",
+     1
+    ],
+    [
+     "Neurodivergence",
+     1
+    ],
+    [
+     "Lycée de Mauriac",
+     1
+    ]
+   ],
+   "familles": {
+    "QAG": 7,
+    "QOSD": 11
+   },
+   "n_ref": 18,
+   "x": 0.3636,
+   "y": 0.1017
+  },
+  {
+   "id": "S096",
+   "mots": [
+    "jacuzzi",
+    "gafa",
+    "sectarisme",
+    "fournier",
+    "dubitatif",
+    "réemploi"
+   ],
+   "titres": [
+    [
+     "Après l’article 21",
+     3
+    ],
+    [
+     "Article 22",
+     3
+    ],
+    [
+     "Après l’article 25",
+     3
+    ],
+    [
+     "Après l’article 24",
+     2
+    ],
+    [
+     "Après l’article 12",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 18
+   },
+   "n_ref": 18,
+   "x": 0.8349,
+   "y": 0.7181
+  },
+  {
+   "id": "S097",
+   "mots": [
+    "partum",
+    "mortels",
+    "carsat",
+    "néonatale",
+    "accidents",
+    "postnatal"
+   ],
+   "titres": [
+    [
+     "Après l’article 8",
+     6
+    ],
+    [
+     "Article 28",
+     6
+    ],
+    [
+     "Article 3",
+     2
+    ],
+    [
+     "Après l’article 20",
+     1
+    ],
+    [
+     "Après l’article 27",
+     1
+    ]
+   ],
+   "familles": {
+    "PLFSS": 16,
+    "QAG": 1,
+    "QOSD": 1
+   },
+   "n_ref": 18,
+   "x": 0.0999,
+   "y": 0.3916
+  },
+  {
+   "id": "S098",
+   "mots": [
+    "voûte",
+    "gynécologiques",
+    "auditive",
+    "audiologie",
+    "obstétricales",
+    "logiciels"
+   ],
+   "titres": [
+    [
+     "Après l’article 21",
+     3
+    ],
+    [
+     "Après l’article 28",
+     2
+    ],
+    [
+     "Article 30",
+     2
+    ],
+    [
+     "Article 17 et annexe",
+     2
+    ],
+    [
+     "Après l’article 10",
+     1
+    ]
+   ],
+   "familles": {
+    "PLFSS": 16,
+    "PLF": 1,
+    "QOSD": 1
+   },
+   "n_ref": 18,
+   "x": 0.0136,
+   "y": 0.3242
+  },
+  {
+   "id": "S099",
+   "mots": [
+    "dépistage",
+    "viol",
+    "cancer",
+    "sexuelles",
+    "plainte",
+    "violences"
+   ],
+   "titres": [
+    [
+     "Après l’article 20",
+     2
+    ],
+    [
+     "Violences faites aux femmes",
+     2
+    ],
+    [
+     "Prise en charge du cancer du sein par l’assurance maladie",
+     1
+    ],
+    [
+     "Prise en charge des accidents vasculaires cérébraux",
+     1
+    ],
+    [
+     "Après l’article 21",
+     1
+    ]
+   ],
+   "familles": {
+    "QAG": 11,
+    "PLFSS": 3,
+    "QOSD": 3
+   },
+   "n_ref": 17,
+   "x": 0.4767,
+   "y": 0.1259
+  },
+  {
+   "id": "S100",
+   "mots": [
+    "éleveurs",
+    "dermatose",
+    "troupeaux",
+    "nodulaire",
+    "vaccination",
+    "contagieuse"
+   ],
+   "titres": [
+    [
+     "Dermatose nodulaire contagieuse",
+     9
+    ],
+    [
+     "Crise agricole",
+     2
+    ],
+    [
+     "Dermatose nodulaire contagieuse et interdiction de l’export de bovins",
+     1
+    ],
+    [
+     "Attaques de loups en Haute-Marne",
+     1
+    ],
+    [
+     "Abattage administratif total de troupeaux",
+     1
+    ]
+   ],
+   "familles": {
+    "QAG": 15,
+    "QOSD": 2
+   },
+   "n_ref": 17,
+   "x": 0.7718,
+   "y": 0.2156
+  },
+  {
+   "id": "S101",
+   "mots": [
+    "veuves",
+    "veufs",
+    "compensatoires",
+    "divorce",
+    "débiteur",
+    "combattants"
+   ],
+   "titres": [
+    [
+     "Après l’article 2",
+     15
+    ],
+    [
+     "Après l’article 29",
+     2
+    ]
+   ],
+   "familles": {
+    "PLF": 17
+   },
+   "n_ref": 17,
+   "x": 0.3558,
+   "y": 0.5866
+  },
+  {
+   "id": "S102",
+   "mots": [
+    "docteurs",
+    "lodeom",
+    "crous",
+    "cvec",
+    "apprenti",
+    "apprentis"
+   ],
+   "titres": [
+    [
+     "Article 9",
+     8
+    ],
+    [
+     "Après l’article 12",
+     5
+    ],
+    [
+     "Article 11",
+     1
+    ],
+    [
+     "Article 2",
+     1
+    ],
+    [
+     "Après l’article 36",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 8,
+    "PLFSS": 9
+   },
+   "n_ref": 17,
+   "x": 0.4464,
+   "y": 0.4848
+  },
+  {
+   "id": "S103",
+   "mots": [
+    "silicium",
+    "ferroglobe",
+    "tomates",
+    "biogaran",
+    "aerospace",
+    "ferro"
+   ],
+   "titres": [
+    [
+     "Cession de LMB Aerospace",
+     3
+    ],
+    [
+     "Reconversion de la filière automobile vers l’industrie de la défense",
+     1
+    ],
+    [
+     "Soutien aux entreprises",
+     1
+    ],
+    [
+     "Accord commercial entre l’Union européenne et les États-Unis",
+     1
+    ],
+    [
+     "Avenir de l’industrie",
+     1
+    ]
+   ],
+   "familles": {
+    "QAG": 13,
+    "QOSD": 4
+   },
+   "n_ref": 17,
+   "x": 0.8488,
+   "y": 0.3779
+  },
+  {
+   "id": "S104",
+   "mots": [
+    "tode",
+    "saisonniers",
+    "etarf",
+    "occasionnels",
+    "saisonnier",
+    "vignes"
+   ],
+   "titres": [
+    [
+     "Après l’article 9",
+     11
+    ],
+    [
+     "Article 9",
+     4
+    ],
+    [
+     "Article 9 A",
+     2
+    ]
+   ],
+   "familles": {
+    "PLFSS": 17
+   },
+   "n_ref": 17,
+   "x": 0.2546,
+   "y": 0.6825
+  },
+  {
+   "id": "S105",
+   "mots": [
+    "idfm",
+    "télévisions",
+    "audiovisuel",
+    "navigo",
+    "mobilités",
+    "franciliens"
+   ],
+   "titres": [
+    [
+     "Article 15",
+     7
+    ],
+    [
+     "Article 1er",
+     4
+    ],
+    [
+     "Article 2",
+     1
+    ],
+    [
+     "Audiovisuel public",
+     1
+    ],
+    [
+     "Ligne D du RER",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 12,
+    "QAG": 2,
+    "QOSD": 3
+   },
+   "n_ref": 17,
+   "x": 0.4365,
+   "y": 0.8646
+  },
+  {
+   "id": "S106",
+   "mots": [
+    "enedis",
+    "manadiers",
+    "émeutes",
+    "epage",
+    "minières",
+    "sinistrés"
+   ],
+   "titres": [
+    [
+     "Raccordement des panneaux solaires",
+     1
+    ],
+    [
+     "Assurance des manadiers",
+     1
+    ],
+    [
+     "Taxe émeutes",
+     1
+    ],
+    [
+     "Géothermie en Alsace",
+     1
+    ],
+    [
+     "Projet de parc éolien dans le sud de la Seine-et-Marne",
+     1
+    ]
+   ],
+   "familles": {
+    "QOSD": 8,
+    "QAG": 9
+   },
+   "n_ref": 17,
+   "x": 0.6396,
+   "y": 0.2423
+  },
+  {
+   "id": "S107",
+   "mots": [
+    "mécénat",
+    "radio",
+    "culturels",
+    "musées",
+    "musicales",
+    "dons"
+   ],
+   "titres": [
+    [
+     "Après l’article 12",
+     8
+    ],
+    [
+     "Article 36",
+     2
+    ],
+    [
+     "Après l’article 2",
+     1
+    ],
+    [
+     "Après l’article 9",
+     1
+    ],
+    [
+     "Après l’article 21",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 15,
+    "PLFSS": 1
+   },
+   "n_ref": 16,
+   "x": 0.3849,
+   "y": 0.7195
+  },
+  {
+   "id": "S108",
+   "mots": [
+    "belém",
+    "émissions",
+    "fossiles",
+    "mégariches",
+    "serre",
+    "carbone"
+   ],
+   "titres": [
+    [
+     "Après l’article 2",
+     4
+    ],
+    [
+     "Après l’article 3",
+     3
+    ],
+    [
+     "Après l’article 12",
+     2
+    ],
+    [
+     "Après l’article 14",
+     2
+    ],
+    [
+     "Après l’article 8",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 9,
+    "PLFSS": 3,
+    "QAG": 4
+   },
+   "n_ref": 16,
+   "x": 0.6089,
+   "y": 0.7683
+  },
+  {
+   "id": "S109",
+   "mots": [
+    "gibier",
+    "ovocytes",
+    "cuivre",
+    "vignerons",
+    "autoconservation",
+    "maec"
+   ],
+   "titres": [
+    [
+     "Réforme de la politique agricole commune",
+     1
+    ],
+    [
+     "Politique agricole commune",
+     1
+    ],
+    [
+     "Pays-Fort Sancerrois",
+     1
+    ],
+    [
+     "Pacte européen sur la migration et l’asile",
+     1
+    ],
+    [
+     "Crise de la viticulture",
+     1
+    ]
+   ],
+   "familles": {
+    "QAG": 7,
+    "QOSD": 9
+   },
+   "n_ref": 16,
+   "x": 0.7249,
+   "y": 0.2339
+  },
+  {
+   "id": "S110",
+   "mots": [
+    "transmanche",
+    "pêcheurs",
+    "maquereau",
+    "microgrammes",
+    "pêche",
+    "navires"
+   ],
+   "titres": [
+    [
+     "Filière de la pêche",
+     2
+    ],
+    [
+     "Qualité de l’eau potable en Guyane",
+     1
+    ],
+    [
+     "Après l’article 20",
+     1
+    ],
+    [
+     "Trafic transmanche",
+     1
+    ],
+    [
+     "Quotas de pêche",
+     1
+    ]
+   ],
+   "familles": {
+    "QAG": 7,
+    "PLF": 1,
+    "QOSD": 8
+   },
+   "n_ref": 16,
+   "x": 0.6924,
+   "y": 0.2469
+  },
+  {
+   "id": "S111",
+   "mots": [
+    "miroirs",
+    "mercosur",
+    "bœuf",
+    "clauses",
+    "surtranspositions",
+    "importés"
+   ],
+   "titres": [
+    [
+     "Crise agricole",
+     4
+    ],
+    [
+     "Politique agricole",
+     3
+    ],
+    [
+     "Accord entre l’Union européenne et le Mercosur",
+     2
+    ],
+    [
+     "Article 45",
+     2
+    ],
+    [
+     "Politique agricole commune",
+     1
+    ]
+   ],
+   "familles": {
+    "QAG": 14,
+    "PLF": 2
+   },
+   "n_ref": 16,
+   "x": 0.8186,
+   "y": 0.2563
+  },
+  {
+   "id": "S112",
+   "mots": [
+    "lodeom",
+    "mayotte",
+    "chambres",
+    "barthélemy",
+    "youssouffa",
+    "mahorais"
+   ],
+   "titres": [
+    [
+     "Article 9",
+     11
+    ],
+    [
+     "Après l’article 9",
+     3
+    ],
+    [
+     "Soutien à l’économie des territoires d’outre-mer",
+     1
+    ],
+    [
+     "Article 5 et état B",
+     1
+    ]
+   ],
+   "familles": {
+    "PLFSS": 14,
+    "QAG": 1,
+    "PLF": 1
+   },
+   "n_ref": 16,
+   "x": 0.4981,
+   "y": 0.4345
+  },
+  {
+   "id": "S113",
+   "mots": [
+    "puma",
+    "gernigon",
+    "tuberculose",
+    "universelle",
+    "papiers",
+    "monstres"
+   ],
+   "titres": [
+    [
+     "Après l’article 18",
+     6
+    ],
+    [
+     "Article 12",
+     4
+    ],
+    [
+     "Après l’article 12",
+     3
+    ],
+    [
+     "Article 18",
+     3
+    ]
+   ],
+   "familles": {
+    "PLFSS": 16
+   },
+   "n_ref": 16,
+   "x": 0.0478,
+   "y": 0.3913
+  },
+  {
+   "id": "S114",
+   "mots": [
+    "ascenseurs",
+    "usurpation",
+    "algorithme",
+    "bailleur",
+    "contravention",
+    "ingérences"
+   ],
+   "titres": [
+    [
+     "Après l’article 12",
+     3
+    ],
+    [
+     "Article 12",
+     3
+    ],
+    [
+     "Après l’article 19",
+     2
+    ],
+    [
+     "Article 30",
+     1
+    ],
+    [
+     "Première partie",
+     1
+    ]
+   ],
+   "familles": {
+    "PLFSS": 4,
+    "PLF": 7,
+    "QAG": 4,
+    "QOSD": 1
+   },
+   "n_ref": 16,
+   "x": 0.0773,
+   "y": 0.6399
+  },
+  {
+   "id": "S115",
+   "mots": [
+    "cpts",
+    "labellisation",
+    "pdsa",
+    "communautés",
+    "conventionnel",
+    "pluriprofessionnelles"
+   ],
+   "titres": [
+    [
+     "Article 21",
+     7
+    ],
+    [
+     "Après l’article 21",
+     7
+    ],
+    [
+     "Article 20",
+     1
+    ],
+    [
+     "Article 31",
+     1
+    ]
+   ],
+   "familles": {
+    "PLFSS": 16
+   },
+   "n_ref": 16,
+   "x": 0.1021,
+   "y": 0.1892
+  },
+  {
+   "id": "S116",
+   "mots": [
+    "étoiles",
+    "séjour",
+    "sdis",
+    "camping",
+    "nuitée",
+    "touristique"
+   ],
+   "titres": [
+    [
+     "Après l’article 27",
+     15
+    ],
+    [
+     "Après l’article 12",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 16
+   },
+   "n_ref": 16,
+   "x": 0.4101,
+   "y": 0.9117
+  },
+  {
+   "id": "S117",
+   "mots": [
+    "crèches",
+    "sppe",
+    "crèche",
+    "coopératives",
+    "coopératif",
+    "autarcie"
+   ],
+   "titres": [
+    [
+     "Après l’article 12",
+     5
+    ],
+    [
+     "Après l’article 7",
+     3
+    ],
+    [
+     "Après l’article 8",
+     3
+    ],
+    [
+     "Avenir des associations",
+     1
+    ],
+    [
+     "Après l’article 2",
+     1
+    ]
+   ],
+   "familles": {
+    "QAG": 1,
+    "PLF": 8,
+    "PLFSS": 6
+   },
+   "n_ref": 15,
+   "x": 0.3805,
+   "y": 0.5639
+  },
+  {
+   "id": "S118",
+   "mots": [
+    "iran",
+    "iranien",
+    "darfour",
+    "kurdes",
+    "soudan",
+    "islamique"
+   ],
+   "titres": [
+    [
+     "Situation en Iran",
+     6
+    ],
+    [
+     "Guerre civile au Soudan",
+     2
+    ],
+    [
+     "Détention de Cécile Kohler et Jacques Paris en Iran",
+     1
+    ],
+    [
+     "Otages en Iran",
+     1
+    ],
+    [
+     "Situation au Soudan",
+     1
+    ]
+   ],
+   "familles": {
+    "QAG": 14,
+    "QOSD": 1
+   },
+   "n_ref": 15,
+   "x": 0.7835,
+   "y": 0.0418
+  },
+  {
+   "id": "S119",
+   "mots": [
+    "mehdi",
+    "quentin",
+    "kessaci",
+    "amine",
+    "grasse",
+    "groupuscules"
+   ],
+   "titres": [
+    [
+     "Mort de Quentin Deranque",
+     6
+    ],
+    [
+     "Assassinat de Mehdi Kessaci",
+     2
+    ],
+    [
+     "Insécurité",
+     1
+    ],
+    [
+     "Lutte contre le narcotrafic",
+     1
+    ],
+    [
+     "Moyens des forces de l’ordre à Grasse",
+     1
+    ]
+   ],
+   "familles": {
+    "QAG": 14,
+    "QOSD": 1
+   },
+   "n_ref": 15,
+   "x": 0.7373,
+   "y": 0.0
+  },
+  {
+   "id": "S120",
+   "mots": [
+    "vols",
+    "trafiquants",
+    "autun",
+    "verdun",
+    "stupéfiants",
+    "narcotrafic"
+   ],
+   "titres": [
+    [
+     "Insécurité",
+     2
+    ],
+    [
+     "Violence liée au narcotrafic dans les outre-mer",
+     1
+    ],
+    [
+     "Sécurité à Béthune",
+     1
+    ],
+    [
+     "Lutte contre la drogue",
+     1
+    ],
+    [
+     "Vente de drogues de synthèse sur internet",
+     1
+    ]
+   ],
+   "familles": {
+    "QAG": 6,
+    "QOSD": 9
+   },
+   "n_ref": 15,
+   "x": 0.6505,
+   "y": 0.0414
+  },
+  {
+   "id": "S121",
+   "mots": [
+    "desserte",
+    "colombes",
+    "castres",
+    "étienne",
+    "garenne",
+    "pradelles"
+   ],
+   "titres": [
+    [
+     "Contournement de la ville de Sarreguemines",
+     1
+    ],
+    [
+     "Gare de triage de Villeneuve-Saint-Georges",
+     1
+    ],
+    [
+     "Ligne ferroviaire Limoges-Angoulême",
+     1
+    ],
+    [
+     "Conditions de transport entre Saint-Étienne et Lyon",
+     1
+    ],
+    [
+     "Route nationale 88",
+     1
+    ]
+   ],
+   "familles": {
+    "QOSD": 10,
+    "QAG": 5
+   },
+   "n_ref": 15,
+   "x": 0.62,
+   "y": 0.1752
+  },
+  {
+   "id": "S122",
+   "mots": [
+    "montagne",
+    "arrondissement",
+    "notariales",
+    "panachage",
+    "notaires",
+    "décentralisation"
+   ],
+   "titres": [
+    [
+     "Mode de scrutin dans les communes rurales",
+     1
+    ],
+    [
+     "Collectivités territoriales et décentralisation",
+     1
+    ],
+    [
+     "Politique du logement",
+     1
+    ],
+    [
+     "Dotations aux collectivités locales",
+     1
+    ],
+    [
+     "Plan Avenir montagnes",
+     1
+    ]
+   ],
+   "familles": {
+    "QAG": 10,
+    "QOSD": 4
+   },
+   "n_ref": 14,
+   "x": 0.6147,
+   "y": 0.2446
+  },
+  {
+   "id": "S123",
+   "mots": [
+    "caue",
+    "tcci",
+    "chambres",
+    "maladroit",
+    "consulaire",
+    "haies"
+   ],
+   "titres": [
+    [
+     "Article 2",
+     5
+    ],
+    [
+     "Article 34",
+     3
+    ],
+    [
+     "Après l’article 5",
+     1
+    ],
+    [
+     "Après l’article 10",
+     1
+    ],
+    [
+     "Après l’article 3",
+     1
+    ]
+   ],
+   "familles": {
+    "PLFSS": 1,
+    "PLF": 13
+   },
+   "n_ref": 14,
+   "x": 0.2861,
+   "y": 0.7535
+  },
+  {
+   "id": "S124",
+   "mots": [
+    "chambord",
+    "surprime",
+    "louvre",
+    "château",
+    "barnier",
+    "patrimoniaux"
+   ],
+   "titres": [
+    [
+     "Après l’article 2",
+     4
+    ],
+    [
+     "Après l’article 9",
+     2
+    ],
+    [
+     "Article 5 et état B",
+     2
+    ],
+    [
+     "Après l’article 24",
+     2
+    ],
+    [
+     "Article 36",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 13
+   },
+   "n_ref": 13,
+   "x": 0.3969,
+   "y": 0.6878
+  },
+  {
+   "id": "S125",
+   "mots": [
+    "rwanda",
+    "tutsis",
+    "génocide",
+    "machette",
+    "hutus",
+    "lundy"
+   ],
+   "titres": [
+    [
+     "Après l’article 12",
+     3
+    ],
+    [
+     "Après l’article 11",
+     2
+    ],
+    [
+     "Article 3",
+     2
+    ],
+    [
+     "Après l’article 2",
+     1
+    ],
+    [
+     "Après l’article 3",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 9,
+    "PLFSS": 4
+   },
+   "n_ref": 13,
+   "x": 1.0,
+   "y": 0.6534
+  },
+  {
+   "id": "S126",
+   "mots": [
+    "pourboires",
+    "serveurs",
+    "pourboire",
+    "cafés",
+    "hôtellerie",
+    "restaurants"
+   ],
+   "titres": [
+    [
+     "Après l’article 2",
+     9
+    ],
+    [
+     "Article 2",
+     4
+    ]
+   ],
+   "familles": {
+    "PLF": 13
+   },
+   "n_ref": 13,
+   "x": 0.2522,
+   "y": 0.5316
+  },
+  {
+   "id": "S127",
+   "mots": [
+    "découverts",
+    "agios",
+    "verbalisations",
+    "automobilistes",
+    "découvert",
+    "bancaires"
+   ],
+   "titres": [
+    [
+     "Découverts bancaires",
+     3
+    ],
+    [
+     "Devoir de vigilance",
+     1
+    ],
+    [
+     "Menaces contre des militants écologistes",
+     1
+    ],
+    [
+     "Temps de l’enfant",
+     1
+    ],
+    [
+     "Directive omnibus",
+     1
+    ]
+   ],
+   "familles": {
+    "QAG": 13
+   },
+   "n_ref": 13,
+   "x": 0.7756,
+   "y": 0.3144
+  },
+  {
+   "id": "S128",
+   "mots": [
+    "detr",
+    "caue",
+    "archéologie",
+    "epau",
+    "exigibilité",
+    "préventive"
+   ],
+   "titres": [
+    [
+     "Article 31",
+     4
+    ],
+    [
+     "Article 34",
+     2
+    ],
+    [
+     "Congrès des maires",
+     1
+    ],
+    [
+     "Fonds d’investissement pour les territoires",
+     1
+    ],
+    [
+     "Archéologie préventive",
+     1
+    ]
+   ],
+   "familles": {
+    "QAG": 2,
+    "PLF": 6,
+    "QOSD": 5
+   },
+   "n_ref": 13,
+   "x": 0.5856,
+   "y": 0.2985
+  },
+  {
+   "id": "S129",
+   "mots": [
+    "lots",
+    "fashion",
+    "poupées",
+    "fast",
+    "toxine",
+    "shein"
+   ],
+   "titres": [
+    [
+     "Lait infantile contaminé",
+     4
+    ],
+    [
+     "Partenariat entre La Poste et Temu",
+     1
+    ],
+    [
+     "Après l’article 12",
+     1
+    ],
+    [
+     "Poupées vendues par Shein et pédocriminalité",
+     1
+    ],
+    [
+     "Shein",
+     1
+    ]
+   ],
+   "familles": {
+    "QAG": 11,
+    "PLF": 1
+   },
+   "n_ref": 12,
+   "x": 0.7824,
+   "y": 0.3334
+  },
+  {
+   "id": "S130",
+   "mots": [
+    "agrément",
+    "gares",
+    "délivré",
+    "patrimonial",
+    "solaires",
+    "panneaux"
+   ],
+   "titres": [
+    [
+     "Après l’article 12",
+     6
+    ],
+    [
+     "Après l’article 30",
+     2
+    ],
+    [
+     "Après l’article 2",
+     1
+    ],
+    [
+     "Après l’article 3",
+     1
+    ],
+    [
+     "Après l’article 25",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 12
+   },
+   "n_ref": 12,
+   "x": 0.3024,
+   "y": 0.9283
+  },
+  {
+   "id": "S131",
+   "mots": [
+    "différé",
+    "lisser",
+    "falaise",
+    "vocations",
+    "défiscaliser",
+    "renouvellement"
+   ],
+   "titres": [
+    [
+     "Après l’article 8",
+     4
+    ],
+    [
+     "Article 10",
+     3
+    ],
+    [
+     "Article 5",
+     2
+    ],
+    [
+     "Après l’article 10",
+     2
+    ],
+    [
+     "Après l’article 2",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 8,
+    "PLFSS": 4
+   },
+   "n_ref": 12,
+   "x": 0.4374,
+   "y": 0.7756
+  },
+  {
+   "id": "S132",
+   "mots": [
+    "sargasses",
+    "epide",
+    "nilor",
+    "maraudes",
+    "échouements",
+    "hébergement"
+   ],
+   "titres": [
+    [
+     "Article 5 et état B",
+     1
+    ],
+    [
+     "Enfants à la rue",
+     1
+    ],
+    [
+     "Personnes sans abri à Rennes",
+     1
+    ],
+    [
+     "Situation des sans-abri",
+     1
+    ],
+    [
+     "Hébergement d’urgence dans l’Isère",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 1,
+    "QAG": 4,
+    "QOSD": 7
+   },
+   "n_ref": 12,
+   "x": 0.5433,
+   "y": 0.1004
+  },
+  {
+   "id": "S133",
+   "mots": [
+    "mamadou",
+    "arfa",
+    "oqtf",
+    "garanké",
+    "diallo",
+    "consulaire"
+   ],
+   "titres": [
+    [
+     "Après l’article 9",
+     2
+    ],
+    [
+     "Politique d’intégration",
+     1
+    ],
+    [
+     "Politique d’immigration",
+     1
+    ],
+    [
+     "Lutte contre l’immigration irrégulière",
+     1
+    ],
+    [
+     "Circulaire relative à la naturalisation des étrangers",
+     1
+    ]
+   ],
+   "familles": {
+    "QAG": 7,
+    "PLF": 2,
+    "QOSD": 2
+   },
+   "n_ref": 11,
+   "x": 0.7474,
+   "y": 0.0217
+  },
+  {
+   "id": "S134",
+   "mots": [
+    "nomination",
+    "major",
+    "nominations",
+    "recyclage",
+    "commissariat",
+    "collégialité"
+   ],
+   "titres": [
+    [
+     "Nomination d’Amélie de Montchalin à la présidence de la Cour des comptes",
+     4
+    ],
+    [
+     "Mission État efficace",
+     1
+    ],
+    [
+     "Article 36",
+     1
+    ],
+    [
+     "Projet de loi de finances pour l’année 2026",
+     1
+    ],
+    [
+     "Propos du chef d’état-major des armées",
+     1
+    ]
+   ],
+   "familles": {
+    "QAG": 10,
+    "PLF": 1
+   },
+   "n_ref": 11,
+   "x": 0.6605,
+   "y": 0.374
+  },
+  {
+   "id": "S135",
+   "mots": [
+    "assainissement",
+    "hydroélectriques",
+    "spanc",
+    "osmotique",
+    "hydroélectricité",
+    "arenh"
+   ],
+   "titres": [
+    [
+     "Après l’article 20",
+     3
+    ],
+    [
+     "Après l’article 21",
+     2
+    ],
+    [
+     "Article 36",
+     2
+    ],
+    [
+     "Après l’article 12",
+     1
+    ],
+    [
+     "Après l’article 27",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 10,
+    "QOSD": 1
+   },
+   "n_ref": 11,
+   "x": 0.6171,
+   "y": 0.9843
+  },
+  {
+   "id": "S136",
+   "mots": [
+    "transposition",
+    "cyber",
+    "gamelle",
+    "trêve",
+    "noël",
+    "joyeux"
+   ],
+   "titres": [
+    [
+     "Après l’article 12",
+     1
+    ],
+    [
+     "Après l’article 11",
+     1
+    ],
+    [
+     "Article 12",
+     1
+    ],
+    [
+     "Article 44",
+     1
+    ],
+    [
+     "Article 12 A",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 1,
+    "PLFSS": 8,
+    "QAG": 2
+   },
+   "n_ref": 11,
+   "x": 0.9143,
+   "y": 0.5523
+  },
+  {
+   "id": "S137",
+   "mots": [
+    "chassaigne",
+    "collaborateur",
+    "conjoints",
+    "collaborateurs",
+    "conjoint",
+    "exclusif"
+   ],
+   "titres": [
+    [
+     "Article 5",
+     7
+    ],
+    [
+     "Après l’article 5",
+     4
+    ]
+   ],
+   "familles": {
+    "PLFSS": 11
+   },
+   "n_ref": 11,
+   "x": 0.3001,
+   "y": 0.6765
+  },
+  {
+   "id": "S138",
+   "mots": [
+    "hexane",
+    "solvant",
+    "prémix",
+    "boissons",
+    "ramos",
+    "efsa"
+   ],
+   "titres": [
+    [
+     "Article 11",
+     6
+    ],
+    [
+     "Après l’article 11",
+     5
+    ]
+   ],
+   "familles": {
+    "PLFSS": 11
+   },
+   "n_ref": 11,
+   "x": 0.8084,
+   "y": 0.8457
+  },
+  {
+   "id": "S139",
+   "mots": [
+    "délibération",
+    "vody",
+    "boissons",
+    "alcoolisées",
+    "défiant",
+    "sollicitera"
+   ],
+   "titres": [
+    [
+     "Après l’article 25",
+     2
+    ],
+    [
+     "Article 11",
+     2
+    ],
+    [
+     "Après l’article 12",
+     1
+    ],
+    [
+     "Article 7",
+     1
+    ],
+    [
+     "Après l’article 8",
+     1
+    ]
+   ],
+   "familles": {
+    "PLFSS": 6,
+    "PLF": 5
+   },
+   "n_ref": 11,
+   "x": 0.9176,
+   "y": 0.6508
+  },
+  {
+   "id": "S140",
+   "mots": [
+    "grandjean",
+    "enfance",
+    "inceste",
+    "paccoud",
+    "cahors",
+    "pegase"
+   ],
+   "titres": [
+    [
+     "Protection de l’enfance",
+     2
+    ],
+    [
+     "Après l’article 20",
+     1
+    ],
+    [
+     "Journée internationale des droits de l’enfant",
+     1
+    ],
+    [
+     "Violences faites aux enfants",
+     1
+    ],
+    [
+     "Article 20",
+     1
+    ]
+   ],
+   "familles": {
+    "PLFSS": 2,
+    "QAG": 7,
+    "QOSD": 2
+   },
+   "n_ref": 11,
+   "x": 0.4362,
+   "y": 0.0861
+  },
+  {
+   "id": "S141",
+   "mots": [
+    "entrepôts",
+    "centers",
+    "tascom",
+    "data",
+    "accise",
+    "stockées"
+   ],
+   "titres": [
+    [
+     "Article 18",
+     7
+    ],
+    [
+     "Après l’article 27",
+     4
+    ]
+   ],
+   "familles": {
+    "PLF": 11
+   },
+   "n_ref": 11,
+   "x": 0.6664,
+   "y": 0.7128
+  },
+  {
+   "id": "S142",
+   "mots": [
+    "mahorais",
+    "mayotte",
+    "chido",
+    "mahoraises",
+    "cyclone",
+    "pite"
+   ],
+   "titres": [
+    [
+     "Reconstruction de Mayotte",
+     2
+    ],
+    [
+     "Article 4 C",
+     2
+    ],
+    [
+     "Vente aux enchères de bouteilles d’eau à Mayotte",
+     1
+    ],
+    [
+     "Article 45",
+     1
+    ],
+    [
+     "Après l’article 3",
+     1
+    ]
+   ],
+   "familles": {
+    "QAG": 5,
+    "PLFSS": 4,
+    "PLF": 1
+   },
+   "n_ref": 10,
+   "x": 0.5506,
+   "y": 0.3402
+  },
+  {
+   "id": "S143",
+   "mots": [
+    "alès",
+    "aubagne",
+    "châteaudun",
+    "châlons",
+    "brest",
+    "moulins"
+   ],
+   "titres": [
+    [
+     "Moyens de la justice",
+     1
+    ],
+    [
+     "Implantation d’un établissement pénitentiaire en Côte-d’Or",
+     1
+    ],
+    [
+     "Police judiciaire",
+     1
+    ],
+    [
+     "Commissariat d’Aubagne",
+     1
+    ],
+    [
+     "Effectifs de la police nationale à Brest",
+     1
+    ]
+   ],
+   "familles": {
+    "QAG": 3,
+    "QOSD": 7
+   },
+   "n_ref": 10,
+   "x": 0.592,
+   "y": 0.0584
+  },
+  {
+   "id": "S144",
+   "mots": [
+    "sapeurs",
+    "pompiers",
+    "volontaires",
+    "barbe",
+    "trimestres",
+    "bonification"
+   ],
+   "titres": [
+    [
+     "Retraite des sapeurs-pompiers volontaires",
+     4
+    ],
+    [
+     "Article 27",
+     1
+    ],
+    [
+     "Article 17 et annexe",
+     1
+    ],
+    [
+     "Bonification de la pension des sapeurs-pompiers volontaires",
+     1
+    ],
+    [
+     "Sapeurs-pompiers volontaires",
+     1
+    ]
+   ],
+   "familles": {
+    "QAG": 6,
+    "PLF": 1,
+    "PLFSS": 1,
+    "QOSD": 2
+   },
+   "n_ref": 10,
+   "x": 0.3329,
+   "y": 0.2371
+  },
+  {
+   "id": "S145",
+   "mots": [
+    "avion",
+    "vols",
+    "trajets",
+    "corse",
+    "billets",
+    "aviation"
+   ],
+   "titres": [
+    [
+     "Après l’article 21",
+     7
+    ],
+    [
+     "Article 5 et état B",
+     1
+    ],
+    [
+     "Après l’article 25",
+     1
+    ],
+    [
+     "Article 13",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 9,
+    "PLFSS": 1
+   },
+   "n_ref": 10,
+   "x": 0.7186,
+   "y": 0.7961
+  },
+  {
+   "id": "S146",
+   "mots": [
+    "laïcité",
+    "nice",
+    "tuée",
+    "policiers",
+    "parquets",
+    "compagnon"
+   ],
+   "titres": [
+    [
+     "Violences sexistes et sexuelles faites aux femmes et aux enfants",
+     1
+    ],
+    [
+     "Journée internationale pour l’élimination de la violence à l’égard des femmes",
+     1
+    ],
+    [
+     "Effectifs de la police nationale à Nice",
+     1
+    ],
+    [
+     "Laïcité",
+     1
+    ],
+    [
+     "Anniversaire de la loi de 1905",
+     1
+    ]
+   ],
+   "familles": {
+    "QAG": 7,
+    "QOSD": 3
+   },
+   "n_ref": 10,
+   "x": 0.6814,
+   "y": 0.0217
+  },
+  {
+   "id": "S147",
+   "mots": [
+    "braille",
+    "fauteuils",
+    "cteb",
+    "fauteuil",
+    "charcot",
+    "handigynéco"
+   ],
+   "titres": [
+    [
+     "Article 17 et annexe",
+     2
+    ],
+    [
+     "Droit à l’aide à mourir",
+     1
+    ],
+    [
+     "Après l’article 20",
+     1
+    ],
+    [
+     "Après l’article 25",
+     1
+    ],
+    [
+     "Application de la loi du 17 février 2025 et prise en charge de la maladie de Charcot",
+     1
+    ]
+   ],
+   "familles": {
+    "QAG": 4,
+    "PLFSS": 3,
+    "PLF": 1,
+    "QOSD": 1
+   },
+   "n_ref": 9,
+   "x": 0.254,
+   "y": 0.1407
+  },
+  {
+   "id": "S148",
+   "mots": [
+    "conjugal",
+    "quotient",
+    "individualisé",
+    "conjugalisés",
+    "précautions",
+    "couple"
+   ],
+   "titres": [
+    [
+     "Après l’article 2",
+     4
+    ],
+    [
+     "Après l’article 12",
+     2
+    ],
+    [
+     "Après l’article 8",
+     1
+    ],
+    [
+     "Article 7",
+     1
+    ],
+    [
+     "Article 25",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 8,
+    "PLFSS": 1
+   },
+   "n_ref": 9,
+   "x": 0.205,
+   "y": 0.8372
+  },
+  {
+   "id": "S149",
+   "mots": [
+    "fakir",
+    "misogyne",
+    "rédacteur",
+    "rappels",
+    "bénévole",
+    "orateur"
+   ],
+   "titres": [
+    [
+     "Après l’article 3",
+     3
+    ],
+    [
+     "Après l’article 2",
+     1
+    ],
+    [
+     "Après l’article 8",
+     1
+    ],
+    [
+     "Article 18",
+     1
+    ],
+    [
+     "Après l’article 9",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 6,
+    "PLFSS": 3
+   },
+   "n_ref": 9,
+   "x": 0.9783,
+   "y": 0.6321
+  },
+  {
+   "id": "S150",
+   "mots": [
+    "festival",
+    "bobos",
+    "festivals",
+    "metal",
+    "cinéma",
+    "angoulême"
+   ],
+   "titres": [
+    [
+     "Article 36",
+     5
+    ],
+    [
+     "Après l’article 2",
+     1
+    ],
+    [
+     "Après l’article 12",
+     1
+    ],
+    [
+     "Festival international de la bande dessinée d’Angoulême",
+     1
+    ],
+    [
+     "Article 25",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 8,
+    "QAG": 1
+   },
+   "n_ref": 9,
+   "x": 0.5002,
+   "y": 0.6639
+  },
+  {
+   "id": "S151",
+   "mots": [
+    "polynésiens",
+    "aefe",
+    "bourses",
+    "polynésie",
+    "bourse",
+    "université"
+   ],
+   "titres": [
+    [
+     "Suppression des APL pour les étudiants étrangers",
+     1
+    ],
+    [
+     "Article 5 et état B",
+     1
+    ],
+    [
+     "Université de Corse",
+     1
+    ],
+    [
+     "Lycées français à l’étranger",
+     1
+    ],
+    [
+     "Bourse nationale au mérite en Polynésie française",
+     1
+    ]
+   ],
+   "familles": {
+    "QAG": 6,
+    "PLF": 1,
+    "QOSD": 2
+   },
+   "n_ref": 9,
+   "x": 0.3647,
+   "y": 0.1445
+  },
+  {
+   "id": "S152",
+   "mots": [
+    "dissimulé",
+    "frauduleux",
+    "dinguerie",
+    "majoration",
+    "fraudes",
+    "schémas"
+   ],
+   "titres": [
+    [
+     "Article 12",
+     3
+    ],
+    [
+     "Après l’article 12",
+     2
+    ],
+    [
+     "Après l’article 29",
+     2
+    ],
+    [
+     "Après l’article 10",
+     1
+    ],
+    [
+     "Après l’article 18",
+     1
+    ]
+   ],
+   "familles": {
+    "PLFSS": 7,
+    "PLF": 2
+   },
+   "n_ref": 9,
+   "x": 0.075,
+   "y": 0.4882
+  },
+  {
+   "id": "S153",
+   "mots": [
+    "hippiques",
+    "hippodromes",
+    "hippique",
+    "courses",
+    "woerth",
+    "jeux"
+   ],
+   "titres": [
+    [
+     "Après l’article 25",
+     4
+    ],
+    [
+     "Après l’article 9",
+     3
+    ],
+    [
+     "Après l’article 11",
+     2
+    ]
+   ],
+   "familles": {
+    "PLFSS": 2,
+    "PLF": 7
+   },
+   "n_ref": 9,
+   "x": 0.5386,
+   "y": 0.7262
+  },
+  {
+   "id": "S154",
+   "mots": [
+    "gabès",
+    "nutrition",
+    "snanc",
+    "ultratransformés",
+    "tunisie",
+    "viande"
+   ],
+   "titres": [
+    [
+     "Santé environnementale",
+     2
+    ],
+    [
+     "Économie sociale et solidaire",
+     1
+    ],
+    [
+     "Article 11 B",
+     1
+    ],
+    [
+     "Pollution chimique en Tunisie",
+     1
+    ],
+    [
+     "Stratégie nationale pour l’alimentation, la nutrition et climat",
+     1
+    ]
+   ],
+   "familles": {
+    "QOSD": 2,
+    "PLFSS": 1,
+    "QAG": 6
+   },
+   "n_ref": 9,
+   "x": 0.7414,
+   "y": 0.2779
+  },
+  {
+   "id": "S155",
+   "mots": [
+    "mardi",
+    "verny",
+    "tenue",
+    "hémiplégie",
+    "argumentant",
+    "discréditer"
+   ],
+   "titres": [
+    [
+     "Après l’article 2",
+     1
+    ],
+    [
+     "Article 3",
+     1
+    ],
+    [
+     "Après l’article 3",
+     1
+    ],
+    [
+     "Après l’article 10",
+     1
+    ],
+    [
+     "Article 45",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 4,
+    "PLFSS": 4
+   },
+   "n_ref": 8,
+   "x": 0.9934,
+   "y": 0.6158
+  },
+  {
+   "id": "S156",
+   "mots": [
+    "faciale",
+    "nominale",
+    "rachats",
+    "actionnariat",
+    "rachat",
+    "gratuites"
+   ],
+   "titres": [
+    [
+     "Après l’article 12",
+     6
+    ],
+    [
+     "Après l’article 8",
+     1
+    ],
+    [
+     "Après l’article 30",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 7,
+    "PLFSS": 1
+   },
+   "n_ref": 8,
+   "x": 0.635,
+   "y": 0.5411
+  },
+  {
+   "id": "S157",
+   "mots": [
+    "jeunesse",
+    "attaquant",
+    "chômage",
+    "conseillers",
+    "insertion",
+    "chômeur"
+   ],
+   "titres": [
+    [
+     "Article 9",
+     2
+    ],
+    [
+     "Après l’article 3",
+     1
+    ],
+    [
+     "Avenir des missions locales",
+     1
+    ],
+    [
+     "Missions locales outre-mer",
+     1
+    ],
+    [
+     "Après l’article 12",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 3,
+    "QAG": 3,
+    "PLFSS": 2
+   },
+   "n_ref": 8,
+   "x": 0.4282,
+   "y": 0.5071
+  },
+  {
+   "id": "S158",
+   "mots": [
+    "intracommunautaires",
+    "formulaire",
+    "carrousel",
+    "préremplie",
+    "électronique",
+    "cumcum"
+   ],
+   "titres": [
+    [
+     "Après l’article 29",
+     6
+    ],
+    [
+     "Après l’article 25",
+     2
+    ]
+   ],
+   "familles": {
+    "PLF": 8
+   },
+   "n_ref": 8,
+   "x": 0.7485,
+   "y": 0.6378
+  },
+  {
+   "id": "S159",
+   "mots": [
+    "pierrefonds",
+    "qlco",
+    "pénitentiaires",
+    "dijon",
+    "aéroport",
+    "miquelon"
+   ],
+   "titres": [
+    [
+     "Double évasion à la maison d’arrêt de Dijon",
+     2
+    ],
+    [
+     "Maison d’arrêt d’Aurillac",
+     1
+    ],
+    [
+     "Centre de contrôle aérien de Tahiti-Faa’a",
+     1
+    ],
+    [
+     "Aéroport de Pierrefonds",
+     1
+    ],
+    [
+     "Quartiers de lutte contre la criminalité organisée",
+     1
+    ]
+   ],
+   "familles": {
+    "QOSD": 4,
+    "QAG": 4
+   },
+   "n_ref": 8,
+   "x": 0.6132,
+   "y": 0.1016
+  },
+  {
+   "id": "S160",
+   "mots": [
+    "frelon",
+    "asiatique",
+    "mpox",
+    "lynx",
+    "apicole",
+    "apiculteurs"
+   ],
+   "titres": [
+    [
+     "Nématode du pin dans les Landes",
+     1
+    ],
+    [
+     "Lutte contre le frelon asiatique",
+     1
+    ],
+    [
+     "Protection du lynx boréal",
+     1
+    ],
+    [
+     "Frelon asiatique en Alsace",
+     1
+    ],
+    [
+     "Frelon asiatique",
+     1
+    ]
+   ],
+   "familles": {
+    "QOSD": 4,
+    "QAG": 4
+   },
+   "n_ref": 8,
+   "x": 0.7169,
+   "y": 0.1889
+  },
+  {
+   "id": "S161",
+   "mots": [
+    "vernon",
+    "exaion",
+    "spatiale",
+    "bromo",
+    "starlink",
+    "vinci"
+   ],
+   "titres": [
+    [
+     "Cession d’Exaion par EDF",
+     1
+    ],
+    [
+     "Préférence européenne en matière de commande publique",
+     1
+    ],
+    [
+     "Avenir d’Exaion",
+     1
+    ],
+    [
+     "Site ArianeGroup de Vernon",
+     1
+    ],
+    [
+     "Nouvelle stratégie spatiale française",
+     1
+    ]
+   ],
+   "familles": {
+    "QAG": 4,
+    "QOSD": 3
+   },
+   "n_ref": 7,
+   "x": 0.8714,
+   "y": 0.3517
+  },
+  {
+   "id": "S162",
+   "mots": [
+    "bougival",
+    "flnks",
+    "nouméa",
+    "calédoniens",
+    "calédonie",
+    "provinciales"
+   ],
+   "titres": [
+    [
+     "Article 5 et état B",
+     2
+    ],
+    [
+     "Avenir de la Nouvelle-Calédonie",
+     2
+    ],
+    [
+     "Sortie de l’accord de Nouméa",
+     1
+    ],
+    [
+     "Statut de la Nouvelle-Calédonie",
+     1
+    ],
+    [
+     "Avenir institutionnel de la Nouvelle-Calédonie",
+     1
+    ]
+   ],
+   "familles": {
+    "QAG": 5,
+    "PLF": 2
+   },
+   "n_ref": 7,
+   "x": 0.7226,
+   "y": 0.3913
+  },
+  {
+   "id": "S163",
+   "mots": [
+    "pmcb",
+    "néonicotinoïdes",
+    "écocontribution",
+    "jaunisse",
+    "virale",
+    "valobat"
+   ],
+   "titres": [
+    [
+     "Après l’article 21",
+     3
+    ],
+    [
+     "Après l’article 9",
+     1
+    ],
+    [
+     "Recyclage des déchets du secteur du bâtiment",
+     1
+    ],
+    [
+     "Accord européen sur les nouvelles techniques génomiques",
+     1
+    ],
+    [
+     "Pesticides",
+     1
+    ]
+   ],
+   "familles": {
+    "PLFSS": 1,
+    "PLF": 3,
+    "QOSD": 1,
+    "QAG": 2
+   },
+   "n_ref": 7,
+   "x": 0.5323,
+   "y": 0.913
+  },
+  {
+   "id": "S164",
+   "mots": [
+    "guyane",
+    "guyanais",
+    "évacuations",
+    "orpaillage",
+    "safer",
+    "tampok"
+   ],
+   "titres": [
+    [
+     "Article 49",
+     1
+    ],
+    [
+     "Après l’article 10",
+     1
+    ],
+    [
+     "Après l’article 13",
+     1
+    ],
+    [
+     "Article 31",
+     1
+    ],
+    [
+     "Situation économique de la Guyane",
+     1
+    ]
+   ],
+   "familles": {
+    "PLFSS": 1,
+    "PLF": 3,
+    "QOSD": 2,
+    "QAG": 1
+   },
+   "n_ref": 7,
+   "x": 0.6148,
+   "y": 0.2723
+  },
+  {
+   "id": "S165",
+   "mots": [
+    "portail",
+    "chorus",
+    "électronique",
+    "facturation",
+    "abandonné",
+    "plateforme"
+   ],
+   "titres": [
+    [
+     "Article 28",
+     5
+    ],
+    [
+     "Après l’article 24",
+     1
+    ],
+    [
+     "Article 29",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 7
+   },
+   "n_ref": 7,
+   "x": 0.7891,
+   "y": 0.6674
+  },
+  {
+   "id": "S166",
+   "mots": [
+    "littorales",
+    "concessionnaire",
+    "décharges",
+    "atosca",
+    "océan",
+    "littoral"
+   ],
+   "titres": [
+    [
+     "Pollution des sols",
+     1
+    ],
+    [
+     "Décharges littorales",
+     1
+    ],
+    [
+     "Politique européenne en faveur des outre-mer",
+     1
+    ],
+    [
+     "Droit à l’égalité réelle dans les outre-mer",
+     1
+    ],
+    [
+     "Traité international pour la protection de la haute mer",
+     1
+    ]
+   ],
+   "familles": {
+    "QOSD": 4,
+    "QAG": 3
+   },
+   "n_ref": 7,
+   "x": 0.6576,
+   "y": 0.22
+  },
+  {
+   "id": "S167",
+   "mots": [
+    "collèges",
+    "rabelais",
+    "lycée",
+    "enseignantes",
+    "degré",
+    "élèves"
+   ],
+   "titres": [
+    [
+     "Éducation prioritaire",
+     1
+    ],
+    [
+     "Suppression de postes d’enseignants dans la Creuse",
+     1
+    ],
+    [
+     "Suppression de postes dans l’éducation nationale",
+     1
+    ],
+    [
+     "Plan « collèges en difficulté »",
+     1
+    ],
+    [
+     "Fermeture du lycée François-Rabelais à Paris",
+     1
+    ]
+   ],
+   "familles": {
+    "QOSD": 5,
+    "QAG": 2
+   },
+   "n_ref": 7,
+   "x": 0.3966,
+   "y": 0.0883
+  },
+  {
+   "id": "S168",
+   "mots": [
+    "ambérieu",
+    "hélios",
+    "fibre",
+    "arcep",
+    "cuivre",
+    "postiers"
+   ],
+   "titres": [
+    [
+     "Service public de La Poste",
+     1
+    ],
+    [
+     "Accès à la fibre optique",
+     1
+    ],
+    [
+     "Enfouissement des lignes à haute tension à Rungis",
+     1
+    ],
+    [
+     "Ligne ferroviaire entre Lyon et Ambérieu-en-Bugey",
+     1
+    ],
+    [
+     "Tarifs postaux",
+     1
+    ]
+   ],
+   "familles": {
+    "QAG": 2,
+    "QOSD": 4
+   },
+   "n_ref": 6,
+   "x": 0.6033,
+   "y": 0.1932
+  },
+  {
+   "id": "S169",
+   "mots": [
+    "trophées",
+    "chasseurs",
+    "espèces",
+    "saumon",
+    "protégées",
+    "chasser"
+   ],
+   "titres": [
+    [
+     "Après l’article 24",
+     5
+    ],
+    [
+     "Après l’article 12",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 6
+   },
+   "n_ref": 6,
+   "x": 0.5453,
+   "y": 0.8097
+  },
+  {
+   "id": "S170",
+   "mots": [
+    "certifiées",
+    "biologique",
+    "viticoles",
+    "exploitations",
+    "label",
+    "écorégimes"
+   ],
+   "titres": [
+    [
+     "Après l’article 10",
+     5
+    ],
+    [
+     "Article 5",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 6
+   },
+   "n_ref": 6,
+   "x": 0.5142,
+   "y": 0.8467
+  },
+  {
+   "id": "S171",
+   "mots": [
+    "pinel",
+    "inao",
+    "loyer",
+    "sieg",
+    "labellise",
+    "esus"
+   ],
+   "titres": [
+    [
+     "Après l’article 12",
+     3
+    ],
+    [
+     "Après l’article 8",
+     1
+    ],
+    [
+     "Après l’article 36",
+     1
+    ],
+    [
+     "Article 21",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 5,
+    "PLFSS": 1
+   },
+   "n_ref": 6,
+   "x": 0.2617,
+   "y": 0.9363
+  },
+  {
+   "id": "S172",
+   "mots": [
+    "cstb",
+    "darblay",
+    "star",
+    "cool",
+    "roof",
+    "mont"
+   ],
+   "titres": [
+    [
+     "Établissement public du Mont-Saint-Michel",
+     1
+    ],
+    [
+     "Centre scientifique et technique du bâtiment",
+     1
+    ],
+    [
+     "Entreprise Cool Roof",
+     1
+    ],
+    [
+     "Papeterie Chapelle Darblay de Grand-Couronne",
+     1
+    ],
+    [
+     "Situation de l’entreprise Black Star",
+     1
+    ]
+   ],
+   "familles": {
+    "QOSD": 5,
+    "QAG": 1
+   },
+   "n_ref": 6,
+   "x": 0.8995,
+   "y": 0.3333
+  },
+  {
+   "id": "S173",
+   "mots": [
+    "indivision",
+    "drom",
+    "guadeloupe",
+    "martinique",
+    "vacance",
+    "cherté"
+   ],
+   "titres": [
+    [
+     "Leasing social en outre-mer",
+     1
+    ],
+    [
+     "Après l’article 12",
+     1
+    ],
+    [
+     "Congés pour raison de santé des agents de l’État dans les outre-mer",
+     1
+    ],
+    [
+     "Indemnité temporaire de retraite pour les fonctionnaires ultramarins",
+     1
+    ],
+    [
+     "Foncier en Martinique",
+     1
+    ]
+   ],
+   "familles": {
+    "QAG": 3,
+    "PLF": 1,
+    "QOSD": 1
+   },
+   "n_ref": 5,
+   "x": 0.5403,
+   "y": 0.2504
+  },
+  {
+   "id": "S174",
+   "mots": [
+    "hagondange",
+    "novasco",
+    "greybull",
+    "europlasma",
+    "wizpaper",
+    "custines"
+   ],
+   "titres": [
+    [
+     "Novasco",
+     1
+    ],
+    [
+     "Aciérie Novasco",
+     1
+    ],
+    [
+     "Liquidation judiciaire de la papeterie Wizpaper",
+     1
+    ],
+    [
+     "Sauvegarde de l’industrie française",
+     1
+    ],
+    [
+     "Situation du groupe Fibre Excellence",
+     1
+    ]
+   ],
+   "familles": {
+    "QAG": 4,
+    "QOSD": 1
+   },
+   "n_ref": 5,
+   "x": 0.8851,
+   "y": 0.3541
+  },
+  {
+   "id": "S175",
+   "mots": [
+    "nutriscore",
+    "pastille",
+    "mentions",
+    "publicitaire",
+    "radio",
+    "animale"
+   ],
+   "titres": [
+    [
+     "Après l’article 11",
+     3
+    ],
+    [
+     "Après l’article 12",
+     1
+    ],
+    [
+     "Après l’article 9",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 2,
+    "PLFSS": 3
+   },
+   "n_ref": 5,
+   "x": 0.9647,
+   "y": 0.6985
+  },
+  {
+   "id": "S176",
+   "mots": [
+    "cerfa",
+    "fraude",
+    "détectées",
+    "fantômes",
+    "fraudeurs",
+    "pensions"
+   ],
+   "titres": [
+    [
+     "Lutte contre la fraude sociale",
+     1
+    ],
+    [
+     "Après l’article 12",
+     1
+    ],
+    [
+     "Après l’article 29",
+     1
+    ],
+    [
+     "Article 12",
+     1
+    ],
+    [
+     "Fraudes sociales",
+     1
+    ]
+   ],
+   "familles": {
+    "QAG": 2,
+    "PLFSS": 2,
+    "PLF": 1
+   },
+   "n_ref": 5,
+   "x": 0.1007,
+   "y": 0.4597
+  },
+  {
+   "id": "S177",
+   "mots": [
+    "cinématographique",
+    "animation",
+    "rentabiliser",
+    "audiovisuelles",
+    "proroger",
+    "tournage"
+   ],
+   "titres": [
+    [
+     "Après l’article 12",
+     3
+    ],
+    [
+     "Article 24",
+     2
+    ]
+   ],
+   "familles": {
+    "PLF": 5
+   },
+   "n_ref": 5,
+   "x": 0.4706,
+   "y": 0.6987
+  },
+  {
+   "id": "S178",
+   "mots": [
+    "nickel",
+    "hectolitres",
+    "chocolat",
+    "hectolitre",
+    "havelaar",
+    "inao"
+   ],
+   "titres": [
+    [
+     "Après l’article 25",
+     3
+    ],
+    [
+     "Après l’article 10",
+     1
+    ],
+    [
+     "Après l’article 36",
+     1
+    ]
+   ],
+   "familles": {
+    "PLF": 5
+   },
+   "n_ref": 5,
+   "x": 0.5534,
+   "y": 0.8824
+  }
+ ],
+ "modele": "BAAI/bge-m3"
+}

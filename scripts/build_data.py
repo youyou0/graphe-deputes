@@ -154,6 +154,8 @@ def main():
     add_hatvp(data)
     add_votes(data)
     add_interventions(data)
+    if "--no-photos" not in sys.argv:
+        add_photos(data)
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     print(f"{len(deputes)} députés, {len(orgs)} organes, {len(links)} liens -> {OUT}")
@@ -742,6 +744,45 @@ def cr_text(el):
     walk(el)
     text = re.sub(r"[ \t  ]+", " ", "".join(out))
     return re.sub(r"\s*\n\s*", "\n", text).strip()
+
+
+PHOTO_CACHE = ROOT / "raw" / "photos"
+PHOTO_URL = "https://www.assemblee-nationale.fr/dyn/static/tribun/17/photos/carre/{}.jpg"
+
+
+def add_photos(data):
+    """Photo officielle de chaque député, copiée dans site/photos/ (servie par le site lui-même :
+    pas de requête vers un tiers à chaque visite). Téléchargée une seule fois, puis en cache."""
+    import shutil
+
+    PHOTO_CACHE.mkdir(parents=True, exist_ok=True)
+    out = ROOT / "site" / "photos"
+    out.mkdir(parents=True, exist_ok=True)
+    todo = [d["id"] for d in data["deputes"] if not (PHOTO_CACHE / f"{d['id']}.jpg").exists()]
+    if todo:
+        print(f"  Photos : {len(todo)} à télécharger")
+
+    def one(pid):
+        _throttle(per_second=4)
+        req = urllib.request.Request(PHOTO_URL.format(pid.removeprefix("PA")), headers={"User-Agent": "graphe-deputes (open data)"})
+        try:
+            with urllib.request.urlopen(req, timeout=30) as r:
+                body = r.read()
+        except (urllib.error.URLError, TimeoutError):
+            return  # retenté au prochain lancement
+        if body[:3] == b"\xff\xd8\xff":  # vrai JPEG, pas une page d'erreur
+            (PHOTO_CACHE / f"{pid}.jpg").write_bytes(body)
+
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        list(pool.map(one, todo))
+    n = 0
+    for d in data["deputes"]:
+        src = PHOTO_CACHE / f"{d['id']}.jpg"
+        if src.exists():
+            shutil.copyfile(src, out / f"{d['id']}.jpg")
+            d["photo"] = 1
+            n += 1
+    print(f"  Photos : {n}/{len(data['deputes'])} députés")
 
 
 VIDEO_CACHE = ROOT / "raw" / "videos_cache.json"

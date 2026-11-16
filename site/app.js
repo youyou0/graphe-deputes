@@ -48,6 +48,8 @@
     hover: null,
     // Structures HATVP citées par un seul député : masquées par défaut (bruit).
     singles: false,
+    // Photos des députés à la place des points, dès qu'elles sont assez grandes à l'écran.
+    faces: true,
   };
 
   let fitted = false;
@@ -87,11 +89,61 @@
     buildSidebar();
     buildGraph();
     bindPalette();
+    bindChrome();
     $("#panelClose").addEventListener("click", () => select(null));
-    $("#zoomFit").addEventListener("click", () => graph.zoomToFit(600, 60));
     window.addEventListener("hashchange", fromHash);
     $("#loading").remove();
     fromHash();
+  }
+
+  /* ---------- Vues, navigation, commandes générales ---------- */
+
+  let view = "graphe";
+  let lastPage = null; // dernière adresse hors fiche : là où ramène le bouton retour
+  function setView(v) {
+    if (v === view) return;
+    view = v;
+    $(".app").dataset.view = v;
+    document.querySelectorAll("[data-view-pane]").forEach((el) => { el.hidden = el.dataset.viewPane !== v; });
+    document.querySelectorAll("[data-side]").forEach((el) => { el.hidden = el.dataset.side !== v; });
+    document.querySelectorAll("[data-nav]").forEach((a) => {
+      if (a.dataset.nav === v) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+    });
+    // Le panneau de détail appartient au graphe.
+    $("#panel").hidden = v !== "graphe" || !state.selected;
+    document.title = v === "sujets" ? "Sujets débattus · Graphe des députés" : "Graphe des députés";
+    if (v === "graphe") { graph.resumeAnimation(); window.Sujets?.hide(); }
+    else graph.pauseAnimation();
+    toggleFilters(false);
+  }
+
+  function toggleFilters(open) {
+    const b = $("#filtersBtn");
+    const on = open ?? b.getAttribute("aria-expanded") !== "true";
+    b.setAttribute("aria-expanded", on);
+    $(".sidebar").classList.toggle("filters-open", on);
+  }
+
+  const store = {
+    get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch { /* navigation privée */ } },
+  };
+
+  function bindChrome() {
+    $("#zoomFit").addEventListener("click", () => graph.zoomToFit(600, 60));
+    $("#zoomIn").addEventListener("click", () => graph.zoom(graph.zoom() * 1.5, 300));
+    $("#zoomOut").addEventListener("click", () => graph.zoom(graph.zoom() / 1.5, 300));
+    $("#filtersBtn").addEventListener("click", () => toggleFilters());
+    $("#facesToggle").addEventListener("click", (e) => {
+      state.faces = !state.faces;
+      e.currentTarget.setAttribute("aria-pressed", state.faces);
+      store.set("faces", state.faces ? "1" : "0");
+      redraw();
+    });
+    if (store.get("faces") === "0") { state.faces = false; $("#facesToggle").setAttribute("aria-pressed", "false"); }
+    // Aide de première visite, fermée pour de bon une fois lue.
+    if (!store.get("hint")) $("#hint").hidden = false;
+    $("#hintClose").addEventListener("click", () => { $("#hint").hidden = true; store.set("hint", "1"); });
   }
 
   /* ---------- Sidebar ---------- */
@@ -273,11 +325,23 @@
     ctx.globalAlpha = dim ? 0.12 : 1;
 
     if (n.type === "dep") {
-      const r = focus ? 5 : 3.2;
+      // Visage dès qu'il fait au moins ~12 px à l'écran ; un point coloré sinon (vue d'ensemble lisible).
+      const faceR = focus ? 5.5 : 4.2;
+      const img = state.faces && !dim && faceR * scale >= 6 ? photo(n) : null;
+      const r = img ? faceR : focus ? 5 : 3.2;
       ctx.beginPath();
       ctx.arc(n.x, n.y, r, 0, 2 * Math.PI);
       ctx.fillStyle = n.color;
       ctx.fill();
+      if (img) {
+        const inner = r - Math.max(0.6, 1.6 / scale);
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, inner, 0, 2 * Math.PI);
+        ctx.clip();
+        ctx.drawImage(img, n.x - inner, n.y - inner, inner * 2, inner * 2);
+        ctx.restore();
+      }
       if (focus || n === state.selected) {
         ctx.lineWidth = 1.5 / scale;
         ctx.strokeStyle = "#f7f8f8";
@@ -301,6 +365,25 @@
     }
     ctx.globalAlpha = 1;
   }
+
+  // Photos chargées à la demande (seulement les députés visibles de près), puis gardées en mémoire.
+  const photos = new Map();
+  let redrawTimer = null;
+  function photo(d) {
+    if (!d.photo) return null;
+    let im = photos.get(d.id);
+    if (!im) {
+      im = new Image();
+      im.decoding = "async";
+      im.onload = () => { clearTimeout(redrawTimer); redrawTimer = setTimeout(redraw, 60); };
+      im.src = photoUrl(d);
+      photos.set(d.id, im);
+    }
+    return im.complete && im.naturalWidth ? im : null;
+  }
+  // force-graph ne redessine qu'en cas d'interaction : un zoom identique force une image.
+  function redraw() { if (graph) graph.zoom(graph.zoom()); }
+  function photoUrl(d) { return `photos/${d.id}.jpg`; }
 
   function label(ctx, text, x, y, scale, color, px) {
     const size = px / Math.max(scale, 0.6);
@@ -402,6 +485,13 @@
       return;
     }
     closeFiche();
+    lastPage = hash;
+    if (hash === "sujets" || hash.startsWith("sujets/")) {
+      setView("sujets");
+      window.Sujets.show($("#sujetsView"), hash.slice(7));
+      return;
+    }
+    setView("graphe");
     const id = hash;
     const n = id && nodesById.get(id);
     if (!n) return;
@@ -470,7 +560,6 @@
 
   function depPanel(d) {
     const g = groupsById.get(d.groupe);
-    const num = d.id.replace(/^PA/, "");
     const a = age(d.naissance);
     const byKind = new Map();
     d.orgs.filter((l) => l.kind !== "GP").forEach((l) => {
@@ -486,7 +575,7 @@
       <div class="p-head">
         <div class="p-id">
           <div class="avatar" style="border-color:${d.color}">
-            <img src="https://www.assemblee-nationale.fr/dyn/static/tribun/17/photos/carre/${num}.jpg" alt="" loading="lazy" onerror="this.replaceWith(document.createTextNode('${esc(initials(d))}'))">
+            ${d.photo ? `<img src="${photoUrl(d)}" alt="" loading="lazy">` : esc(initials(d))}
           </div>
           <div>
             <h2 class="p-title">${esc(d.prenom)} ${esc(d.nom)}</h2>
@@ -882,6 +971,11 @@
     return s.length ? s[Math.floor(s.length / 2)] : null;
   }
 
+  function leaveFiche() {
+    const d = fiche.dep;
+    location.hash = lastPage != null ? lastPage : d ? d.id : "";
+  }
+
   function closeFiche() {
     const el = $("#fiche");
     if (el.hidden) return;
@@ -912,6 +1006,7 @@
     ]);
     if (fiche.dep !== d) return; // une autre fiche a été ouverte entretemps
     fiche.votes = votes && { ...votes, scrutins };
+    fillFicheSujets(d);
     renderVoteList();
   }
 
@@ -919,7 +1014,6 @@
     const g = groupsById.get(d.groupe);
     const v = d.votes || {};
     const a = age(d.naissance);
-    const num = d.id.replace(/^PA/, "");
     const hv = d.orgs.filter((l) => isHv(l.target));
     const hvCount = new Set(hv.map((l) => l.target)).size + Object.values(d.hatvp?.masquees || {}).reduce((s, x) => s + x, 0);
     const medPart = median(deputes.map((x) => x.votes?.scrutins ? x.votes.exprimes / x.votes.scrutins : null));
@@ -938,14 +1032,14 @@
     return `
       <header class="f-bar">
         <button class="f-back" id="ficheBack" type="button">
-          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5"/></svg>Graphe
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5"/></svg>Retour
         </button>
         <span class="f-crumb">Députés <span>/</span> ${esc(d.prenom)} ${esc(d.nom)}</span>
       </header>
       <div class="f-wrap">
         <section class="f-hero">
           <div class="avatar avatar-lg" style="border-color:${d.color}">
-            <img src="https://www.assemblee-nationale.fr/dyn/static/tribun/17/photos/carre/${num}.jpg" alt="" onerror="this.replaceWith(document.createTextNode('${esc(initials(d))}'))">
+            ${d.photo ? `<img src="${photoUrl(d)}" alt="" loading="lazy">` : esc(initials(d))}
           </div>
           <div class="f-id">
             <h1>${esc(d.prenom)} ${esc(d.nom)}</h1>
@@ -1058,6 +1152,7 @@
           </main>
 
           <aside class="f-side">
+            <section class="card" id="ficheSujets" hidden></section>
             ${roles.length ? `<section class="card">${sectionInner("Fonctions", roles.length, `<ul class="rows">${roles.map((l) => orgRow(l.target, l.role)).join("")}</ul>`)}</section>` : ""}
             <section class="card">${hatvpSection(d)}</section>
             <section class="card">
@@ -1067,6 +1162,22 @@
           </aside>
         </div>
       </div>`;
+  }
+
+  function fillFicheSujets(d) {
+    window.Sujets?.load().then(() => {
+      const items = window.Sujets.forDepute(d.id);
+      const el = $("#ficheSujets");
+      if (fiche.dep !== d || !el || !items.length) return;
+      const max = items[0].mots;
+      el.innerHTML = sectionInner(`Sujets sur lesquels ${d.civ === "Mme" ? "elle" : "il"} intervient`, null, `
+        <p class="p-note">Questions au gouvernement, questions orales et débats budgétaires, en mots prononcés.</p>
+        <ul class="rows">${items.map((t) => `<li><a class="row" href="#sujets/carte/${esc(t.id)}">
+          <span class="r-main"><span class="r-name">${esc(t.nom)}</span></span>
+          <span class="bar"><i style="width:${(t.mots / max) * 100}%"></i></span>
+          <span class="r-meta">${t.mots.toLocaleString("fr-FR")}</span></a></li>`).join("")}</ul>`);
+      el.hidden = false;
+    }).catch(() => {});
   }
 
   function sectionInner(title, count, body) {
@@ -1142,11 +1253,7 @@
   }
 
   $("#fiche").addEventListener("click", (e) => {
-    if (e.target.closest("#ficheBack")) {
-      const d = fiche.dep;
-      location.hash = d ? d.id : "";
-      return;
-    }
+    if (e.target.closest("#ficheBack")) { leaveFiche(); return; }
     const f = e.target.closest("[data-fiche]");
     if (f) { location.hash = `fiche/${f.dataset.fiche}`; return; }
     const go = e.target.closest("[data-go]");
@@ -1217,8 +1324,14 @@
       ...organes.map((o) => ({ n: o, key: norm(`${o.libelle} ${o.abrev || ""} ${o.nomOfficiel || ""} ${o.siren || ""}`) })),
     ];
 
-    const open = () => { back.hidden = false; input.value = ""; render(); input.focus(); };
-    const close = () => { back.hidden = true; };
+    let opener = null;
+    const open = () => {
+      opener = document.activeElement;
+      back.hidden = false; input.value = ""; render(); input.focus();
+      // Les sujets se chargent en arrière-plan : ils rejoignent les résultats dès qu'ils sont là.
+      window.Sujets?.load().then(() => { if (!back.hidden && input.value.trim()) render(); }).catch(() => {});
+    };
+    const close = () => { back.hidden = true; opener?.focus?.({ preventScroll: true }); };
 
     function render() {
       const q = norm(input.value.trim());
@@ -1226,9 +1339,10 @@
       const hits = terms.length ? index.filter((e) => terms.every((t) => e.key.includes(t))) : [];
       const deps = hits.filter((e) => e.n.type === "dep").slice(0, 8).map((e) => e.n);
       const orgs = hits.filter((e) => e.n.type === "org").sort((a, b) => b.n.size - a.n.size).slice(0, 6).map((e) => e.n);
-      results = [...deps, ...orgs];
+      const sujets = terms.length ? (window.Sujets?.search(q) || []).map((t) => ({ ...t, type: "sujet" })) : [];
+      results = [...deps, ...orgs, ...sujets];
       idx = 0;
-      if (!terms.length) { ul.innerHTML = `<li class="palette-empty">Tapez un nom, un département ou un organe.</li>`; return; }
+      if (!terms.length) { ul.innerHTML = `<li class="palette-empty">Tapez un nom, un département, un organe, une entreprise ou un sujet.</li>`; input.removeAttribute("aria-activedescendant"); return; }
       if (!results.length) { ul.innerHTML = `<li class="palette-empty">Aucun résultat pour « ${esc(input.value)} ».</li>`; return; }
       let html = "", i = 0;
       if (deps.length) html += `<li class="pr-group">Députés</li>` + deps.map((d) => `
@@ -1237,19 +1351,25 @@
       if (orgs.length) html += `<li class="pr-group">Organes et structures</li>` + orgs.map((o) => `
         <li role="option" data-i="${i++}"><span class="${isHv(o) ? "pr-dia" : "pr-sq"}"></span>
         <span class="pr-name">${esc(o.libelle)}</span><span class="pr-sub">${isHv(o) ? `HATVP, ${plural(o.size, "député", "députés")}` : plural(o.size, "membre", "membres")}</span></li>`).join("");
+      if (sujets.length) html += `<li class="pr-group">Sujets débattus</li>` + sujets.map((t) => `
+        <li role="option" data-i="${i++}"><span class="pr-bubble"></span>
+        <span class="pr-name">${esc(t.nom)}</span><span class="pr-sub">${esc(t.sub)}</span></li>`).join("");
       ul.innerHTML = html;
+      ul.querySelectorAll("[data-i]").forEach((li) => { li.id = `pr-${li.dataset.i}`; });
       mark();
     }
     function mark() {
       ul.querySelectorAll("[data-i]").forEach((li) => li.setAttribute("aria-selected", +li.dataset.i === idx));
+      input.setAttribute("aria-activedescendant", `pr-${idx}`);
       ul.querySelector(`[data-i="${idx}"]`)?.scrollIntoView({ block: "nearest" });
     }
     function choose(i) {
       const n = results[i];
       if (!n) return;
       close();
-      // Depuis une fiche, un député ouvre sa fiche ; sinon on revient au graphe.
-      const target = fiche.dep && n.type === "dep" ? `fiche/${n.id}` : n.id;
+      // Un sujet ouvre la carte ; un député ouvre sa fiche si l'on n'est pas sur le graphe.
+      const target = n.type === "sujet" ? `sujets/carte/${n.id}`
+        : (fiche.dep || view === "sujets") && n.type === "dep" ? `fiche/${n.id}` : n.id;
       if (location.hash.slice(1) === target) fromHash();
       else location.hash = target;
     }
@@ -1268,7 +1388,7 @@
     document.addEventListener("keydown", (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") { e.preventDefault(); back.hidden ? open() : close(); }
       else if (e.key === "/" && back.hidden && document.activeElement === document.body) { e.preventDefault(); open(); }
-      else if (e.key === "Escape" && back.hidden && fiche.dep) location.hash = fiche.dep.id;
+      else if (e.key === "Escape" && back.hidden && fiche.dep) leaveFiche();
       else if (e.key === "Escape" && back.hidden && state.selected) select(null);
     });
   }

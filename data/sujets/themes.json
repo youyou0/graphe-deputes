@@ -1,0 +1,12 @@
+[
+  {
+    "nom": "Hébergement d'urgence",
+    "mots_cles": "hébergement d.urgence|\\b(?:le|du|au) 115\\b(?! ?(?:millions?|milliards?|%|euros|places))|sans[- ]abri|\\bSIAO\\b|sans domicile|dorm\\w* (?:à la rue|dehors)|mise à l.abri",
+    "requetes": [
+      "hébergement d'urgence des personnes sans abri, places d'hébergement, le 115 ne répond plus",
+      "des familles avec enfants dorment à la rue faute de place d'hébergement",
+      "financement des centres d'hébergement et de réinsertion sociale et de la veille sociale"
+    ],
+    "suggestions": 40
+  }
+]
